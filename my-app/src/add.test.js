@@ -1,4 +1,4 @@
-const add = require('./example');
+const add = require('./add');
 
 test('adds 1 + 2 to be 3', () =>
 {
