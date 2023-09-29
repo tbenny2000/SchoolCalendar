@@ -6,15 +6,15 @@ class LoginPage{
         ];
     }
 
-    login(username, password){
-        const user = this.users.find(user => user.username === username && user.password === password);
+    login(email, password){
+        const user = this.users.find(user => user.email === email && user.password === password);
 
         if(user){
             console.log('Login Successful');
             //Adding this into the link of the homepage soon
         }
         else{
-            console.log("Invalid username or password!");
+            console.log("Invalid email or password!");
             //The webpage will stay static
         }
     }
@@ -24,8 +24,6 @@ class LoginPage{
         console.log("Redirect user to forgot password webpage immediately");
         //Link the web link into the code.
     }
-
-
 }
 
 const logIn = new LoginPage();
@@ -35,7 +33,6 @@ logIn.login('user1', 'password1');
 
 //Try to login with invalid credentials
 logIn.login('user1', 'JackBlack19');
-
 
 //Adding the forgot password functionality
 logIn.forgotPassword();
