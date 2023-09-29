@@ -1,0 +1,16 @@
+/* Header.css */
+.header {
+    background-color: #007d6e; /* Green background color */
+    color: #ffffff; /* White text color */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .header-logo {
+    width: 125px; /* Adjust the logo size as needed */
+    margin-right: 150px; /* Move the logo slightly to the right */
+  }
+  /* Style navigation links or menu items as needed */
+  
