@@ -2,7 +2,9 @@ class LoginPage{
     constructor(){
         this.users[
             {username: 'user1', password: 'password1'},
-            {username2: 'user2', password2: 'password2'}
+            {username2: 'user2', password2: 'password2'},
+            {username3: 'user3', password2: 'password3'}
+
         ];
     }
 
