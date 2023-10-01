@@ -14,6 +14,7 @@ import firebase from '../firebase.js'
             .then((userCredential) => {
         // Signed in 
                 var user = userCredential.user;
+                // alert("Successful Sign Up");
         // ...
             })
             .catch((error) => {
@@ -21,13 +22,13 @@ import firebase from '../firebase.js'
                 var errorMessage = error.message;
             // ..
             });
-            alert("Successful Sign Up");
+          
       }
       
     return (
       <div className="signup-container">
         <div className="signup-left">
-          <h2>signup</h2>
+          <h2>Sign Up</h2>
           <form>
             <label htmlFor="email">Email:</label>
             <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
