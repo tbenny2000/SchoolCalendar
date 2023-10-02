@@ -1,4 +1,6 @@
 /* Login.css */
+/* ...other CSS styles... */
+
 .login-container {
   display: flex;
   height: 100vh;
@@ -11,22 +13,31 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  background-color: #ffffff;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); /* Create a diagonal split */
+  padding: 5px;
+  background: linear-gradient(-45deg, transparent 50%, #ffffff 50%), #ffffff;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  margin-top: 0px;
+}
+
+.login-left img {
+  width: 275px;
+  height: 275px;
+  margin-bottom: 25px;
 }
 
 .login-left h2 {
-  color: #007d6e; /* Green text color for the title */
+  color: #007d6e;
 }
 
 .login-left form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
   width: 100%;
   max-width: 300px;
 }
+
 
 .login-left label {
   margin-bottom: 8px;
@@ -35,22 +46,40 @@
 .login-left input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
+  border: none;
+  outline: none;
+  background: rgba(200, 200, 200, 0.3);
+  border-radius: 15px;
 }
 
 .login-left button {
-  background-color: #007d6e;
+  background-color: #0E724C;
   color: #ffffff;
   padding: 10px;
   border: none;
   cursor: pointer;
+  width: 100px;
+  border-radius: 15px;
+  margin-top: 20px;
 }
-
 .login-right {
-  flex: 1.5;
-  background-image: url('../../public/LoginBackDrop.jpg');
+  flex: 1;
+  position: relative;
+  background: linear-gradient(-70deg, transparent 60%, #ffffff 70%), url('../../public/GGCLibrary.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: left center;
   background-repeat: no-repeat;
 }
+
+/* Adjust the content position */
+.login-right h2,
+.login-right form {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+
+
+
