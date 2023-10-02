@@ -27,6 +27,10 @@ import firebase from '../firebase.js'
     return (
       <div className="login-container">
         <div className="login-left">
+
+         {/* Insert your image here */}
+        <img src="/BearLogo.png" alt="Your Image" />
+
           <h2>Login</h2>
           <form>
             <label htmlFor="email">Email:</label>
