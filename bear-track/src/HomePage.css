@@ -1,0 +1,47 @@
+.homepage {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .left-panel,
+  .center-panel,
+  .right-panel {
+    width: 30%; /* Adjust width as needed */
+    padding: 20px;
+    border: 1px solid #ddd;
+    text-align: center;
+    background: #f4f4f4;
+  }
+  
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .user-info {
+    margin-bottom: 10px;
+  }
+  
+  .user-photo {
+    width: 100px;
+    height: 100px;
+    background: #ccc;
+    border-radius: 50%;
+    margin-top: 10px;
+  }
+  
+  .logout-button {
+    background: #ff0000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background: #dd0000;
+  }
+  
+  

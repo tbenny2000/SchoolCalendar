@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import './Login.css'; // Import the CSS file for styling
-import firebase from '../firebase'; // Import your firebase.js file
+import './Login.css';
+import firebase from '../firebase';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -8,10 +9,16 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
+  // Get the navigate function
+  const navigate = useNavigate();
+
   const handleSignIn = async () => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
-      setSuccessMessage('Sign-in successful!'); // Set a success message
+      setSuccessMessage('Sign-in successful!');
+
+      // Use navigate to redirect to the homepage
+      navigate('/homepage');
     } catch (error) {
       setError(error.message);
     }
