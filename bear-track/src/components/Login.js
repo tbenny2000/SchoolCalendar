@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-
+  var uid;
   // Get the navigate function
   const navigate = useNavigate();
 
@@ -16,6 +16,7 @@ const Login = () => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       setSuccessMessage('Sign-in successful!');
+      uid = firebase.auth().currentUser.uid;
 
       // Use navigate to redirect to the homepage
       navigate('/homepage');
