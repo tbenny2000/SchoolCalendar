@@ -1,0 +1,160 @@
+/* App.css */
+.App {
+  width: 1600px;
+    height: 1080px;
+    position:absolute;
+    transform: rotate(-90);
+    transform-origin: 0 0;
+    box-shadow: 3px 4px 4px rgba(0,0,0,0.25);
+}
+h1{
+  position: relative;
+  left:820px;
+  
+}
+.image-upload-container{
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.box-decoration{
+  padding: 5px 5px;
+  width:500px;
+  margin-left: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.image-upload-label{
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+.image-upload-input{
+  display: none;
+}
+.image-upload-button{
+  background-color: #4CAF50;
+  border: none;
+  color:white;
+  padding: 0.8rem 1.2rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.image-upload-button:hover{
+  background-color: #3e8e41;
+}
+.img-display-before{
+  height: 200px;
+  width: 200px;
+  margin-left: 35px;
+}
+
+.img-display-after{
+  height: 200px;
+  width: 200px;
+  border-radius: 100%;
+}
+.emailStyle{
+  position: center;
+  text-align: center;
+  font-size:35px;
+  font-weight: bold;
+  color:#7B7B7B;
+  font-weight: 500;
+}
+.profile-Update-Container{
+  align-items: center;
+}
+.profile-Update-Name{
+  font-size:35px;
+  font-weight: bold;
+  color:#7B7B7B;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-left: 20px;
+}
+.profile-Update-Input{
+  border: none;
+  outline: none;
+  font-size: 35px;
+  font-weight: bold;
+  color: #7B7B7B;
+  font-weight: 500;
+  text-decoration: underline;
+  background: transparent;
+}
+.website-logo{
+    position: absolute;
+    top: 10px;
+    left:40px;
+    box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
+}
+.website-logo img{
+  width: 275px;
+    height: 215px;
+}
+.titleStyle{
+  position: absolute;
+  top: 200px;
+  left:40px;
+  color:#0E724C;
+  font-size:50px;
+  font-family: 'Times New Roman', Times, serif;
+  word-wrap: break-word;
+}
+.border-divide{
+  position: absolute;
+  top:1px;
+  left:375px;
+  color:#666666;
+  border:3px solid;
+  box-shadow: 3px 4px 4px;
+  height: 1070px;
+}
+
+.profile-picture-confirmer{
+  height: 215px;
+  width: 275px;
+  border-radius: 100%;
+  left: 100px;
+  margin-top: 100px;
+}
+.confirmed-name{
+  position: absolute;
+  top: 550px;
+  left:65px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 30px;
+  color:#666666;
+}
+.saveButton{
+  text-align: center;
+  color: white;
+  font-size: 35px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 500;
+  word-wrap: break-word;
+  background-color: #519B54;
+  border-radius: 20px;
+  width: 200px; height: 56px;
+  margin-top: 50px;
+}
+.saveButton:hover{
+  background-color: #4CAF50;
+}
+.homeButton img{
+  height:200px;
+  width:200px;
+  position: absolute;
+  top:10px;
+  left:400px;
+
+}
+/* Additional styling for the overall layout as needed */
