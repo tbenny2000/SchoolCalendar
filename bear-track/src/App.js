@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Homepage from './HomePage';
+import MyProfile from './MyProfile';
 //import data from "./mock-data.json";
 
 // const HomePage = () => {
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/homepage" element={<Homepage />} />
+          <Route path="/MyProfile" element={<MyProfile />}/>
         </Routes>
         <Footer />
       </div>

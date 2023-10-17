@@ -4,44 +4,80 @@
     align-items: flex-start;
   }
   
-  .left-panel,
-  .center-panel,
-  .right-panel {
-    width: 30%; /* Adjust width as needed */
-    padding: 20px;
-    border: 1px solid #ddd;
-    text-align: center;
-    background: #f4f4f4;
-  }
-  
-  .left-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .user-info {
-    margin-bottom: 10px;
+  .left-panel{
+    position:relative;
+    height:955px;
+    margin-right: 64%;
+    background-color: white;
+    border:#666666 solid;
+    border-width: 2px;
+    box-shadow: 3px 4px 4px;
+
   }
   .logo-photo{
     position: absolute;
-    top: 110px;
-    left:40px;
-    box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
+    left: 50px;
+    top:150px;
+    text-align: center;
   }
   .logo-photo img{
-    width: 175px;
+    width: 200px;
     height: 215px;
+    border-radius: 40%;
+    overflow: hidden;
+    box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
+  }
+  .titleStyle{
+    color:#0E724C;
+    font-size:50px;
+    font-family: 'Times New Roman', Times, serif;
+    word-wrap: break-word;
+    margin-top: 10px;
+    margin-left: -30px;
   }
   .user-photo {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     background: #ccc;
     border-radius: 50%;
     margin-top: 10px;
+    position:absolute;
+    top:475px;
+    left:30px;
+  }
+
+  .profileName{
+  position:absolute;
+  top:695px;
+  left:45px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 30px;
+  color:#666666;
+  }
+  .right-panel{
+    position:absolute;
+    background-color: white;
+    left: 1300px;
+    height:955px;
+    box-shadow: 0 0 10px rgba(0,0,0,0);
+    border-left: 2px solid #666666;
+
+  }
+  .calendarName{
+    color: #696969; 
+    text-align: center;
+    font-size: 30px; 
+    font-family: 'Times New Roman', Times, serif; 
+    font-weight: 500; 
+    word-wrap: break-word;
+    margin-left: 15px;
+    margin-top:20px;
   }
   
   .logout-button {
+    position:absolute;
+    top: 107px;
+    left:366px;
     background: #ff0000;
     color: #fff;
     border: none;
@@ -52,5 +88,27 @@
   .logout-button:hover {
     background: #dd0000;
   }
+ .name{
+  text-align: center;
+  margin-bottom: 50px;
+ }
+
+ .new-calendar-button{
+  background-color: #0E724C;
+  text-align: center; 
+  color: white; 
+  font-size: 30px; 
+  font-family: 'Times New Roman', Times, serif; 
+  font-weight: 500; 
+  word-wrap: "break-word";
+  border-radius: 20%;
+  width:200px;
+  height:56px;
+  margin-top:400px;
+  margin-left:15px;
+ }
+ .new-calendar-button:hover{
+  background-color: #4CAF50;
+ }
   
   

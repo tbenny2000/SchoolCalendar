@@ -41,36 +41,29 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-
-      <div className="right-panel">
-      <div className="user-info">
-          <h1>Welcome, <span id="name"></span></h1>
-          <p>Email Address: <span id="emailAddress"></span></p>
-          <div className='logo-photo'>
+      <h1>Welcome, <span id="name"></span></h1>
+      <div className = "left-panel">
+      </div>
+      <div className='logo-photo'>
             <img src = "./logo.png"/>
-          </div>
-          <Link to = "./src/MyProfile.js">
+            <div className='titleStyle'>DataWise</div>
+      </div>
+      <Link to = "/MyProfile.js">
           <div>
             <img alt = "User profile photo" src = "./Screenshot 2023-09-15 at 1.46 1.png" className='user-photo'/>
       </div>
           </Link>
+
+        <div className='profileName'>Mr.Bean</div>
+
           
+      
 
-      <div className="center-panel">
-        <h2>React Calendar</h2>
-        {/* Placeholder for a React calendar */}
-      </div>
-
-      <div className="left-panel">
-
-      <h2>Custom Calendars</h2>
-        {/* Add content for custom calendars here */}
-        
-          </div>
-
-        </div>
         <button className="logout-button">Logout</button>
 
+      <div className = "right-panel">
+        <div className = "calendarName">Mutual Calendar</div>
+        <button className='new-calendar-button'>New Calendar</button>
       </div>
     </div>
   );
