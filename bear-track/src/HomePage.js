@@ -4,6 +4,7 @@ import firebase from './firebase'; // Import your firebase.js file
 import {
   getFirestore, collection, getDocs, query, where,
 } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 // import Login from './components/Login';
 const HomePage = () => {
   console.log(firebase.auth().currentUser.uid)
@@ -45,9 +46,15 @@ const HomePage = () => {
       <div className="user-info">
           <h1>Welcome, <span id="name"></span></h1>
           <p>Email Address: <span id="emailAddress"></span></p>
-          <div className="user-photo">
-            {/* Placeholder for user photo */}
+          <div className='logo-photo'>
+            <img src = "./logo.png"/>
+          </div>
+          <Link to = "./src/MyProfile.js">
+          <div>
+            <img alt = "User profile photo" src = "./Screenshot 2023-09-15 at 1.46 1.png" className='user-photo'/>
       </div>
+          </Link>
+          
 
       <div className="center-panel">
         <h2>React Calendar</h2>

@@ -4,16 +4,16 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Homepage from './HomePage';
-import data from "./mock-data.json";
+//import data from "./mock-data.json";
 
-const HomePage = () => {
-  return (
-    <div>
-      <h1>{data.id}</h1>
-      <p>{data.password}</p>
-    </div>
-  );
-};
+// const HomePage = () => {
+//   return (
+//     <div>
+//       <h1>{data.id}</h1>
+//       <p>{data.password}</p>
+//     </div>
+//   );
+// };
 
 function App() {
   return (

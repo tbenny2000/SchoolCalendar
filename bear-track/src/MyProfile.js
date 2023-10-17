@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useRef, useState } from 'react';
 import './MyProfile.css';
 import { Link } from 'react-router-dom';
@@ -93,7 +93,9 @@ function MyProfile(){
           My Profile
         </h1>
         <div className='homeButton'>
+          <Link to='/HomePage.js'>
           <img src='./LOGO_BB_EU1024x1024_rond.png' alt='home button link'/>
+          </Link>
         </div>
         <div className = "image-upload-container">
           <div className='box-decoration'>
