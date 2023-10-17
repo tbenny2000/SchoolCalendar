@@ -1,6 +1,6 @@
 import React from 'react';
 import './HomePage.css'; // Import your CSS file for styling
-import firebase from './firebase'; // Import your firebase.js file
+import firebase from '../config/firebase'; // Import your firebase.js file
 import {
   getFirestore, collection, getDocs, query, where,
 } from 'firebase/firestore';
@@ -45,12 +45,12 @@ const HomePage = () => {
       <div className = "left-panel">
       </div>
       <div className='logo-photo'>
-            <img src = "./logo.png"/>
+            <img src = "./logo.png" alt="Grizzly Bear face"/>
             <div className='titleStyle'>DataWise</div>
       </div>
-      <Link to = "/MyProfile.js">
+      <Link to = "/MyProfile">
           <div>
-            <img alt = "User profile photo" src = "./Screenshot 2023-09-15 at 1.46 1.png" className='user-photo'/>
+            <img alt = "User profile" src = "./Screenshot 2023-09-15 at 1.46 1.png" className='user-photo'/>
       </div>
           </Link>
 
@@ -58,9 +58,10 @@ const HomePage = () => {
 
           
       
-
+        <Link to="/">
         <button className="logout-button">Logout</button>
 
+        </Link>
       <div className = "right-panel">
         <div className = "calendarName">Mutual Calendar</div>
         <button className='new-calendar-button'>New Calendar</button>

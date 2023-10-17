@@ -12,6 +12,7 @@ function MyProfile(){
   const[newProfileName, setNewProfileName] = useState('');
 
 
+  //It's a function to save the name information to the database
 
   const handleProfileNameChange = (event) =>{
     setNewProfileName(event.target.value);
@@ -93,7 +94,7 @@ function MyProfile(){
           My Profile
         </h1>
         <div className='homeButton'>
-          <Link to='/HomePage.js'>
+          <Link to='/HomePage'>
           <img src='./LOGO_BB_EU1024x1024_rond.png' alt='home button link'/>
           </Link>
         </div>
@@ -120,15 +121,14 @@ function MyProfile(){
           <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>
         </div>
         </div>
-        <div className='website-logo'><img src='./5bd3ed4e0e1f7-1.png' alt='GGC Logo'/>
+        <div className='website-logo'><img src='./BearLogo.png' alt='GGC Logo'/> 
         <div className='titleStyle'>DataWise</div>
+        </div>
         <div>
           {image ?<img src = {URL.createObjectURL(image)} alt = "Curious" className='profile-picture-confirmer'/> : <img src = "./Screenshot 2023-09-15 at 1.46 1.png" alt = "Profile Live" className='profile-picture-confirmer'/> }
-          
-        </div>
+          <div className='confirmed-name' onChange={handleProfileNameChange}>{profileName}</div>
         </div>
         
-        <div className='confirmed-name' onChange={handleProfileNameChange}>{profileName}</div>
         <div className='border-divide'></div>
        
 

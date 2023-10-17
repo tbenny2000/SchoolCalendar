@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Import BrowserRouter, Route, and Routes
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Login from './components/Login';
-import Homepage from './HomePage';
-import MyProfile from './MyProfile';
+import Login from './pages/Login';
+import Homepage from './pages/HomePage';
+import MyProfile from "./pages/MyProfile";
 //import data from "./mock-data.json";
 
 // const HomePage = () => {
