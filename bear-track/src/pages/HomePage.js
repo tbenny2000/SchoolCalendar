@@ -1,6 +1,6 @@
 import React from 'react';
 import './HomePage.css'; // Import your CSS file for styling
-import firebase from './firebase'; // Import your firebase.js file
+import firebase from '../config/firebase'; // Import your firebase.js file
 import {
   getFirestore, collection, getDocs, query, where,
 } from 'firebase/firestore';
