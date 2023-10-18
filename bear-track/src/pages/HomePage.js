@@ -41,12 +41,12 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      <h1>Welcome, <span id="name"></span></h1>
+      <h1>My Calendar <span id="name"></span></h1>
       <div className = "left-panel">
       </div>
       <div className='logo-photo'>
             <img src = "./logo.png" alt="Grizzly Bear face"/>
-            <div className='titleStyle'>DataWise</div>
+            <div className='titleStyle'>DateWise</div>
       </div>
       <Link to = "/MyProfile">
           <div>

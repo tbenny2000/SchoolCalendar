@@ -2,11 +2,13 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    width:1400px;
+
   }
   
   .left-panel{
     position:relative;
-    height:955px;
+    height:750px;
     margin-right: 64%;
     background-color: white;
     border:#666666 solid;
@@ -15,13 +17,14 @@
   }
   .logo-photo{
     position: absolute;
+    margin-top: 0px;
     left: 50px;
     top:150px;
     text-align: center;
   }
   .logo-photo img{
-    width: 200px;
-    height: 215px;
+    width: 180px;
+    height: 150px;
     border-radius: 40%;
     overflow: hidden;
     box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
@@ -35,20 +38,20 @@
     margin-left: -30px;
   }
   .user-photo {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     background: #ccc;
-    border-radius: 50%;
+    border-radius:80%;
     margin-top: 10px;
     position:absolute;
-    top:475px;
-    left:30px;
+    top:380px;
+    left:55px;
   }
 
   .profileName{
   position:absolute;
-  top:695px;
-  left:45px;
+  top:595px;
+  left:85px;
   font-family: 'Times New Roman', Times, serif;
   font-size: 30px;
   color:#666666;
@@ -57,7 +60,8 @@
     position:absolute;
     background-color: white;
     left: 1300px;
-    height:955px;
+    width: 250px;
+    height:750px;
     box-shadow: 0 0 10px rgba(0,0,0,0);
     border-left: 2px solid #666666;
 
@@ -75,17 +79,26 @@
   
   .logout-button {
     position:absolute;
-    top: 107px;
-    left:293px;
+    top: 757px;
+    left:100px;
     background: #ff0000;
-    color: #fff;
+    padding: 10px;
     border: none;
-    padding: 10px 20px;
+    cursor: pointer;
+    width: 100px;
+    border-radius: 15px;
+    margin-top: 20px;
     cursor: pointer;
   }
   
   .logout-button:hover {
     background: #dd0000;
+    padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100px;
+  border-radius: 15px;
+  margin-top: 20px;
   }
  .name{
   text-align: center;
@@ -96,15 +109,20 @@
   background-color: #0E724C;
   text-align: center; 
   color: white; 
-  font-size: 30px; 
+  font-size: 20px; 
   font-family: 'Times New Roman', Times, serif; 
   font-weight: 500; 
   word-wrap: "break-word";
-  border-radius: 20%;
-  width:200px;
-  height:56px;
-  margin-top:400px;
+  width:150px;
+  height:35px;
+  margin-top:500px;
   margin-left:15px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  margin-top: 660px;
+  margin-left: 70px;
  }
  .new-calendar-button:hover{
   background-color: #4CAF50;
