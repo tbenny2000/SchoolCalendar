@@ -2,24 +2,81 @@ import React from 'react';
 import { useRef, useState } from 'react';
 import './MyProfile.css';
 import { Link } from 'react-router-dom';
+import firebase from '../config/firebase'; // Import your firebase.js file
+import 'firebase/compat/firestore';
+
+
 
 function MyProfile(){
 
   //const inputRef = useRef(null);
   const [image, setImage] = useState("");
   const hiddenFileInput = useRef(null);
-  const[profileName, setProfileName] = useState('Mr.Bean')//Default name for reference
+  const[profileName, setProfileName] = useState('')//Default name for reference
   const[newProfileName, setNewProfileName] = useState('');
+  
+  const [firstName, setFName] = useState('');
+  const [lastName, setLName] = useState('');
+  const [userName, setUName] = useState('');
+  const [userID, setUserID] = useState('');
+  const [emailAddress, setEAddress] = useState('');
 
+  const firestore = firebase.firestore();
+  const uuid = firebase.auth().currentUser.uid
+
+  const loadFirestoreDocument = async (userUid) => {
+  
+    try {
+      const userRef = firestore.collection('users').doc(userUid);
+      console.log(userUid);
+      const userDoc = await userRef.get();
+  
+      if (userDoc.exists) {
+        console.log('Printing from loadDoc: ',userDoc.data())
+        const fName = userDoc.data().firstName;
+        const lName = userDoc.data().lastName;
+        const uName = userDoc.data().userName;
+        const userID = userDoc.data().userID;
+        const eAddress = userDoc.data().emailAddress;
+  
+        setFName(fName);
+        setLName(lName);
+        setUName(uName);
+        setUserID(userID);
+        setEAddress(eAddress);
+
+      } else {
+        console.log('User document not found.');
+      }
+    } catch (error) {
+      console.error('Error loading Firestore document:', error);
+    }
+    
+  };
+  console.log(firebase.auth().currentUser.uid)
+  loadFirestoreDocument(uuid)
 
   //It's a function to save the name information to the database
 
   const handleProfileNameChange = (event) =>{
     setNewProfileName(event.target.value);
   };
-  const handleSaveName = () =>{
+  const handleSaveName = async () =>{
+
     console.log('Saving profile name', newProfileName);
     setProfileName(newProfileName);
+
+
+    try {
+      firestore.collection("users").doc(uuid).update({"userName": newProfileName})
+      console.log(userName);
+      console.log("Document successfully updated!");
+    }
+    catch (error) {
+      console.error('Error updating Firestore document:', error);
+    }
+    
+    setUName(newProfileName);
 
     
   };
@@ -89,6 +146,7 @@ function MyProfile(){
   };
 
     return (
+      
       <div className='App'>
          <h1>
           My Profile
@@ -113,10 +171,10 @@ function MyProfile(){
         style = {{display : 'none'}}/>
         </div>
         <button className = "image-upload-button" onClick = {handleUploadButtonClick}>Upload</button>
-        <div className='emailStyle'>Email: rBean89@ggc.edu</div><br></br>
+        <div className='emailStyle'>Email: {emailAddress}</div><br></br>
         <div className='profile-Update-Container'>
         <div className='profile-Update-Name'> Profile Name:</div>
-        <input defaultValue={profileName} type='text' className='profile-Update-Input' onChange={handleProfileNameChange}/>
+        <input defaultValue={userName} type='text' className='profile-Update-Input' onChange={handleProfileNameChange}/>
           </div>
           <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>
         </div>
@@ -126,7 +184,7 @@ function MyProfile(){
         </div>
         <div>
           {image ?<img src = {URL.createObjectURL(image)} alt = "Curious" className='profile-picture-confirmer'/> : <img src = "./Screenshot 2023-09-15 at 1.46 1.png" alt = "Profile Live" className='profile-picture-confirmer'/> }
-          <div className='confirmed-name' onChange={handleProfileNameChange}>{profileName}</div>
+          <div  id ="profName" className='confirmed-name' onChange={handleProfileNameChange}>{userName}</div>
         </div>
         
         <div className='border-divide'></div>

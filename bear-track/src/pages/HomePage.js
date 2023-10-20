@@ -1,47 +1,54 @@
 import React from 'react';
 import './HomePage.css'; // Import your CSS file for styling
 import firebase from '../config/firebase'; // Import your firebase.js file
-import {
-  getFirestore, collection, getDocs, query, where,
-} from 'firebase/firestore';
 import { Link } from 'react-router-dom';
-// import Login from './components/Login';
+import { useState } from 'react';
+import 'firebase/compat/firestore';
+
+
 const HomePage = () => {
-  console.log(firebase.auth().currentUser.uid)
-  const db = getFirestore();
   
-  const colRef = collection(db, 'users');
-  var user = "";
+  const [firstName, setFName] = useState('');
+  const [lastName, setLName] = useState('');
+  const [userName, setUName] = useState('');
+  const [userID, setUserID] = useState('');
+  const [emailAddress, setEAddress] = useState('');
 
-  // queries
-  const q = query(colRef, where("uuid", "==", firebase.auth().currentUser.uid))
-
-  getDocs(q, colRef)
-      .then((snapshot) => {
-          let users = []
-          snapshot.docs.forEach((doc) => {
-              users.push({ ...doc.data(), id: doc.id }) // pushes object into array
-            
-          })
-          
-          console.log(users);
-          
-          user = users[0];
-          console.log(user);
-
-          document.getElementById("name").innerHTML = user.firstName;
-         
-          document.getElementById("emailAddress").innerHTML = user.emailAddress;
-          
-          
-      })
-      .catch(err => {
-          console.log(err.message)
-      })
+  const loadFirestoreDocument = async (userUid) => {
+  
+    try {
+      const firestore = firebase.firestore();
+      const userRef = firestore.collection('users').doc(userUid);
+      console.log(userUid);
+      const userDoc = await userRef.get();
+  
+      if (userDoc.exists) {
+        console.log('Printing from loadDoc: ',userDoc.data())
+        const fName = userDoc.data().firstName;
+        const lName = userDoc.data().lastName;
+        const uName = userDoc.data().userName;
+        const userID = userDoc.data().userID;
+        const eAddress = userDoc.data().emailAddress;
+  
+        setFName(fName);
+        setLName(lName);
+        setUName(uName);
+        setUserID(userID);
+        setEAddress(eAddress);
+      } else {
+        console.log('User document not found.');
+      }
+    } catch (error) {
+      console.error('Error loading Firestore document:', error);
+    }
+    
+  };
+  console.log(firebase.auth().currentUser.uid)
+  loadFirestoreDocument(firebase.auth().currentUser.uid)  
 
   return (
     <div className="homepage">
-      <h1>My Calendar <span id="name"></span></h1>
+      <h1>My Calendar: {firstName}</h1>
       <div className = "left-panel">
       </div>
       <div className='logo-photo'>
@@ -54,7 +61,7 @@ const HomePage = () => {
       </div>
           </Link>
 
-        <div className='profileName'>Mr.Bean</div>
+        <div className='profileName' >{userName}</div>
 
           
       
