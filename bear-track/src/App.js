@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Homepage from './pages/HomePage';
 import MyProfile from "./pages/MyProfile";
+import NewCalendar from "./pages/NewCalendar";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/MyProfile" element={<MyProfile />}/>
+          <Route path="/NewCalendar" element = {<NewCalendar />}/>
         </Routes>
         <Footer />
       </div>
