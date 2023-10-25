@@ -1,4 +1,5 @@
 import React from 'react';
+import './NewCalendar.css';
 
 class ViewCalendar extends React.Component {
   render() {
@@ -53,14 +54,6 @@ class ViewCalendar extends React.Component {
 
     return (
       <div>
-        <div>
-          <iframe
-            src="NewCalendar.html"
-            title="Calendar"
-            style={calendarStyle}
-            frameBorder="0"
-          ></iframe>
-        </div>
 
         <img
           style={imageStyle}
