@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Registration from "./pages/Registration"
 import Homepage from './pages/HomePage';
 import MyProfile from "./pages/MyProfile";
+import NewCalendar from "./pages/NewCalendar";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/sign-up" element={<Registration />} />
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/MyProfile" element={<MyProfile />}/>
+          <Route path="/NewCalendar" element = {<NewCalendar />}/>
         </Routes>
         <Footer />
       </div>
