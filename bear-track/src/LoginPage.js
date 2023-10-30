@@ -7,7 +7,6 @@ class LoginPage{
 
         ];
     }
-
     login(username, password){
         const user = this.users.find(user => user.username === username && user.password === password);
 
@@ -20,16 +19,12 @@ class LoginPage{
             //The webpage will stay static
         }
     }
-
     //The forget password action if the user does forget password
     forgotPassword(){
         console.log("Redirect user to forgot password webpage immediately");
         //Link the web link into the code.
     }
-
-
 }
-
 const logIn = new LoginPage();
 
 //For trying to login
@@ -37,7 +32,6 @@ logIn.login('user1', 'password1');
 
 //Try to login with invalid credentials
 logIn.login('user1', 'JackBlack19');
-
 
 //Adding the forgot password functionality
 logIn.forgotPassword();

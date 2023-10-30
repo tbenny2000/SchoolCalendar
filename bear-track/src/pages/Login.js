@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import './Login.css';
+import './Registration.css'
+import Form from './Registration'
 import firebase from '../config/firebase';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
+const App = () => {
+  return (
+    <>
+    <Form />
+    </>
+  )
+}
 
 const Login = () => {
   const [email, setEmail] = useState('');
