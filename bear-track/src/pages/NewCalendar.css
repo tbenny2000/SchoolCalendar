@@ -1,0 +1,133 @@
+.addPeople{
+    border:none;
+    text-decoration: underline;
+    color: gray;
+    font-weight: 500;
+    font-size: 35px;
+    font-family: 'Times New Roman', Times, serif;
+}
+.Website-Logo{
+    position: relative;
+    top : 2px;
+    width:200px;
+    height:215px;
+    border-radius:50%;
+    box-shadow: 0 0 0 rgba(0,0,0,0.25);
+}
+.title{
+    position:relative;
+    margin-top: 15px;
+  color:#0E724C;
+  font-size:50px;
+  font-family: 'Times New Roman', Times, serif;
+  word-wrap: break-word;
+}
+.Calendar-title-input{
+    font-size:35px;
+    color: #696969;
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: underline;
+    font-weight:700;
+    word-wrap: break-word;
+    border: none;
+    outline:none;
+
+}
+.calendar-list{
+    position: relative;
+    left:1250px;
+    font-size:35px;
+    margin-top: 15px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #696969;
+    font-weight: 500;
+    word-wrap:break-word;
+}
+.left-side-panel{
+    position: absolute;
+    left:250px;
+    top:60px;
+    border-right: #666666 solid;
+    border-width: 2px;
+    height:650px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+.right-side-panel{
+    position: absolute;
+    left: 250px;
+    top:60px;
+    border-left: #666666 solid;
+    border-width: 2px;
+    height:650px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+.create-btn{
+    text-align: center;
+    background-color: #0E724C;
+    color:white;
+    font-weight: 500;
+    font-size:25px;
+    font-family: 'Times New Roman', Times, serif;
+    word-wrap: break-word;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    width:200px;
+    border-radius: 15px;
+    position: relative;
+    top: -50px;
+    left:575px;
+}
+.newcalendar-btn{
+    background-color: #0E724C;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 500;
+    font-family: 'Times New Roman', Times, serif;
+    word-wrap: break-word;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    position:absolute;
+    top:650px;
+    left:1275px;
+    
+}
+.newcalendar-btn:hover{
+    background-color: #4CAF50;
+}
+.create-btn:hover{
+    background-color: #4CAF50;
+}
+.shake{
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake{
+    0%, 100%{
+        transform: translateX(0);
+    }
+    10%,30%,50%,70%,90%{
+        transform: translateX(-5px);
+    }
+    20%,40%,60%,80%{
+        transform:translateX(5px);
+    }
+}
+.error-message{
+    text-decoration: none;
+    color:red;
+    font-size:35px;
+    font-weight:500;
+    animation: cssAnimation 0s ease-in 5s forwards;
+    animation-fill-mode: forwards;
+}
+@keyframes cssAnimation{
+    to{
+        width:0;
+        height:0;
+        visibility:hidden;
+    }
+}

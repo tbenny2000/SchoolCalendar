@@ -61,7 +61,7 @@
     background-color: white;
     left: 1300px;
     width: 250px;
-    height:750px;
+    height:753.5px;
     box-shadow: 0 0 10px rgba(0,0,0,0);
     border-left: 2px solid #666666;
 
@@ -121,7 +121,7 @@
   border: none;
   cursor: pointer;
   border-radius: 15px;
-  margin-top: 660px;
+  margin-top: 642px;
   margin-left: 70px;
  }
  .new-calendar-button:hover{

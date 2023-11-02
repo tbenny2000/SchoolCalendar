@@ -1,0 +1,134 @@
+.page{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 1450px;
+
+    height:615px;
+
+}
+.pageTitle{
+    position:relative;
+    left: 750px;
+    margin-top: 50px;
+    text-align: center;
+    color: #696969;
+    font-size:50px;
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+.Logo{
+    position: relative;
+    top: 35px;
+    left: 5px;
+    margin-left: -225px;
+    text-align: center;
+}
+
+.siteLogo{
+    border-radius: 40%;
+  width: 200px;
+    height: 175px;
+}
+.WebsiteName{
+    color:#0E724C;
+  font-size:50px;
+  font-family: 'Times New Roman', Times, serif;
+  word-wrap: break-word;
+  margin-top: 25px;
+  left: -112px;
+}
+
+.profilePicture{
+  position:relative;
+  margin-top: 50px;
+  margin-left:-135px;
+  height: 215px;
+  width: 215px;
+  border-radius: 50%;
+}
+
+.username{
+  position:relative;
+  margin-top: 30px;
+  left:-115px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 30px;
+  color:#666666;
+}
+
+.left-side-panel{
+    position:relative;
+    left:55px;
+    height: 750px;
+    border-right:#666666 solid;
+    border-width: 2px;
+}
+.right-side-panel{
+    position:relative;
+    background-color: white;
+    margin-left: 64%;
+    height:fit-content;
+    box-shadow: 0 0 10px rgba(0,0,0,0);
+    border-left: 2px solid #666666;
+}
+.calName{
+    color: #696969; 
+    text-align: center;
+    font-size: 30px; 
+    font-family: 'Times New Roman', Times, serif; 
+    font-weight: 500; 
+    word-wrap: break-word;
+    margin-left: 15px;
+    margin-top:20px;
+}
+.newCalBTN{
+    background-color: #0E724C;
+  text-align: center; 
+  color: white; 
+  font-size: 20px; 
+  font-family: 'Times New Roman', Times, serif; 
+  font-weight: 500; 
+  word-wrap: "break-word";
+  width:150px;
+  height:35px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  margin-top: 525px;
+  margin-left: 25px;
+}
+.newCalBTN:hover{
+    background-color: #4CAF50;
+}
+.reminder{
+  position: relative;
+  top: 500px;
+  left: -500px;
+}
+.reminder-text{
+  color:#666666;
+  font-size: 35px;
+  font-weight:500;
+  word-wrap: break-word;
+  text-decoration: underline;
+}
+.save-btn{
+  margin-left:300px;
+  background-color: #0E724C;
+  color:white;
+  text-align: center;
+  font-size:20px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 500;
+  width:70px;
+  height:50px;
+  border:none;
+  cursor: pointer;
+  border-radius: 15px;
+}
+.save-btn:hover{
+  background-color: #4CAF50;
+}

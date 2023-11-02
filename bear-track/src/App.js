@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Im
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './pages/Login';
+import ViewCalendar from './pages/ViewCalendar';
 import Homepage from './pages/HomePage';
 import MyProfile from "./pages/MyProfile";
 import NewCalendar from "./pages/NewCalendar";
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/MyProfile" element={<MyProfile />}/>
+          <Route path="/ViewCalendar" element={<ViewCalendar/>}/>
           <Route path="/NewCalendar" element = {<NewCalendar />}/>
         </Routes>
         <Footer />
