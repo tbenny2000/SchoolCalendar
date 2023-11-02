@@ -1,6 +1,6 @@
 /* Header.css */
 .header {
-    background-color: #0E724C; /* Green background color */
+    background-color: rgb(10, 75, 10); /* Green background color */
     color: #ffffff; /* White text color */
     display: flex;
     justify-content: space-between;
