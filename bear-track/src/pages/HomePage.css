@@ -61,7 +61,7 @@
     background-color: white;
     left: 1300px;
     width: 250px;
-    height:753.5px;
+    height:750px;
     box-shadow: 0 0 10px rgba(0,0,0,0);
     border-left: 2px solid #666666;
 
@@ -79,7 +79,7 @@
   
   .logout-button {
     position:absolute;
-    top: 757px;
+    top: 735px;
     left:100px;
     background: #ff0000;
     padding: 10px;

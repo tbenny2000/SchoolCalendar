@@ -60,6 +60,24 @@
   cursor: pointer;
   width: 100px;
   border-radius: 15px;
+  position: relative;
+  margin-top: 20px;
+  left: 5px;
+}
+.sign-up-btn{
+  background-color: #0E724C;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 100px;
+  border-radius: 15px;
+}
+.buttonContainer{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 225px;
   margin-top: 20px;
 }
 .login-right {

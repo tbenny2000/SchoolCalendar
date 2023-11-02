@@ -97,12 +97,12 @@ h1{
 }
 .border-divide{
   position: absolute;
-  top:105px;
+  top:40px;
   left:375px;
   color:#666666;
   border:3px solid;
   box-shadow: 3px 4px 4px;
-  height: 728.5px;
+  height: 641px;
 }
 
 .profile-picture-confirmer{

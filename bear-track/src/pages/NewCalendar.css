@@ -9,6 +9,7 @@
 .Website-Logo{
     position: relative;
     top : 2px;
+    left: 50px;
     width:200px;
     height:215px;
     border-radius:50%;
@@ -17,6 +18,7 @@
 .title{
     position:relative;
     margin-top: 15px;
+    left: 60px;
   color:#0E724C;
   font-size:50px;
   font-family: 'Times New Roman', Times, serif;
@@ -35,7 +37,7 @@
 }
 .calendar-list{
     position: relative;
-    left:1250px;
+    left:1300px;
     font-size:35px;
     margin-top: 15px;
     font-family: 'Times New Roman', Times, serif;
@@ -46,7 +48,7 @@
 .left-side-panel{
     position: absolute;
     left:250px;
-    top:60px;
+    top:40px;
     border-right: #666666 solid;
     border-width: 2px;
     height:650px;
@@ -55,7 +57,7 @@
 .right-side-panel{
     position: absolute;
     left: 250px;
-    top:60px;
+    top:40px;
     border-left: #666666 solid;
     border-width: 2px;
     height:650px;

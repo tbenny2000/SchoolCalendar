@@ -93,7 +93,7 @@ const NewCalendar = () =>{
     border: '2px solid #DADADA',
     position: 'relative',
     top: '7px',
-    left: '10px',
+    left: '45px',
   };
 
   const nameStyle = {
@@ -122,9 +122,9 @@ const NewCalendar = () =>{
   return(
 
     <div>
-      <div className = 'calendar-list'>Mutual Calendar</div>
       <div className='right-side-panel'>
       </div>
+      <div className = 'calendar-list'>Mutual Calendar</div>
       <Link to = "/NewCalendar">
       <button className='newcalendar-btn'>New Calendar</button>
       </Link>

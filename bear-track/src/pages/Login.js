@@ -4,6 +4,7 @@ import './Registration.css'
 import Form from './Registration'
 import firebase from '../config/firebase';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link } from 'react-router-dom';
 
 const App = () => {
   return (
@@ -62,7 +63,12 @@ const Login = () => {
           />
           {error && <p className="error-message">{error}</p>}
           {successMessage && <p className="success-message">{successMessage}</p>}
+          <div className = 'buttonContainer'>
           <button type="button" onClick={handleSignIn}>Login</button>
+          <Link to = "/sign-up">
+            <button type='button' className='sign-up-btn'>sign-up</button>
+          </Link>
+          </div>
         </form>
       </div>
       <div className="login-right">
