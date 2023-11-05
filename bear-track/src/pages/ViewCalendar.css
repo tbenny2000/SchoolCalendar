@@ -3,8 +3,7 @@
     justify-content: space-between;
     align-items: flex-start;
     width: 1450px;
-
-    height:615px;
+    height:650px;
 
 }
 .pageTitle{
@@ -20,9 +19,8 @@
 
 .Logo{
     position: relative;
-    top: 35px;
-    left: 5px;
-    margin-left: -225px;
+    top: 50px;
+    right: 625px;
     text-align: center;
 }
 
@@ -42,8 +40,8 @@
 
 .profilePicture{
   position:relative;
-  margin-top: 50px;
-  margin-left:-135px;
+  top: 350px;
+  right: 815px;
   height: 215px;
   width: 215px;
   border-radius: 50%;
@@ -51,27 +49,29 @@
 
 .username{
   position:relative;
-  margin-top: 30px;
-  left:-115px;
+  top:700px;
+  left: 50px;
   font-family: 'Times New Roman', Times, serif;
   font-size: 30px;
-  color:#666666;
+  font-weight: 500;
+  color:#7B7B7B;
+  word-wrap: break-word;
 }
 
 .left-side-panel{
     position:relative;
-    left:55px;
+    top:55px;
     height: 750px;
-    border-right:#666666 solid;
+    border:#666666 solid;
     border-width: 2px;
 }
 .right-side-panel{
     position:relative;
+    top:55px;
     background-color: white;
     margin-left: 64%;
     height:fit-content;
-    box-shadow: 0 0 10px rgba(0,0,0,0);
-    border-left: 2px solid #666666;
+    border: 2px solid #666666;
 }
 .calName{
     color: #696969; 
@@ -80,8 +80,9 @@
     font-family: 'Times New Roman', Times, serif; 
     font-weight: 500; 
     word-wrap: break-word;
-    margin-left: 15px;
-    margin-top:20px;
+    position: relative;
+    left:250px;
+    top: 15px;
 }
 .newCalBTN{
     background-color: #0E724C;
@@ -98,7 +99,8 @@
   cursor: pointer;
   border-radius: 15px;
   margin-top: 525px;
-  margin-left: 25px;
+  position: relative;
+  left:50px;
 }
 .newCalBTN:hover{
     background-color: #4CAF50;
@@ -110,12 +112,16 @@
 }
 .reminder-text{
   color:#666666;
+  position:relative;
+  left:700px;
   font-size: 35px;
   font-weight:500;
   word-wrap: break-word;
   text-decoration: underline;
 }
 .save-btn{
+  position:relative;
+  top:-35px;
   margin-left:300px;
   background-color: #0E724C;
   color:white;

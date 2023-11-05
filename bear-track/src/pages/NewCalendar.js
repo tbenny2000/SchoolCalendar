@@ -8,6 +8,7 @@ import { message } from 'antd';
 
 const NewCalendar = () =>{
   const [inputValue, setInputValue] = useState('');
+  const [invitees, setInvitees] = useState([]);
   const [userName, setUserName] = useState('');
   const [userID, setUserID] = useState('');
   const [email, setEmailAddress] = useState('');
@@ -64,6 +65,13 @@ const NewCalendar = () =>{
         setErrorMessage('Please enter an actual email or username!')
         setIsShaking(true);
 
+    }
+  };
+  const handleCreate = () =>{
+    if(inputValue){
+      //Put the input values into a arraylist to store them before sending an invite link to other users.
+      setInvitees([...invitees,inputValue]);
+      setInputValue('');
     }
   };
   const displayErrorMessage = (message) =>{
@@ -142,7 +150,7 @@ const NewCalendar = () =>{
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPWLRrp2ErqwPimW7rlcuC44_w2EXAxMw93e5GgW667bT1j_ma_ZfRoeek4uy7l1IBVXo&usqp=CAU"
         />
         </Link>
-        <div style={nameStyle}>Mr Bean</div>
+        <div style={nameStyle}>{userName}</div>
         <div className='left-side-panel'> 
         
       </div>
@@ -164,7 +172,7 @@ const NewCalendar = () =>{
 
         </div>
         </div>
-        <button className = "create-btn">
+        <button className = "create-btn" onClick={handleCreate}>
           Create
           </button>
 
