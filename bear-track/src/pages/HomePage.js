@@ -13,6 +13,7 @@ const HomePage = () => {
   const [userName, setUName] = useState('');
   const [userID, setUserID] = useState('');
   const [emailAddress, setEAddress] = useState('');
+  const [image, setImage] = useState("");
 
   const loadFirestoreDocument = async (userUid) => {
   
@@ -29,12 +30,21 @@ const HomePage = () => {
         const uName = userDoc.data().userName;
         const userID = userDoc.data().userID;
         const eAddress = userDoc.data().emailAddress;
+        const img = userDoc.data().imageURL;
   
         setFName(fName);
         setLName(lName);
         setUName(uName);
         setUserID(userID);
         setEAddress(eAddress);
+
+        console.log(img)
+        if (img == null){
+          setImage('./Screenshot 2023-09-15 at 1.46 1.png')
+        } else{
+          setImage(img);
+        }
+        
       } else {
         console.log('User document not found.');
       }
@@ -48,7 +58,7 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      <h1>My Calendar: {firstName}</h1>
+      <h1>My Calendar</h1>
       <div className = "left-panel">
       </div>
       <div className='logo-photo'>
@@ -57,7 +67,7 @@ const HomePage = () => {
       </div>
       <Link to = "/MyProfile">
           <div>
-            <img alt = "User profile" src = "./Screenshot 2023-09-15 at 1.46 1.png" className='user-photo'/>
+            <img alt = "User profile" src = {image} className='user-photo'/>
       </div>
           </Link>
 

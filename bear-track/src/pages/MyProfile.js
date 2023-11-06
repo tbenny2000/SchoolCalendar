@@ -4,6 +4,7 @@ import './MyProfile.css';
 import { Link } from 'react-router-dom';
 import firebase from '../config/firebase'; // Import your firebase.js file
 import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
 
 
 
@@ -38,12 +39,20 @@ function MyProfile(){
         const uName = userDoc.data().userName;
         const userID = userDoc.data().userID;
         const eAddress = userDoc.data().emailAddress;
+        const img = userDoc.data().imageURL;
   
         setFName(fName);
         setLName(lName);
         setUName(uName);
         setUserID(userID);
         setEAddress(eAddress);
+        setImage(img);
+
+        if (img == null){
+          setImage('./Screenshot 2023-09-15 at 1.46 1.png')
+        } else{
+          setImage(img);
+        }
 
       } else {
         console.log('User document not found.');
@@ -145,6 +154,48 @@ function MyProfile(){
     .catch((error) => console.log("Oops, error", error));
   };
 
+
+  //****************************************************************************************************************//
+
+
+  // Create a root reference
+    const storageRef = firebase.storage().ref();
+    const db = firebase.firestore();
+    
+    function uploadImage() {
+        const imageInput = document.getElementById('image-upload-input');
+        const file = imageInput.files[0];
+        const user = firebase.auth().currentUser;
+    
+        if (file && user) {
+            const imageRef = storageRef.child(`userImages/${user.uid}/${file.name}`);
+    
+            imageRef.put(file).then((snapshot) => {
+                // Image uploaded, get the download URL
+                imageRef.getDownloadURL().then((url) => {
+                    // Update the Firestore document for the user
+                    const userDocRef = db.collection('users').doc(user.uid);
+                    userDocRef.update({
+                        imageURL: url
+                    }).then(() => {
+                        console.log('Image URL added to user document.');
+                    }).catch((error) => {
+                        console.error('Error updating Firestore document:', error);
+                    });
+                }).catch((error) => {
+                    console.error('Error getting download URL:', error);
+                });
+            }).catch((error) => {
+                console.error('Error uploading image:', error);
+            });
+        }
+    }
+  
+
+
+
+  //***************************************************************************************************************//
+
     return (
       
       <div className='App'>
@@ -157,7 +208,7 @@ function MyProfile(){
             {image ? image.name: "Choose an image"}
           </label>
           <div onClick = {handleImageClick} style = {{cursor: "pointer"}}>
-          {image ? <img src = {URL.createObjectURL(image)} alt = "user update" className='img-display-after'/> : <img src = "./Screenshot 2023-09-15 at 1.46 1.png" alt = "default" className='img-display-before'/>}
+          {image ? <img src = {image} alt = "user update" className='img-display-after'/> : <img src = "./Screenshot 2023-09-15 at 1.46 1.png" alt = "default" className='img-display-before' />}
         <input 
         id = "image-upload-input"
         type = "file" 
@@ -165,7 +216,7 @@ function MyProfile(){
         onChange={handleImageChange}
         style = {{display : 'none'}}/>
         </div>
-        <button className = "image-upload-button" onClick = {handleUploadButtonClick}>Upload</button>
+        <button className = "image-upload-button" onClick = {uploadImage}>Upload</button>
         <div className='emailStyle'>Email: {emailAddress}</div>
         <div className='profile-Update-Name'> 
         Profile Name:<input defaultValue={userName} type='text' onChange={handleProfileNameChange} style = {{border : 'none', outline : 'none', fontSize : '30px', fontWeight : '500', color : 'grey', textDecoration : 'underline', background : 'transparent'}}/>
@@ -180,7 +231,7 @@ function MyProfile(){
         </div>
         </Link>
         <div>
-          {image ?<img src = {URL.createObjectURL(image)} alt = "Curious" className='profile-picture-confirmer'/> : <img src = "./Screenshot 2023-09-15 at 1.46 1.png" alt = "Profile Live" className='profile-picture-confirmer'/> }
+          <img src = {image} alt = "Curious" className='profile-picture-confirmer'/> : <img src = {image} alt = "Profile Live" className='profile-picture-confirmer'/>
           <div  id ="profName" className='confirmed-name' onChange={handleProfileNameChange}>{userName}</div>
         </div>
         
