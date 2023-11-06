@@ -24,25 +24,29 @@ const ViewCalendar = () => {
     const uuid = firebase.auth().currentUser.uid;
 
     const dataReading = async(userUID) =>{
-        try{
-            const userReference = firestore.collection('users').doc(userUID);
-            console.log(userUID);
-            const userDoc = await userReference.get();
-            if(userDoc.exists){
-                console.log('Printing from userDoc: ', userDoc.data);
-                const uName = userDoc.data().username;
-                const userid = userDoc.data().userID;
-                const eAddress = userDoc.data().email;
-
-                setUName(uName);
-                setUserID(userid);
-                setEmailAddress(eAddress);
-            }else{
-                console.log('User document not found.');
+        try {
+            const userRef = firestore.collection('users').doc(uuid);
+            console.log(uuid);
+            const userDoc = await userRef.get();
+        
+            if (userDoc.exists) {
+              console.log('Printing from loadDoc: ',userDoc.data())
+              const uName = userDoc.data().userName;
+              const userID = userDoc.data().userID;
+              const eAddress = userDoc.data().emailAddress;
+        
+            
+              setUName(uName);
+              setUserID(userID);
+              setEmailAddress(eAddress);
+              console.log(uName);
+      
+            } else {
+              console.log('User document not found.');
             }
-        }catch (error){
-            console.log('Error loading Firestore document:', error);
-        }
+          } catch (error) {
+            console.error('Error loading Firestore document:', error);
+          }
     };
     console.log(firebase.auth().currentUser.uid);
     dataReading(uuid);
@@ -64,12 +68,20 @@ const ViewCalendar = () => {
         <div className="WebsiteName">DataWise</div>
             </div>
 
-       <Link to = "/MyProfile">
+       {/* <Link to = "/MyProfile">
         <img src = "Screenshot 2023-09-15 at 1.46 1.png" alt = "User choice" className="profilePicture"/>
         </Link>
         <div className="username">
             {username}
-        </div>
+        </div> */}
+
+        <Link to = "/MyProfile">
+          <div>
+            <img alt = "User profile" src = "./Screenshot 2023-09-15 at 1.46 1.png" className='user-photo'/>
+      </div>
+          </Link>
+
+        <div className='profileName' >{username}</div>
         
 
         <div className = "right-side-panel"></div>
