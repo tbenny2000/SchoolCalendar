@@ -13,6 +13,8 @@ const NewCalendar = () =>{
   const [userID, setUserID] = useState('');
   const [email, setEmailAddress] = useState('');
 
+  const [usernameToCheck, setUsernameToCheck] = useState('');
+
   const [errorMessage, setErrorMessage] = useState('');
   const [isShaking, setIsShaking] = useState(false);
 
@@ -30,10 +32,10 @@ const NewCalendar = () =>{
 
   const uuid = firebase.auth().currentUser.uid;
 
-  const dataReading = async(userUID) => {
+  const dataReading = async(uuid) => {
     try{
-        const userReference = firestore.collection('users').doc(userUID);
-        console.log(userUID);
+        const userReference = firestore.collection('users').doc(uuid);
+        console.log(uuid);
         const userDoc = await userReference.get();
         if(userDoc.exists){
           console.log('Printing from userDoc: ', userDoc.data);
@@ -52,18 +54,75 @@ const NewCalendar = () =>{
       console.log('Error loading Firestore document:', error);
     }
   };
+  
+  console.log(firebase.auth().currentUser.uid);
+    dataReading(uuid);
+
   const handleInputValueChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
+
+    // setUsernameToCheck(value);
+
+    // // Query the Firestore collection for a document with the specified username
+    // firestore.collection('users')
+    //   .where('emailAddress', '==', value)
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     if (querySnapshot.size > 0) {
+    //       // A document with the specified username exists
+        
+    //       console.log("User document exists for username:", usernameToCheck);
+    //       // You can access the document using querySnapshot.docs[0]
+    //       const userDocument = querySnapshot.docs[0].data();
+    //     } else {
+    //       // No document with the specified username exists
+    //       console.log(usernameToCheck);
+    //       console.log("User document does not exist for username:", usernameToCheck);
+        
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error checking for user document:", error);
+        
+    //   });
+
     //To reset error message and animation
     setErrorMessage('');
     setIsShaking(false);
   };
   const handleInputKeyDown = (e) =>{
     if(e.key === 'Enter'){
-      handleInputValueChange(e);
-        setErrorMessage('Please enter an actual email or username!')
+      const value = e.target.value;
+      setInputValue(value);
+      setUsernameToCheck(e.target.value);
+
+      
+    // Query the Firestore collection for a document with the specified username
+    firestore.collection('users')
+      .where('userName', '==', value)
+      .get()
+      .then((querySnapshot) => {
+        if (querySnapshot.size > 0) {
+          // A document with the specified username exists
+        
+          console.log("User document exists for username:", usernameToCheck);
+          // You can access the document using querySnapshot.docs[0]
+          const userDocument = querySnapshot.docs[0].data();
+        } else {
+          // No document with the specified username exists
+          console.log(usernameToCheck);
+          console.log("User document does not exist for username:", usernameToCheck);
+          setErrorMessage('Please enter an actual email or username!')
         setIsShaking(true);
+        
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking for user document:", error);
+        
+      });
+        
 
     }
   };

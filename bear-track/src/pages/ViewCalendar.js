@@ -23,7 +23,7 @@ const ViewCalendar = () => {
 
     const uuid = firebase.auth().currentUser.uid;
 
-    const dataReading = async(userUID) =>{
+    const dataReading = async(uuid) =>{
         try {
             const userRef = firestore.collection('users').doc(uuid);
             console.log(uuid);
