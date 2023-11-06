@@ -11,6 +11,7 @@ const NewCalendar = () =>{
   const [userName, setUserName] = useState('');
   const [userID, setUserID] = useState('');
   const [email, setEmailAddress] = useState('');
+  const [image, setImage] = useState("");
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isShaking, setIsShaking] = useState(false);
@@ -39,11 +40,20 @@ const NewCalendar = () =>{
           const uName = userDoc.data().userName;
           const userID = userDoc.data().userID;
           const eAddress = userDoc.data().email;
+          const img = userDoc.data().imageURL;
 
           setUserName(uName);
           setUserID(userID);
           setEmailAddress(eAddress);
           
+          
+        console.log(img)
+        if (img == null){
+          setImage('./Screenshot 2023-09-15 at 1.46 1.png')
+        } else{
+          setImage(img);
+        }
+        
         }else{
           console.log('User document not found.');
         }
@@ -139,10 +149,10 @@ const NewCalendar = () =>{
         <Link to = "/MyProfile">
         <img
           style={imageStyle}
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPWLRrp2ErqwPimW7rlcuC44_w2EXAxMw93e5GgW667bT1j_ma_ZfRoeek4uy7l1IBVXo&usqp=CAU"
+          src= {image}
         />
         </Link>
-        <div style={nameStyle}>Mr Bean</div>
+        <div style={nameStyle}>{userName}</div>
         <div className='left-side-panel'> 
         
       </div>

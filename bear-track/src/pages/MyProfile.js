@@ -48,6 +48,12 @@ function MyProfile(){
         setEAddress(eAddress);
         setImage(img);
 
+        if (img == null){
+          setImage('./Screenshot 2023-09-15 at 1.46 1.png')
+        } else{
+          setImage(img);
+        }
+
       } else {
         console.log('User document not found.');
       }

@@ -37,7 +37,14 @@ const HomePage = () => {
         setUName(uName);
         setUserID(userID);
         setEAddress(eAddress);
-        setImage(img);
+
+        console.log(img)
+        if (img == null){
+          setImage('./Screenshot 2023-09-15 at 1.46 1.png')
+        } else{
+          setImage(img);
+        }
+        
       } else {
         console.log('User document not found.');
       }
@@ -51,7 +58,7 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      <h1>My Calendar: {firstName}</h1>
+      <h1>My Calendar</h1>
       <div className = "left-panel">
       </div>
       <div className='logo-photo'>
