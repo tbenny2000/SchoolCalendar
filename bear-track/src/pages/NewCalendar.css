@@ -126,6 +126,22 @@
     animation: cssAnimation 0s ease-in 5s forwards;
     animation-fill-mode: forwards;
 }
+.limit-message{
+    text-decoration: none;
+    color:red;
+    font-size: 35px;
+    font-weight:500;
+    animation: cssAnimation 0s ease-in 5s forwards;
+    animation-fill-mode: forwards;
+}
+.add-message{
+    text-decoration: none;
+    color:green;
+    font-size: 35px;
+    font-weight: 500;
+    animation: cssAnimation 0s ease-in 5s forwards;
+    animation-fill-mode: forwards;
+}
 @keyframes cssAnimation{
     to{
         width:0;
