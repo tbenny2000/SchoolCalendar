@@ -5,65 +5,32 @@ import { Link } from 'react-router-dom';
 import firebase from '../config/firebase'; // Import your firebase.js file
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
-
+import { useUser } from './UserContext';
 
 
 function MyProfile(){
 
-  //const inputRef = useRef(null);
   const [image, setImage] = useState("");
   const hiddenFileInput = useRef(null);
-  const[profileName, setProfileName] = useState('')//Default name for reference
   const[newProfileName, setNewProfileName] = useState('');
-  
-  const [firstName, setFName] = useState('');
-  const [lastName, setLName] = useState('');
-  const [userName, setUName] = useState('');
-  const [userID, setUserID] = useState('');
-  const [emailAddress, setEAddress] = useState('');
+
+  const user = useUser();
 
   const firestore = firebase.firestore();
-  const uuid = firebase.auth().currentUser.uid
+  const uuid = user.uid;
 
-  const loadFirestoreDocument = async (userUid) => {
-  
-    try {
-      const userRef = firestore.collection('users').doc(userUid);
-      console.log(userUid);
-      const userDoc = await userRef.get();
-  
-      if (userDoc.exists) {
-        console.log('Printing from loadDoc: ',userDoc.data())
-        const fName = userDoc.data().firstName;
-        const lName = userDoc.data().lastName;
-        const uName = userDoc.data().userName;
-        const userID = userDoc.data().userID;
-        const eAddress = userDoc.data().emailAddress;
-        const img = userDoc.data().imageURL;
-  
-        setFName(fName);
-        setLName(lName);
-        setUName(uName);
-        setUserID(userID);
-        setEAddress(eAddress);
-        setImage(img);
-
-        if (img == null){
-          setImage('./Screenshot 2023-09-15 at 1.46 1.png')
+        if (user.imageURL == null){
+          console.log("Printing from image addition My Profile")
+          user.image = './Screenshot 2023-09-15 at 1.46 1.png';
         } else{
-          setImage(img);
+          user.image = user.imageURL;
+          console.log("Printing from successful image addition My Profile: ", user.imageURL)
+
         }
 
-      } else {
-        console.log('User document not found.');
-      }
-    } catch (error) {
-      console.error('Error loading Firestore document:', error);
-    }
-    
-  };
-  console.log(firebase.auth().currentUser.uid)
-  loadFirestoreDocument(uuid)
+
+  console.log("user : ", user.uid);
+  
 
   //It's a function to save the name information to the database
 
@@ -71,21 +38,14 @@ function MyProfile(){
     setNewProfileName(event.target.value);
   };
   const handleSaveName = async () =>{
-
-    console.log('Saving profile name', newProfileName);
-    setProfileName(newProfileName);
-
-
     try {
       firestore.collection("users").doc(uuid).update({"userName": newProfileName})
-      console.log(userName);
+      console.log(user.userName);
       console.log("Document successfully updated!");
     }
     catch (error) {
       console.error('Error updating Firestore document:', error);
     }
-    
-    setUName(newProfileName);
 
     
   };
@@ -129,32 +89,6 @@ function MyProfile(){
   };
   
 
-  const handleUploadButtonClick = (file) => {
-    var myHeaders = new Headers();
-    const token = "fpdsigklopqq909045893126";
-    myHeaders.append("Authorization", `Bearer ${token}`);
-
-    var formdata = new FormData();
-    formdata.append("file", image);
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-      redirect: "follow",
-    };
-
-    fetch("https://trickuweb.com/upload/profile_pic", requestOptions)
-    .then((response) => response.text())
-    .then((result) =>{
-      console.log(JSON.parse(result));
-      const profileurl = JSON.parse(result);
-      setImage(profileurl.img_url);
-    })
-    .catch((error) => console.log("Oops, error", error));
-  };
-
-
   //****************************************************************************************************************//
 
 
@@ -162,37 +96,41 @@ function MyProfile(){
     const storageRef = firebase.storage().ref();
     const db = firebase.firestore();
     
-    function uploadImage() {
-        const imageInput = document.getElementById('image-upload-input');
-        const file = imageInput.files[0];
-        const user = firebase.auth().currentUser;
-    
-        if (file && user) {
-            const imageRef = storageRef.child(`userImages/${user.uid}/${file.name}`);
-    
-            imageRef.put(file).then((snapshot) => {
-                // Image uploaded, get the download URL
-                imageRef.getDownloadURL().then((url) => {
-                    // Update the Firestore document for the user
-                    const userDocRef = db.collection('users').doc(user.uid);
-                    userDocRef.update({
-                        imageURL: url
-                    }).then(() => {
-                        console.log('Image URL added to user document.');
-                    }).catch((error) => {
-                        console.error('Error updating Firestore document:', error);
-                    });
-                }).catch((error) => {
-                    console.error('Error getting download URL:', error);
-                });
-            }).catch((error) => {
-                console.error('Error uploading image:', error);
-            });
-        }
-    }
+    const uploadImage = () => {
+      const imageInput = document.getElementById('image-upload-input');
+      const file = imageInput.files[0];
   
-
-
+      if (file && user) {
+        const imageRef = storageRef.child(`userImages/${user.uid}/${file.name}`);
+  
+        imageRef
+          .put(file)
+          .then((snapshot) => {
+            // Image uploaded, get the download URL
+            imageRef.getDownloadURL().then((url) => {
+              // Update the Firestore document for the user
+              const userDocRef = db.collection('users').doc(user.uid);
+              userDocRef
+                .update({
+                  imageURL: url,
+                })
+                .then(() => {
+                  console.log('Image URL added to user document.');
+                  setImage(url); // Update the image in your app state
+                })
+                .catch((error) => {
+                  console.error('Error updating Firestore document:', error);
+                });
+            })
+            .catch((error) => {
+              console.error('Error getting download URL:', error);
+            });
+          })
+          .catch((error) => {
+            console.error('Error uploading image:', error);
+          });
+      }
+    }
 
   //***************************************************************************************************************//
 
@@ -208,7 +146,7 @@ function MyProfile(){
             {image ? image.name: "Choose an image"}
           </label>
           <div onClick = {handleImageClick} style = {{cursor: "pointer"}}>
-          {image ? <img src = {image} alt = "user update" className='img-display-after'/> : <img src = "./Screenshot 2023-09-15 at 1.46 1.png" alt = "default" className='img-display-before' />}
+          {image ? <img src = {user.image} alt = "user update" className='img-display-after'/> : <img src = {user.image} alt = "default" className='img-display-before' />}
         <input 
         id = "image-upload-input"
         type = "file" 
@@ -217,9 +155,9 @@ function MyProfile(){
         style = {{display : 'none'}}/>
         </div>
         <button className = "image-upload-button" onClick = {uploadImage}>Upload</button>
-        <div className='emailStyle'>Email: {emailAddress}</div>
+        <div className='emailStyle'>Email: {user.email}</div>
         <div className='profile-Update-Name'> 
-        Profile Name:<input defaultValue={userName} type='text' onChange={handleProfileNameChange} style = {{border : 'none', outline : 'none', fontSize : '30px', fontWeight : '500', color : 'grey', textDecoration : 'underline', background : 'transparent'}}/>
+        Profile Name:<input defaultValue={user.userName} type='text' onChange={handleProfileNameChange} style = {{border : 'none', outline : 'none', fontSize : '30px', fontWeight : '500', color : 'grey', textDecoration : 'underline', background : 'transparent'}}/>
         </div>
        
           <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>
@@ -231,8 +169,8 @@ function MyProfile(){
         </div>
         </Link>
         <div>
-          <img src = {image} alt = "Curious" className='profile-picture-confirmer'/> : <img src = {image} alt = "Profile Live" className='profile-picture-confirmer'/>
-          <div  id ="profName" className='confirmed-name' onChange={handleProfileNameChange}>{userName}</div>
+          <img src = {user.image} alt = "Curious" className='profile-picture-confirmer'/> : <img src = {user.image} alt = "Profile Live" className='profile-picture-confirmer'/>
+          <div  id ="profName" className='confirmed-name' onChange={handleProfileNameChange}>{user.userName}</div>
         </div>
         
         <div className='border-divide'></div>
