@@ -4,22 +4,50 @@ import './NewCalendar.css';
 import { Link } from 'react-router-dom';
 import firebase from '../config/firebase';
 import 'firebase/compat/firestore';
-import { message } from 'antd';
+import { useUser } from './UserContext';
 
 const NewCalendar = () =>{
   const [inputValue, setInputValue] = useState('');
   const [invitees, setInvitees] = useState([]);
+
+  /*
   const [userName, setUserName] = useState('');
-  const [userID, setUserID] = useState('');
   const [email, setEmailAddress] = useState('');
   const [image, setImage] = useState("");
+*/
 
-  const [usernameToCheck, setUsernameToCheck] = useState('');
+ // const [calendarName, setCalendarName] = useState('');
 
+  const [amountOfEnteredUsers, setAmountOfEnteredUsers] = useState(new Set());
+  const [limitMessage, setLimitMessage] = useState(false);
+
+
+  // const [usernameToCheck, setUsernameToCheck] = useState('');
+  // const [emailToCheck, setEmailToCheck] = useState('');
+
+
+  const [addMessage, setAddMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isShaking, setIsShaking] = useState(false);
 
+  // ***********************************************************************************************************************
+
+  const user = useUser();
+
+  if (user.imageURL == null){
+    user.image = './Screenshot 2023-09-15 at 1.46 1.png';
+    console.log("Printing from image addition")
+  } else{
+    user.image = user.imageURL;
+    console.log("Printing from successful image addition: ",)
+  }
+
+  // ***********************************************************************************************************************
+
+
   const firestore = firebase.firestore();
+
+/*
   useEffect(() =>{
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
       if(user){
@@ -28,8 +56,10 @@ const NewCalendar = () =>{
       }
     });
 
+    
     return () => unregisterAuthObserver();
   }, []);
+
 
   const uuid = firebase.auth().currentUser.uid;
 
@@ -41,12 +71,15 @@ const NewCalendar = () =>{
         if(userDoc.exists){
           console.log('Printing from userDoc: ', userDoc.data);
           const uName = userDoc.data().userName;
-          const userID = userDoc.data().userID;
-          const eAddress = userDoc.data().email;
+
+
+          // const userID = userDoc.data().userID;
+
+
+          const eAddress = userDoc.data().emailAddress;
           const img = userDoc.data().imageURL;
 
           setUserName(uName);
-          setUserID(userID);
           setEmailAddress(eAddress);
           
           
@@ -67,35 +100,16 @@ const NewCalendar = () =>{
   
   console.log(firebase.auth().currentUser.uid);
     dataReading(uuid);
+*/
+
 
   const handleInputValueChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
 
+
     // setUsernameToCheck(value);
 
-    // // Query the Firestore collection for a document with the specified username
-    // firestore.collection('users')
-    //   .where('emailAddress', '==', value)
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     if (querySnapshot.size > 0) {
-    //       // A document with the specified username exists
-        
-    //       console.log("User document exists for username:", usernameToCheck);
-    //       // You can access the document using querySnapshot.docs[0]
-    //       const userDocument = querySnapshot.docs[0].data();
-    //     } else {
-    //       // No document with the specified username exists
-    //       console.log(usernameToCheck);
-    //       console.log("User document does not exist for username:", usernameToCheck);
-        
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error checking for user document:", error);
-        
-    //   });
 
     //To reset error message and animation
     setErrorMessage('');
@@ -105,8 +119,42 @@ const NewCalendar = () =>{
     if(e.key === 'Enter'){
       const value = e.target.value;
       setInputValue(value);
-      setUsernameToCheck(e.target.value);
 
+
+      // setUsernameToCheck(e.target.value);
+      // setEmailToCheck(e.target.value);
+
+
+      //Checking that user doesn't enter their own info when creating calendar
+      //But if they do then display an error message
+      if(value === user.userName || value === user.email){
+        console.log("User email: ", user.email);
+        setErrorMessage("You can't enter your own information.");
+        setIsShaking(true);
+        return;
+      }
+
+      //Checking if the user info has already been submitted
+      if(amountOfEnteredUsers.has(value)){
+        console.log("Amount of entered users: ", amountOfEnteredUsers);
+        setErrorMessage("You already entered this user info. Try enter someone else.");
+        setIsShaking(true);
+        setLimitMessage(true);
+
+        setTimeout(() => {
+          setLimitMessage(false);
+        }, 5000);
+        return;
+      }
+
+      //This is to check if an when the user has exceed their limit in adding people
+      //It's because like array/arraylist it starts in 0 and counting so 4 but it's 5 numberically
+      if(amountOfEnteredUsers.size > 4){
+        setErrorMessage("You have reached your limit in adding people please create calendar.");
+        setIsShaking(true);
+        setLimitMessage(true);
+        return;
+      }
       
     // Query the Firestore collection for a document with the specified username
     firestore.collection('users')
@@ -116,16 +164,53 @@ const NewCalendar = () =>{
         if (querySnapshot.size > 0) {
           // A document with the specified username exists
         
-          console.log("User document exists for username:", usernameToCheck);
+          console.log("User document exists for username", value);
           // You can access the document using querySnapshot.docs[0]
-          const userDocument = querySnapshot.docs[0].data();
+
+
+          // const userDocument = querySnapshot.docs[0].data();
+
+
+          //Add users to the amountOfEnteredUsers 
+          setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(value));
+          setAddMessage('Person Added!');
+          setInputValue('');
+
+          setTimeout(()=>{
+            setAddMessage('');
+          }, 5000);
         } else {
-          // No document with the specified username exists
-          console.log(usernameToCheck);
-          console.log("User document does not exist for username:", usernameToCheck);
-          setErrorMessage('Please enter an actual email or username!')
-        setIsShaking(true);
+          // No document with the specified username, now checks if email exists
+          firestore.collection('users')
+          .where('emailAddress', '==', value)
+          .get()
+          .then((emailQuerySnapshot) => {
+            if (emailQuerySnapshot.size > 0){
+              console.log("User document does not exist for email:", value);
+
+
+              // const emailUserDocument = emailQuerySnapshot.docs[0].data();
+
+
+              //Add the user to the amountOfEnteredUsers
+              setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(value));
+              setAddMessage('Person Added!');
+              setInputValue('');
+
+              setTimeout(()=>{
+                setAddMessage('');
+              }, 5000);
+            } else{
+              //If there no document with store username or email
+              console.log("User document does not exist for username or email", value);
+              setErrorMessage('Please enter an actual email or username!')
+              setIsShaking(true);
         
+            }
+          })
+          .catch((error) =>{
+            console.error("Error checking for email: ", error);
+          });
         }
       })
       .catch((error) => {
@@ -153,14 +238,20 @@ const NewCalendar = () =>{
       setIsShaking(false);
     }, 5000);
   };
-  console.log(firebase.auth().currentUser.uid);
-  dataReading(uuid);
 
+
+  // console.log(firebase.auth().currentUser.uid);
+  // dataReading(uuid);
+
+
+/*
   const calendarStyle = {
     width: '100%',
     height: '600px',
     border: '1px solid #A0A0A0',
   };
+  */
+
 
   const imageStyle = {
     width: '215px',
@@ -210,16 +301,18 @@ const NewCalendar = () =>{
           <img 
           src = "./BearLogo.png"
           className='Website-Logo'
+          alt="Bear Logo"
           />
         </Link>
         <div className = 'title'>Datawise</div>
         <Link to = "/MyProfile">
         <img
           style={imageStyle}
-          src= {image}
+          src= {user.image}
+          alt="User"
         />
         </Link>
-        <div style={nameStyle}>{userName}</div>
+        <div style={nameStyle}>{user.userName}</div>
         <div className='left-side-panel'> 
         
       </div>
@@ -238,7 +331,8 @@ const NewCalendar = () =>{
           className = {isShaking ? 'shake' : ''}
           ></input>
           {errorMessage && <div className = "error-message">{errorMessage}</div>}
-
+          {limitMessage && <div className = "limit-message">{limitMessage}</div>}
+          {addMessage && <div className = "add-message">{addMessage}</div>}
         </div>
         </div>
         <button className = "create-btn" onClick={handleCreate}>
@@ -252,5 +346,4 @@ const NewCalendar = () =>{
   );
 }
 
-//export default ViewCalendar;
 export default NewCalendar;
