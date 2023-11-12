@@ -14,6 +14,7 @@ const NewCalendar = () =>{
   const [userName, setUserName] = useState('');
   const [email, setEmailAddress] = useState('');
   const [image, setImage] = useState("");
+
 */
 
  // const [calendarName, setCalendarName] = useState('');
@@ -24,8 +25,7 @@ const NewCalendar = () =>{
 
   // const [usernameToCheck, setUsernameToCheck] = useState('');
   // const [emailToCheck, setEmailToCheck] = useState('');
-
-
+  
   const [addMessage, setAddMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isShaking, setIsShaking] = useState(false);
@@ -134,6 +134,10 @@ const NewCalendar = () =>{
         return;
       }
 
+      setUsernameToCheck(e.target.value);
+      setEmailToCheck(e.target.value);
+
+
       //Checking if the user info has already been submitted
       if(amountOfEnteredUsers.has(value)){
         console.log("Amount of entered users: ", amountOfEnteredUsers);
@@ -171,6 +175,7 @@ const NewCalendar = () =>{
           // const userDocument = querySnapshot.docs[0].data();
 
 
+
           //Add users to the amountOfEnteredUsers 
           setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(value));
           setAddMessage('Person Added!');
@@ -190,6 +195,7 @@ const NewCalendar = () =>{
 
 
               // const emailUserDocument = emailQuerySnapshot.docs[0].data();
+
 
 
               //Add the user to the amountOfEnteredUsers
@@ -347,3 +353,4 @@ const NewCalendar = () =>{
 }
 
 export default NewCalendar;
+
