@@ -4,28 +4,50 @@ import './NewCalendar.css';
 import { Link } from 'react-router-dom';
 import firebase from '../config/firebase';
 import 'firebase/compat/firestore';
-import { message } from 'antd';
+import { useUser } from './UserContext';
 
 const NewCalendar = () =>{
   const [inputValue, setInputValue] = useState('');
   const [invitees, setInvitees] = useState([]);
+
+  /*
   const [userName, setUserName] = useState('');
-  const [userID, setUserID] = useState('');
   const [email, setEmailAddress] = useState('');
   const [image, setImage] = useState("");
-  const [calendarName, setCalendarName] = useState('');
+
+*/
+
+ // const [calendarName, setCalendarName] = useState('');
 
   const [amountOfEnteredUsers, setAmountOfEnteredUsers] = useState(new Set());
   const [limitMessage, setLimitMessage] = useState(false);
 
-  const [usernameToCheck, setUsernameToCheck] = useState('');
-  const [emailToCheck, setEmailToCheck] = useState('');
 
+  // const [usernameToCheck, setUsernameToCheck] = useState('');
+  // const [emailToCheck, setEmailToCheck] = useState('');
+  
   const [addMessage, setAddMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isShaking, setIsShaking] = useState(false);
 
+  // ***********************************************************************************************************************
+
+  const user = useUser();
+
+  if (user.imageURL == null){
+    user.image = './Screenshot 2023-09-15 at 1.46 1.png';
+    console.log("Printing from image addition")
+  } else{
+    user.image = user.imageURL;
+    console.log("Printing from successful image addition: ",)
+  }
+
+  // ***********************************************************************************************************************
+
+
   const firestore = firebase.firestore();
+
+/*
   useEffect(() =>{
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
       if(user){
@@ -38,6 +60,7 @@ const NewCalendar = () =>{
     return () => unregisterAuthObserver();
   }, []);
 
+
   const uuid = firebase.auth().currentUser.uid;
 
   const dataReading = async(uuid) => {
@@ -48,12 +71,15 @@ const NewCalendar = () =>{
         if(userDoc.exists){
           console.log('Printing from userDoc: ', userDoc.data);
           const uName = userDoc.data().userName;
-          const userID = userDoc.data().userID;
+
+
+          // const userID = userDoc.data().userID;
+
+
           const eAddress = userDoc.data().emailAddress;
           const img = userDoc.data().imageURL;
 
           setUserName(uName);
-          setUserID(userID);
           setEmailAddress(eAddress);
           
           
@@ -74,12 +100,16 @@ const NewCalendar = () =>{
   
   console.log(firebase.auth().currentUser.uid);
     dataReading(uuid);
+*/
+
 
   const handleInputValueChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
 
+
     // setUsernameToCheck(value);
+
 
     //To reset error message and animation
     setErrorMessage('');
@@ -89,18 +119,24 @@ const NewCalendar = () =>{
     if(e.key === 'Enter'){
       const value = e.target.value;
       setInputValue(value);
-      setUsernameToCheck(e.target.value);
-      setEmailToCheck(e.target.value);
+
+
+      // setUsernameToCheck(e.target.value);
+      // setEmailToCheck(e.target.value);
 
 
       //Checking that user doesn't enter their own info when creating calendar
       //But if they do then display an error message
-      if(value === userName || value === email){
-        console.log("User email: ", email);
+      if(value === user.userName || value === user.email){
+        console.log("User email: ", user.email);
         setErrorMessage("You can't enter your own information.");
         setIsShaking(true);
         return;
       }
+
+      setUsernameToCheck(e.target.value);
+      setEmailToCheck(e.target.value);
+
 
       //Checking if the user info has already been submitted
       if(amountOfEnteredUsers.has(value)){
@@ -134,7 +170,12 @@ const NewCalendar = () =>{
         
           console.log("User document exists for username", value);
           // You can access the document using querySnapshot.docs[0]
-          const userDocument = querySnapshot.docs[0].data();
+
+
+          // const userDocument = querySnapshot.docs[0].data();
+
+
+
           //Add users to the amountOfEnteredUsers 
           setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(value));
           setAddMessage('Person Added!');
@@ -151,7 +192,12 @@ const NewCalendar = () =>{
           .then((emailQuerySnapshot) => {
             if (emailQuerySnapshot.size > 0){
               console.log("User document does not exist for email:", value);
-              const emailUserDocument = emailQuerySnapshot.docs[0].data();
+
+
+              // const emailUserDocument = emailQuerySnapshot.docs[0].data();
+
+
+
               //Add the user to the amountOfEnteredUsers
               setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(value));
               setAddMessage('Person Added!');
@@ -198,14 +244,20 @@ const NewCalendar = () =>{
       setIsShaking(false);
     }, 5000);
   };
-  console.log(firebase.auth().currentUser.uid);
-  dataReading(uuid);
 
+
+  // console.log(firebase.auth().currentUser.uid);
+  // dataReading(uuid);
+
+
+/*
   const calendarStyle = {
     width: '100%',
     height: '600px',
     border: '1px solid #A0A0A0',
   };
+  */
+
 
   const imageStyle = {
     width: '215px',
@@ -255,16 +307,18 @@ const NewCalendar = () =>{
           <img 
           src = "./BearLogo.png"
           className='Website-Logo'
+          alt="Bear Logo"
           />
         </Link>
         <div className = 'title'>Datawise</div>
         <Link to = "/MyProfile">
         <img
           style={imageStyle}
-          src= {image}
+          src= {user.image}
+          alt="User"
         />
         </Link>
-        <div style={nameStyle}>{userName}</div>
+        <div style={nameStyle}>{user.userName}</div>
         <div className='left-side-panel'> 
         
       </div>
@@ -299,3 +353,4 @@ const NewCalendar = () =>{
 }
 
 export default NewCalendar;
+
