@@ -3,6 +3,7 @@ import './HomePage.css'; // Import your CSS file for styling
 import firebase from '../config/firebase'; // Import your firebase.js file
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import BellIcon from '../components/bell-filled.svg';
 import 'firebase/compat/firestore';
 
 
@@ -58,6 +59,8 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
+      <div className='bell'><img src = {BellIcon}/>
+      </div>
       <h1>My Calendar</h1>
       <div className = "left-panel">
       </div>

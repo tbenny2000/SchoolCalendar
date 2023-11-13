@@ -127,5 +127,11 @@
  .new-calendar-button:hover{
   background-color: #4CAF50;
  }
+
+ .bell{
+  position: relative;
+  top:0px;
+  left:360px;
+ }
   
   
