@@ -20,7 +20,7 @@
 .Logo{
     position: relative;
     top: 50px;
-    right: 700px;
+    right: 500px;
     text-align: center;
 }
 
@@ -41,16 +41,19 @@
 .profilePicture{
   position:relative;
   top: 350px;
-  right: 815px;
+  right: 700px;
+}
+
+.profilePhoto{
   height: 215px;
   width: 215px;
   border-radius: 50%;
 }
 
+
 .username{
   position:relative;
-  top:700px;
-  left: 50px;
+  margin-top: 20px;
   font-family: 'Times New Roman', Times, serif;
   font-size: 30px;
   font-weight: 500;
@@ -81,7 +84,7 @@
     font-weight: 500; 
     word-wrap: break-word;
     position: relative;
-    left:250px;
+    left:375px;
     top: 15px;
 }
 .newCalBTN{
@@ -121,8 +124,8 @@
 }
 .save-btn{
   position:relative;
-  top:-35px;
-  margin-left:300px;
+  top:-5px;
+  margin-left:50px;
   background-color: #0E724C;
   color:white;
   text-align: center;
@@ -137,4 +140,9 @@
 }
 .save-btn:hover{
   background-color: #4CAF50;
+}
+.meeting-section{
+  position: relative;
+  top:75px;
+  left:200px;
 }

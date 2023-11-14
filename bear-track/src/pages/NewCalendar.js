@@ -134,8 +134,6 @@ const NewCalendar = () =>{
         return;
       }
 
-      setUsernameToCheck(e.target.value);
-      setEmailToCheck(e.target.value);
 
 
       //Checking if the user info has already been submitted
@@ -310,7 +308,7 @@ const NewCalendar = () =>{
           alt="Bear Logo"
           />
         </Link>
-        <div className = 'title'>Datawise</div>
+        <div className = 'title'>Datewise</div>
         <Link to = "/MyProfile">
         <img
           style={imageStyle}

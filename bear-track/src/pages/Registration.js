@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import './Registration.css'
 import firebase from '../config/firebase';
 import 'firebase/compat/firestore';
+import { useNavigate } from 'react-router-dom';
 
 
 const Form = () => {
@@ -16,11 +17,12 @@ const Form = () => {
       [name]: value,
     }));
   };
-
+  const navigate = useNavigate();
   // Method to handle the submission of a form
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent the form from actually submitting (which would refresh the page)
-
+    
+    navigate('/');
     // You can access all the form data as an object in 'formData' state variable
     console.log(formData);
   };

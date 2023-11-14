@@ -165,7 +165,7 @@ function MyProfile(){
         </div>
         <Link to = '/homepage'>
         <div className='website-logo'><img src='./BearLogo.png' alt='GGC Logo'/> 
-        <div className='titleStyle'>DataWise</div>
+        <div className='titleStyle'>DateWise</div>
         </div>
         </Link>
         <div>

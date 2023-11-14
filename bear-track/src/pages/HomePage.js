@@ -49,9 +49,12 @@ const HomePage = () => {
         </Link>
       <div className = "right-panel">
         <div className = "calendarName">Mutual Calendar</div>
+        <div style = {{ overflowY: 'scroll', height: '150px'}}>
         <Link to = "/ViewCalendar">
         Team meeting
         </Link>
+        </div>
+        
         <Link to = "/NewCalendar">
         <button className='new-calendar-button'>New Calendar</button>
         </Link>
