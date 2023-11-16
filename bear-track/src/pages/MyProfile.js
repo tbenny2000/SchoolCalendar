@@ -6,6 +6,7 @@ import firebase from '../config/firebase'; // Import your firebase.js file
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 import { useUser } from './UserContext';
+import AvailabilityForm from '../components/Calendar/AvailabilityForm';
 
 
 function MyProfile(){
@@ -24,12 +25,37 @@ function MyProfile(){
           user.image = './Screenshot 2023-09-15 at 1.46 1.png';
         } else{
           user.image = user.imageURL;
-          console.log("Printing from successful image addition My Profile: ", user.imageURL)
+          //console.log("Printing from successful image addition My Profile: ", user.imageURL)
 
         }
 
 
   console.log("user : ", user.uid);
+
+  const [availability, setAvailability] = React.useState({
+    selectedDays: [],
+    times: {},
+  });
+
+  const handleAvailabilityChange = (newAvailability) => {
+    setAvailability(newAvailability);
+  };
+
+  const handleSaveAvailability = async () => {
+    try {
+      // Create a reference to the user's document
+      const userDocRef = firestore.collection('users').doc(uuid);
+  
+      // Update the availability field in the user's document
+      await userDocRef.update({
+        availability: availability,
+      });
+  
+      console.log('Availability saved successfully!');
+    } catch (error) {
+      console.error('Error updating Firestore document:', error);
+    }
+  }
   
 
   //It's a function to save the name information to the database
@@ -154,6 +180,7 @@ function MyProfile(){
         onChange={handleImageChange}
         style = {{display : 'none'}}/>
         </div>
+        
         <button className = "image-upload-button" onClick = {uploadImage}>Upload</button>
         <div className='emailStyle'>Email: {user.email}</div>
         <div className='profile-Update-Name'> 
@@ -163,6 +190,13 @@ function MyProfile(){
           <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>
         </div>
         </div>
+        <AvailabilityForm 
+        className = "avform"
+        availability={availability}
+        onAvailabilityChange={handleAvailabilityChange}
+        />
+        <div className='border-divide'></div>
+        
         <Link to = '/homepage'>
         <div className='website-logo'><img src='./BearLogo.png' alt='GGC Logo'/> 
         <div className='titleStyle'>DateWise</div>
@@ -173,9 +207,9 @@ function MyProfile(){
           <div  id ="profName" className='confirmed-name' onChange={handleProfileNameChange}>{user.userName}</div>
         </div>
         
-        <div className='border-divide'></div>
+        
        
-
+        
       </div>
     );
   
