@@ -7,7 +7,6 @@ import BellIcon from '../components/bell-filled.svg';
 import 'firebase/compat/firestore';
 import { useUser } from './UserContext';
 import NotificationPopup from '../components/NotificationPopup';
-import { useState } from 'react';
 import CustomCalendar from './CustomCalendar'; 
 
 const HomePage = () => {
@@ -51,7 +50,10 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      <div className='bell'><img src = {BellIcon}/>
+      <div className='bell'><img src = {BellIcon} onClick={handleBellIconClick}/>
+      {notificationCount > 0 && (
+        <div className='notification-count'>{notificationCount}</div>
+      )}
       </div>
       {showNotification && (
         <NotificationPopup 
