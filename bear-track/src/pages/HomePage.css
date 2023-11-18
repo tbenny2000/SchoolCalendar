@@ -133,5 +133,28 @@
   top:0px;
   left:360px;
  }
+
+ .mutual-calendar-button {
+  background-color: #0E724C;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 500;
+  word-wrap: "break-word";
+  width: 150px;
+  height: 35px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  margin-bottom: 8px; /* Adjust the spacing between calendar buttons */
+}
+
+/* Additional styling if needed */
+.mutual-calendar-button:hover {
+  background-color: #095c3e; /* Change color on hover */
+}
+
   
   

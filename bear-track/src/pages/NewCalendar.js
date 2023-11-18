@@ -269,56 +269,41 @@ const NewCalendar = () =>{
 
     }
   };
-  const handleCreate = () =>{
-    if(inputValue){
-      //Put the input values into a arraylist to store them before sending an invite link to other users.
-      setInvitees([...invitees,inputValue]);
+  
+  const handleCreate = () => {
+    if (inputValue) {
+      // Put the input values into an array to store them before sending an invite link to other users.
+      setInvitees([...invitees, inputValue]);
       setInputValue('');
     }
-
+  
     const calendarTitleInput = document.getElementById('CalendarTitle');
     const calendarTitleValue = calendarTitleInput.value;
-
+  
+    // Include the creator of the calendar in the list of users
+    const creatorUid = firebase.auth().currentUser.uid;
+    const updatedAmountOfEnteredUsers = new Set([...Array.from(amountOfEnteredUsers), creatorUid]);
+  
     const calendarData = {
-      calenderName: calendarTitleValue,
-      users: Array.from(amountOfEnteredUsers),
+      calendarName: calendarTitleValue,
+      users: Array.from(updatedAmountOfEnteredUsers),
     };
-
+  
     const docRef = firestore.collection('calendars');
-
-            // Add a new document to Firestore
-              docRef.add(calendarData)
-              .then(() => {
-                console.log('Document written with ID: ', docRef.id);
-              })
-              .catch((error) => {
-                console.error('Error adding document: ', error);
-              });
-            }
-          
-  const displayErrorMessage = (message) =>{
-    setErrorMessage(message);
-    setIsShaking(true);
-
-    //The code to make it disappear after 5 second display
-    setTimeout(() => {
-      setErrorMessage('Please enter an actual email/username!');
-      setIsShaking(false);
-    }, 5000);
+  
+    // Add a new document to Firestore
+    docRef
+      .add(calendarData)
+      .then((doc) => {
+        console.log('Document written with ID: ', doc.id);
+      })
+      .catch((error) => {
+        console.error('Error adding document: ', error);
+      });
   };
 
 
   
-            
-
-
-
-
-
-
-
-
-
 
   // console.log(firebase.auth().currentUser.uid);
   // dataReading(uuid);
