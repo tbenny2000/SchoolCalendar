@@ -1,0 +1,16 @@
+.notification-popup{
+    background-color: antiquewhite;
+    box-shadow: 0 5px 5px #717171;
+}
+.notification-message{
+    color:#717171;
+    font-size: 15px;
+    font-weight: 500;
+    font-family:'Times New Roman', Times, serif;
+}
+.close-button{
+    padding:5px;
+    background-color: blue;
+    color:white;
+    border-radius: 50%;
+}

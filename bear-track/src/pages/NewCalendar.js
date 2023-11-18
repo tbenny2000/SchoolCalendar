@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import firebase from '../config/firebase';
 import 'firebase/compat/firestore';
 import { useUser } from './UserContext';
-
+import { useNavigate } from 'react-router-dom';
 const NewCalendar = () =>{
   const [inputValue, setInputValue] = useState('');
   const [invitees, setInvitees] = useState([]);
@@ -269,6 +269,7 @@ const NewCalendar = () =>{
 
     }
   };
+  const navigate = useNavigate();
   const handleCreate = () =>{
     if(inputValue){
       //Put the input values into a arraylist to store them before sending an invite link to other users.
@@ -294,6 +295,8 @@ const NewCalendar = () =>{
               .catch((error) => {
                 console.error('Error adding document: ', error);
               });
+
+              navigate('/homepage');
             }
           
   const displayErrorMessage = (message) =>{

@@ -5,12 +5,16 @@ import { Link } from 'react-router-dom';
 import BellIcon from '../components/bell-filled.svg';
 import 'firebase/compat/firestore';
 import { useUser } from './UserContext';
-
+import NotificationPopup from '../components/NotificationPopup';
+import { useState } from 'react';
 
 
 const HomePage = () => {
 
   const user = useUser();
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationCount, setNotificationCount] = useState(3);
 
   if (user.imageURL == null){
     user.image = './Screenshot 2023-09-15 at 1.46 1.png';
@@ -21,11 +25,26 @@ const HomePage = () => {
   }
  
   console.log(firebase.auth().currentUser.uid)
+
+  const handleBellIconClick = () =>{
+    //Setting up the notification message and the display of the pop-up section
+    setNotificationMessage('You have new notifications!');
+    setShowNotification(true);
+  };
  
   return (
     <div className="homepage">
-      <div className='bell'><img src = {BellIcon}/>
+      <div className='bell'><img src = {BellIcon} onClick = {handleBellIconClick}/>
+      {notificationCount > 0 && (
+        <div className='notification-count'>{notificationCount}</div>
+      )}
       </div>
+      {showNotification && (
+        <NotificationPopup 
+        message = {notificationMessage}
+        onClose={() => setShowNotification(false)}
+        />
+      )}
       <h1>My Calendar</h1>
       <div className = "left-panel">
       </div>
