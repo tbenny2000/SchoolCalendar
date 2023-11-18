@@ -66,6 +66,15 @@
     border-left: 2px solid #666666;
 
   }
+
+  .center-panel{
+    position:absolute;
+    background-color: white;
+    left: 400px;
+    width: 800px;
+    height:750px;
+    box-shadow: 0 0 10px rgba(0,0,0,0);
+  }
   .calendarName{
     color: #696969; 
     text-align: center;
