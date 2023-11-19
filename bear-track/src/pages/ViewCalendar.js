@@ -1,74 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import './ViewCalendar.css';
-import firebase from "../config/firebase";
+import firebase from '../config/firebase';
 import 'firebase/compat/firestore';
-import { Link } from 'react-router-dom';
-import { useUser} from './UserContext';
+import { Link, useParams } from 'react-router-dom';
+import { useUser } from './UserContext';
+import AvailabilityForm from '../components/Calendar/AvailabilityForm';
 
 const ViewCalendar = () => {
-
+    const { calendarId, calendarName } = useParams();
     const user = useUser();
-
-    if(user.imageURL == null){
-        user.image = './Screenshot 2023-09-15 at 1.46 1.png';
-        console.log("Printing from image addition")
-    }else{
-        user.image = user.imageURL;
-        console.log('Printing from successful image addition');
-    }
-
-    console.log(firebase.auth().currentUser.uid)
-    // const [username, setUName] = useState('');
-    // const [userID, setUserID] = useState('');
-    // const [email, setEmailAddress] = useState('');
-
-    // const firestore = firebase.firestore();
-    // useEffect(() => {
-    //     const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
-    //         if(user){
-    //             const uuid = user.uid;
-    //             dataReading(uuid);
-    //         }
-    //     });
-    //     return () => unregisterAuthObserver();
-    // }, []);
-
-    // const uuid = firebase.auth().currentUser.uid;
-
-    // const dataReading = async(uuid) =>{
-    //     try {
-    //         const userRef = firestore.collection('users').doc(uuid);
-    //         console.log(uuid);
-    //         const userDoc = await userRef.get();
-        
-    //         if (userDoc.exists) {
-    //           console.log('Printing from loadDoc: ',userDoc.data())
-    //           const uName = userDoc.data().userName;
-    //           const userID = userDoc.data().userID;
-    //           const eAddress = userDoc.data().emailAddress;
-        
-            
-    //           setUName(uName);
-    //           setUserID(userID);
-    //           setEmailAddress(eAddress);
-    //           console.log(uName);
-      
-    //         } else {
-    //           console.log('User document not found.');
-    //         }
-    //       } catch (error) {
-    //         console.error('Error loading Firestore document:', error);
-    //       }
-    // };
-    // console.log(firebase.auth().currentUser.uid);
-    // dataReading(uuid);
-    
-    
-    return(
-        <div className = "page">
-        <div className="pageTitle">
-            Project
-        </div>
+    const [availability, setAvailability] = useState({
+      selectedDays: [],
+      times: {},
+    });
+  
+    const firestore = firebase.firestore();
+  
+    useEffect(() => {
+      if (user) {
+        fetchUserAvailability(calendarId, user.uid);
+      }
+    }, [calendarId, user]);
+  
+    const fetchUserAvailability = async (calendarId, uid) => {
+      try {
+        const availabilityRef = firestore
+          .collection('calendars')
+          .doc(calendarId)
+          .collection('availability')
+          .doc(uid);
+  
+        const availabilitySnapshot = await availabilityRef.get();
+  
+        if (availabilitySnapshot.exists) {
+          const availabilityData = availabilitySnapshot.data();
+          setAvailability(availabilityData);
+        }
+      } catch (error) {
+        console.error('Error fetching user availability:', error);
+      }
+    };
+  
+    const handleAvailabilityChange = (newAvailability) => {
+      setAvailability(newAvailability);
+      // Update the availability in Firestore when the form is updated
+      // updateAvailabilityInFirestore(newAvailability);
+    };
+  
+    const updateAvailability = async () => {
+      try {
+        const availabilityRef = firestore
+          .collection('calendars')
+          .doc(calendarId)
+          .collection('availability')
+          .doc(user.uid);
+  
+        await availabilityRef.set(availability);
+        console.log("Adding availability for: ",user.uid)
+        console.log('Availability updated successfully!');
+      } catch (error) {
+        console.error('Error updating availability:', error);
+      }
+    };
+  
+    return (
+      <div className="page">
+        <div className="pageTitle">{calendarName}</div>
         
         <div className="reminder">
             <div className="reminder-text">Reminder: <input name = "meeting time" id = "meeting-time" type = 'time'/><button className="save-btn">SAVE</button></div>
@@ -81,12 +78,6 @@ const ViewCalendar = () => {
         <div className="WebsiteName">DateWise</div>
             </div>
 
-       {/* <Link to = "/MyProfile">
-        <img src = "Screenshot 2023-09-15 at 1.46 1.png" alt = "User choice" className="profilePicture"/>
-        </Link>
-        <div className="username">
-            {username}
-        </div> */}
         
         <div className="profilePicture">
         <Link to = "/MyProfile">
@@ -95,18 +86,24 @@ const ViewCalendar = () => {
           <div className='username' >{user.userName}</div>
         </div>
         
+        <div className="meeting-section">
+        <AvailabilityForm
+          className="avform"
+          availability={availability}
+          onAvailabilityChange={handleAvailabilityChange}
+        />
+        <button className="saveButton" type="button" onClick={updateAvailability}>
+          Save
+        </button>
+      </div>
+    </div>
+  );
+};
 
-        <div className = "right-side-panel"></div>
-            <div className="calName">Mutual Calendar</div>
-            <div style = {{overflowY: 'scroll', height:'150px'}} className="meeting-section">
-            <Link to = '/ViewCalendar'>
-            Team Meeting
-            </Link>
-            </div>
-            <Link to = "/NewCalendar">
-            <button className="newCalBTN">New Calendar</button>
-            </Link>
-        </div>
-    );
-}
 export default ViewCalendar;
+
+
+
+
+
+

@@ -17,10 +17,7 @@ function MyProfile(){
   const user = useUser();
   const firestore = firebase.firestore();
   const uuid = user.uid;
-  const [availability, setAvailability] = React.useState({
-    selectedDays: [],
-    times: {},
-  });
+  
 
       if (user.imageURL == null){
         console.log("Printing from image addition My Profile")
@@ -35,27 +32,7 @@ function MyProfile(){
 
   
 
-  const handleAvailabilityChange = (newAvailability) => {
-    setAvailability(newAvailability);
-  };
-
-  const handleSaveAvailability = async () => {
-    try {
-      // Create a reference to the user's document
-      const userDocRef = firestore.collection('users').doc(user.uid);
-
   
-      // Update the availability field in the user's document
-      await userDocRef.update({
-        availability: availability,
-      });
-
-  
-      console.log('Availability saved successfully!');
-    } catch (error) {
-      console.error('Error updating Firestore document:', error);
-    }
-  }
   
 
   //It's a function to save the name information to the database
@@ -190,13 +167,7 @@ function MyProfile(){
           <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>
         </div>
         </div>
-        <AvailabilityForm 
-        className = "avform"
-        availability={availability}
-        onAvailabilityChange={handleAvailabilityChange}
-        />
-        <button className='saveButton' type='button' onClick={handleSaveAvailability}>Save</button>
-
+        
         <div className='border-divide'></div>
         
         <Link to = '/homepage'>
