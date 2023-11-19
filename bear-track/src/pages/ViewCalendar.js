@@ -13,6 +13,8 @@ const ViewCalendar = () => {
       selectedDays: [],
       times: {},
     });
+
+    const [teamAvailability, setTeamAvailability] = useState([]);
   
     const firestore = firebase.firestore();
   
@@ -21,6 +23,12 @@ const ViewCalendar = () => {
         fetchUserAvailability(calendarId, user.uid);
       }
     }, [calendarId, user]);
+
+    useEffect(() => {
+      if (teamAvailability.length > 0) {
+        findCommonAvailability();
+      }
+    }, [teamAvailability]);
   
     const fetchUserAvailability = async (calendarId, uid) => {
       try {
@@ -46,6 +54,31 @@ const ViewCalendar = () => {
       // Update the availability in Firestore when the form is updated
       // updateAvailabilityInFirestore(newAvailability);
     };
+
+    useEffect(() => {
+      if (teamAvailability.length > 0) {
+        findCommonAvailability();
+      }
+    }, [teamAvailability]);
+
+    const fetchTeamAvailability = async (calendarId) => {
+      try {
+        const teamAvailabilityRef = firestore
+          .collection('calendars')
+          .doc(calendarId)
+          .collection('availability');
+
+          const teamAvailabilitySnapshot = await teamAvailabilityRef.get();
+          const teamAvailabilityData = teamAvailabilitySnapshot.docs.map((doc) => ({
+            uid: doc.id,
+            availability: doc.data(),
+          }));
+
+          setTeamAvailability(teamAvailabilityData);
+      } catch (error) {
+        console.error('Error fetching team availability:', error);
+      }
+    };
   
     const updateAvailability = async () => {
       try {
@@ -58,9 +91,35 @@ const ViewCalendar = () => {
         await availabilityRef.set(availability);
         console.log("Adding availability for: ",user.uid)
         console.log('Availability updated successfully!');
+        fetchTeamAvailability(calendarId);
       } catch (error) {
         console.error('Error updating availability:', error);
       }
+    };
+
+    const findCommonAvailability = () => {
+      const currentAvailability = availability;
+      const teamAvailabilities = teamAvailability.map((teamMember) => teamMember.availability);
+      let commonAvailability = [];
+    
+      currentAvailability.selectedDays.forEach((day) => {
+        if (currentAvailability.times[day]) {
+          currentAvailability.times[day].forEach((time) => {
+            const timeIsAvailable = teamAvailabilities.every((userAvailability) => {
+              const userAvailabilityTimes = userAvailability.times[day];
+              return userAvailabilityTimes && userAvailabilityTimes.includes(time);
+            });
+            if (timeIsAvailable) {
+              commonAvailability.push({
+                day,
+                time,
+              });
+            }
+          });
+        }
+      });
+    
+      console.log('Common availability:', commonAvailability);
     };
   
     return (
@@ -79,23 +138,23 @@ const ViewCalendar = () => {
             </div>
 
         
-        <div className="profilePicture">
-        <Link to = "/MyProfile">
-            <img alt = "User profile" src = {user.image} className='profilePhoto'/>
-          </Link>
-          <div className='username' >{user.userName}</div>
-        </div>
+            <div className="profilePicture">
+  <Link to="/MyProfile">
+    {user && user.image && <img alt="User profile" src={user.image} className='profilePhoto'/>}
+  </Link>
+  <div className='username'>{user && user.userName}</div>
+</div>
         
         <div className="meeting-section">
-        <AvailabilityForm
-          className="avform"
-          availability={availability}
-          onAvailabilityChange={handleAvailabilityChange}
-        />
-        <button className="saveButton" type="button" onClick={updateAvailability}>
-          Save
-        </button>
-      </div>
+          <AvailabilityForm
+            className="avform"
+            availability={availability}
+            onAvailabilityChange={handleAvailabilityChange}
+          />
+          <button className="saveButton" type="button" onClick={() => { updateAvailability(); findCommonAvailability(); }}>
+            Save
+          </button>
+        </div>
     </div>
   );
 };
