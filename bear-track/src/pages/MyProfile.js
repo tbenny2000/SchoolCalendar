@@ -14,28 +14,26 @@ function MyProfile(){
   const [image, setImage] = useState("");
   const hiddenFileInput = useRef(null);
   const[newProfileName, setNewProfileName] = useState('');
-
   const user = useUser();
-
   const firestore = firebase.firestore();
   const uuid = user.uid;
-
-        if (user.imageURL == null){
-          console.log("Printing from image addition My Profile")
-          user.image = './Screenshot 2023-09-15 at 1.46 1.png';
-        } else{
-          user.image = user.imageURL;
-          //console.log("Printing from successful image addition My Profile: ", user.imageURL)
-
-        }
-
-
-  console.log("user : ", user.uid);
-
   const [availability, setAvailability] = React.useState({
     selectedDays: [],
     times: {},
   });
+
+      if (user.imageURL == null){
+        console.log("Printing from image addition My Profile")
+        user.image = './Screenshot 2023-09-15 at 1.46 1.png';
+      } else{
+        user.image = user.imageURL;
+        //console.log("Printing from successful image addition My Profile: ", user.imageURL)
+
+      }
+
+  console.log("user : ", user.uid);
+
+  
 
   const handleAvailabilityChange = (newAvailability) => {
     setAvailability(newAvailability);
@@ -44,12 +42,14 @@ function MyProfile(){
   const handleSaveAvailability = async () => {
     try {
       // Create a reference to the user's document
-      const userDocRef = firestore.collection('users').doc(uuid);
+      const userDocRef = firestore.collection('users').doc(user.uid);
+
   
       // Update the availability field in the user's document
       await userDocRef.update({
         availability: availability,
       });
+
   
       console.log('Availability saved successfully!');
     } catch (error) {
@@ -195,6 +195,8 @@ function MyProfile(){
         availability={availability}
         onAvailabilityChange={handleAvailabilityChange}
         />
+        <button className='saveButton' type='button' onClick={handleSaveAvailability}>Save</button>
+
         <div className='border-divide'></div>
         
         <Link to = '/homepage'>
