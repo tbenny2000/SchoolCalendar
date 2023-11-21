@@ -67,14 +67,14 @@ const ViewCalendar = () => {
           .collection('calendars')
           .doc(calendarId)
           .collection('availability');
-
-          const teamAvailabilitySnapshot = await teamAvailabilityRef.get();
-          const teamAvailabilityData = teamAvailabilitySnapshot.docs.map((doc) => ({
-            uid: doc.id,
-            availability: doc.data(),
-          }));
-
-          setTeamAvailability(teamAvailabilityData);
+    
+        const teamAvailabilitySnapshot = await teamAvailabilityRef.get();
+        const teamAvailabilityData = teamAvailabilitySnapshot.docs.map((doc) => ({
+          uid: doc.id, // Include the user ID
+          availability: doc.data(),
+        }));
+    
+        setTeamAvailability(teamAvailabilityData);
       } catch (error) {
         console.error('Error fetching team availability:', error);
       }
@@ -103,24 +103,76 @@ const ViewCalendar = () => {
       let commonAvailability = [];
     
       currentAvailability.selectedDays.forEach((day) => {
-        if (currentAvailability.times[day]) {
-          currentAvailability.times[day].forEach((time) => {
-            const timeIsAvailable = teamAvailabilities.every((userAvailability) => {
-              const userAvailabilityTimes = userAvailability.times[day];
-              return userAvailabilityTimes && userAvailabilityTimes.includes(time);
-            });
-            if (timeIsAvailable) {
-              commonAvailability.push({
-                day,
-                time,
-              });
+        if (currentAvailability.times && currentAvailability.times[day] && currentAvailability.times[day].length > 0) {
+          const commonTimesForDay = [];
+    
+          teamAvailabilities.forEach((userAvailability) => {
+            const userAvailabilityTimes = userAvailability.times[day] || [];
+    
+            // Check if the user ID is defined before processing the availability data
+            if (userAvailability.uid) {
+              // Find the overlapping times
+              const overlappingTimes = userAvailabilityTimes.filter((userTime) =>
+                currentAvailability.times[day].some((currentTime) =>
+                  areTimeSlotsOverlapping(userTime, currentTime)
+                )
+              );
+    
+              console.log('Day:', day);
+              console.log('Overlapping Times:', overlappingTimes.map(time => ({ day, ...time }))); // Include the day in each overlapping time
+    
+              if (overlappingTimes.length > 0) {
+                // Find the best time within the overlapping times
+                const bestTime = overlappingTimes.reduce((max, time) =>
+                  time.end - time.start > max.end - max.start ? time : max
+                );
+    
+                commonTimesForDay.push({ user: userAvailability.uid, time: bestTime });
+              }
             }
           });
+    
+          if (commonTimesForDay.length > 0) {
+            // Add day and common times to commonAvailability
+            commonAvailability.push({ day, time: commonTimesForDay });
+          }
         }
       });
     
+      console.log('Selected Days:', currentAvailability.selectedDays);
+      console.log('Team Availabilities:', teamAvailabilities);
       console.log('Common availability:', commonAvailability);
+      setCommonAvailability(commonAvailability);
+      return commonAvailability;
     };
+
+    const areTimeSlotsOverlapping = (time1, time2) => {
+      return time1.start < time2.end && time1.end > time2.start;
+    }
+
+    const setCommonAvailability = async (commonAvailability) => {
+      try {
+        if (commonAvailability) {
+          console.log('Common availability to be set:', commonAvailability);  // Add this line for debugging
+    
+          const commonAvailabilityRef = firestore
+            .collection('calendars')
+            .doc(calendarId)
+            .collection('commonAvailability')
+            .doc(user.uid);
+    
+          await commonAvailabilityRef.set({ commonAvailability });
+          console.log('Common availability updated successfully!');
+        } else {
+          console.error('Common availability is undefined.');
+        }
+      } catch (error) {
+        console.error('Error updating common availability:', error);
+      }
+    };
+
+
+  
   
     return (
       <div className="page">
