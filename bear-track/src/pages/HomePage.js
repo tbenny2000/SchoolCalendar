@@ -22,54 +22,150 @@ const HomePage = () => {
 
 
   useEffect(() => {
-    const userUid = firebase.auth().currentUser.uid;
-    loadUserCalendars(userUid);
+  //   const userUid = firebase.auth().currentUser.uid;
+  //   loadUserCalendars(userUid);
     
-  }, []);
+  // }, []);
 
-  const loadUserCalendars = async (userUid) => {
-    try {
-      const firestore = firebase.firestore();
-      const calendarsRef = firestore.collection('calendars');
-      const userCalendarsSnapshot = await calendarsRef
-        //.where('users', 'array-contains', userUid)// Checks if the user is a participant
-        .where('creatorId', '==', userUid)
-        .get();
+  // const loadUserCalendars = async (userUid) => {
+  //   try {
+  //     const firestore = firebase.firestore();
+  //     const calendarsRef = firestore.collection('calendars');
+  //     const userCalendarsSnapshot = await calendarsRef
+  //       //.where('users', 'array-contains', userUid)// Checks if the user is a participant
+  //       .where('creatorId', '==', userUid)
+  //       .get();
 
-        const notificationRef = firestore.collection('Notification-Data');
-        const notificationSnapshot = await notificationRef
-        .where("receiever", '==', userUid)
-        .where('decision', '==', accepted)
-        .get();
-        const notificationsData = notificationSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+  //       // Get the user's calendar field and print out whats there
+
+  //       // const notificationRef = firestore.collection('Notification-Data');
+  //       // const notificationSnapshot = await notificationRef
+  //       // .where("receiever", '==', userUid)
+  //       // .where('decision', '==', accepted)
+  //       // .get();
+  //       // const notificationsData = notificationSnapshot.docs.map((doc) => ({
+  //       //   id: doc.id,
+  //       //   ...doc.data(),
+  //       // }));
   
-        processNotifications(notificationsData);
-        console.log("NotificationData: ", notificationsData);
-      const userCalendarsData = [];
 
-      console.log("Adding where user is creator... ")
-      // Using this to process calendars where the user is a participant
-      userCalendarsSnapshot.forEach((doc) => {
-        userCalendarsData.push({ id: doc.id, ...doc.data() });
+
+  //       const calendarUserSnapshot = await calendarsRef
+  //       //.where('users', 'array-contains', userUid)// Checks if the user is a participant
+  //       .where('creatorId', '==', userUid)
+  //       .get();
+
+  //       const userDocRef = firestore.collection('users').doc(userUid);
+  //       const { calendarId } = userDocRef.data().;
+
+
+  //       // Check if 'calendars' field exists in user's document
+  //       const userDoc = await userDocRef.get();
+  //       if (userDoc.exists) {
+  //         console.log("User document exists");
+  //         const userData = userDoc.data();
+
+  //         // Check if 'calendars' field is already present or not
+  //         if (!userData.hasOwnProperty('calendars')) {
+  //           console.log("Calendars field does not exist, creating...");
+  //           await userDocRef.set({ calendars: [] }, { merge: true });
+  //         }
+
+  //         let updatedCalendars = userData.calendars || [];
+
+  //         // Add the new calendar to the user's calendars
+  //         calendarUserSnapshot.forEach((doc) => {
+  //           userCalendarsData.push({ id: doc.id, ...doc.data() });
+            
+  //         });
+  //         updatedCalendars.push({ id: calendarId, calendarName: 'Loading...' });
+
+  //         // Update the 'calendars' field in the user's document
+  //         await userDocRef.update({ calendars: updatedCalendars });
+
+  //         setUserCalendars(updatedCalendars);
+  //         // navigate(`/ViewCalendar/${calendarId}`);
+  //       } else {
+  //         console.log("User document doesn't exist");
+  //       }
+
+
+
+
+
+
+  //       processNotifications(notificationsData);
+  //       console.log("NotificationData: ", notificationsData);
+  //     const userCalendarsData = [];
+
+  //     console.log("Adding where user is creator... ")
+  //     // Using this to process calendars where the user is a participant
+  //     userCalendarsSnapshot.forEach((doc) => {
+  //       userCalendarsData.push({ id: doc.id, ...doc.data() });
         
-      });
+  //     });
 
-      console.log("Now adding Accepted requests...")
+  //     console.log("Now adding Accepted requests...")
 
-      notificationSnapshot.forEach((doc) => {
-        userCalendarsData.push({ ...doc.data().calendarId });
-      });
+  //     // notificationSnapshot.forEach((doc) => {
+  //     //   userCalendarsData.push({ ...doc.data().calendarId });
+  //     // });
 
 
-      setUserCalendars(userCalendarsData);
-    //processNotifications(notificationSnapshot.docs);
+  //     setUserCalendars(userCalendarsData);
+  //   //processNotifications(notificationSnapshot.docs);
+  //   } catch (error) {
+  //     console.error('Error loading user calendars:', error);
+  //   }
+  // };
+
+
+
+
+
+
+  const loadUserCalendars = async () => {
+    try {
+      const userUid = firebase.auth().currentUser.uid;
+      const userDocRef = firebase.firestore().collection('users').doc(userUid);
+
+      const userDoc = await userDocRef.get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        const calendars = userData.calendars || []; // Assuming calendars is an array in user's document
+        setUserCalendars(calendars);
+      }
     } catch (error) {
       console.error('Error loading user calendars:', error);
     }
   };
+
+  loadUserCalendars();
+}, []);
+
+
+
+
+
+const loadUserNotifications = async (userUid) => {
+  try {
+    const firestore = firebase.firestore();
+    const notificationRef = firestore.collection('Notification-Data');
+    const notificationSnapshot = await notificationRef
+      .where('receiver', '==', userUid)
+      .get();
+    const notificationsData = notificationSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    processNotifications(notificationsData);
+    console.log("notifications Data:    ", notificationsData)
+  } catch (error) {
+    console.error('Error loading user notifications:', error);
+  }
+};
+
 
   const handleBellIconClick = async() =>{
     //Setting up the notification message and the display of the pop-up section
@@ -85,7 +181,10 @@ const HomePage = () => {
       //After the user clicked the bell icon 
       setNotificationCount(0);
 
-    setNotificationMessage('You have new notifications!');
+    // setNotificationMessage('You have new notifications!');
+    console.log("Bell Clicked")
+    loadUserNotifications(user.uid)
+;  
     setShowNotification(true);
 
     }catch(error){
@@ -96,21 +195,21 @@ const HomePage = () => {
 
   const processNotifications = (notificationsData) =>{
     setNotificationCount(notificationsData.length);
-    //notificationsData.forEach(async (notification) => {
+    notificationsData.forEach(async (notification) => {
 
       const inviteMessage  = `${notificationsData[0].sender} has sended an invitation for you to accept this certain meeting time and join "${notificationsData[0].calendarId}".`;
 
       setNotificationMessage(inviteMessage);
 
       setShowNotification(true);
-      //const notificationId = notification.id;
-      //const calendarId = notification.calendarId;
+      const notificationId = notification.id;
+      const calendarId = notification.calendarId;
 
       //Render a Notification Popup for each notification
-     // setNotifyID(notificationId);
-      //setNotificationMessage(inviteMessage);
-      //setShowNotification(true);
-   // });
+      setNotifyID(notificationId);
+      setNotificationMessage(inviteMessage);
+      setShowNotification(true);
+   });
       
 
       //const accepted = true;
