@@ -79,7 +79,7 @@ const HomePage = () => {
       <div className = "right-panel">
         <div className = "calendarName">Mutual Calendar</div>
         
-        <div className="user-calendars" style={{ overflowY: 'scroll', height: '150px' }}>
+        <div className="user-calendars">
         {userCalendars.map((calendar) => (
           <Link
             key={calendar.id}

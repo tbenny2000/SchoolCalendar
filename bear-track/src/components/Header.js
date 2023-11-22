@@ -4,7 +4,6 @@ import './Header.css'; // Import the CSS file for styling
 const Header = () => {
   return (
     <header className="header">
-      <img src="/GGCLOGO1.png" alt="Logo" className="header-logo" />
       <nav className="header-nav">
         {/* Add navigation links or menu items here */}
       </nav>
