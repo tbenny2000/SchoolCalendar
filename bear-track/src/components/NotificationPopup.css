@@ -14,3 +14,16 @@
     color:white;
     border-radius: 50%;
 }
+.Accept-button{
+    background-color: green;
+    color:white;
+    font-size: 15px;
+    font-weight:500;
+}
+.Decline-button{
+    margin-left: 20px;
+    background-color: red;
+    color:white;
+    font-size: 15px;
+    font-weight: 500;
+}

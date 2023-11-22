@@ -11,12 +11,7 @@ const NewCalendar = () =>{
   const [invitees, setInvitees] = useState([]);
   
 
-  /*
-  const [userName, setUserName] = useState('');
-  const [email, setEmailAddress] = useState('');
-  const [image, setImage] = useState("");
-
-*/
+ 
 
  // const [calendarName, setCalendarName] = useState('');
 
@@ -110,7 +105,6 @@ const NewCalendar = () =>{
     setInputValue(value);
 
 
-    // setUsernameToCheck(value);
 
 
     //To reset error message and animation
@@ -122,9 +116,6 @@ const NewCalendar = () =>{
       const value = e.target.value;
       setInputValue(value);
 
-
-      // setUsernameToCheck(e.target.value);
-      // setEmailToCheck(e.target.value);
 
 
       //Checking that user doesn't enter their own info when creating calendar
@@ -216,16 +207,6 @@ const NewCalendar = () =>{
 
 
 
-              //Add the user to the amountOfEnteredUsers
-              // setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(value));
-              // console.log("Amount of entered users: ", amountOfEnteredUsers);
-              // setAddMessage('Person Added!');
-              // setInputValue('');
-
-              // setTimeout(()=>{
-              //   setAddMessage('');
-              //   console.log("Amount of entered users: ", amountOfEnteredUsers);
-              // }, 5000);
 
 
               if(amountOfEnteredUsers.has(uid)){
@@ -271,7 +252,7 @@ const NewCalendar = () =>{
   };
   const navigate = useNavigate();
   
-  const handleCreate = () => {
+  const handleCreate = async () =>{ 
     if (inputValue) {
       // Put the input values into an array to store them before sending an invite link to other users.
       setInvitees([...invitees, inputValue]);
@@ -279,30 +260,50 @@ const NewCalendar = () =>{
     }
   
     const calendarTitleInput = document.getElementById('CalendarTitle');
-    const calendarTitleValue = calendarTitleInput.value;
+
+      const calendarTitleValue = calendarTitleInput.value;
   
     // Include the creator of the calendar in the list of users
     const creatorUid = firebase.auth().currentUser.uid;
-    const updatedAmountOfEnteredUsers = new Set([...Array.from(amountOfEnteredUsers), creatorUid]);
+    //const updatedAmountOfEnteredUsers = new Set([...Array.from(amountOfEnteredUsers), creatorUid]);
   
     const calendarData = {
       calendarName: calendarTitleValue,
-      users: Array.from(updatedAmountOfEnteredUsers),
+      users: Array.from(amountOfEnteredUsers),
+      creatorId: creatorUid
     };
+    
+    try {
+      const docRef = await firestore.collection('calendars').add(calendarData);
+      console.log('Calendar added with id:', docRef.id);
+    
+      for (const userId of amountOfEnteredUsers) {
+        const notificationData = {
+          sender: user.uid,
+          receiver: userId,
+          message: `You have been invited to join the calendar "${calendarTitleValue}".`,
+          calendarId: docRef.id,
+          decision: null,
+        };
+      
+        try {
+          const notificationRef = await firestore.collection('Notification-Data').add(notificationData);
+          console.log('Notification added with id:', notificationRef.id);
+        } catch (error) {
+          console.error('Error adding notification:', error);
+          throw error;
+        }
+      };
+    
+    } catch (error) {
+      console.error('Error adding calendar:', error);
+    }
+      
   
-    const docRef = firestore.collection('calendars');
   
-    // Add a new document to Firestore
-    docRef
-      .add(calendarData)
-      .then((doc) => {
-        console.log('Document written with ID: ', doc.id);
-      })
-      .catch((error) => {
-        console.error('Error adding document: ', error);
-      });
-
-              navigate('/homepage');
+  
+      navigate('/homepage');
+    
   };
 
 
