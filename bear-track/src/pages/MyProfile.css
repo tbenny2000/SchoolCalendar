@@ -91,9 +91,11 @@ h2{
     box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
 }
 .website-logo img{
+  width: 180px;
+  height: 150px;
   border-radius: 40%;
-  width: 200px;
-    height: 175px;
+  overflow: hidden;
+  box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
 }
 .titleStyle{
   color:#0E724C;
@@ -109,8 +111,8 @@ h2{
   left:375px;
   color:#666666;
   border:3px solid;
-  box-shadow: 3px 4px 4px;
-  height: 90vh;
+  box-shadow: 0 0 10px rgba(0,0,0,0);
+  height:89.5vh;
 }
 
 .profile-picture-confirmer{

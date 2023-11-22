@@ -12,9 +12,21 @@
   margin-right: 64%;
   background-color: white;
   border:#666666 solid;
-  border-width: 2px;
+  height:90vh;
+  width: 0vh;
+  border-left: 3px solid #666666;
+}
+
+.right-panel{
+  position:absolute;
+  background-color: white;
+  left: 1300px;
+  width: 30vh;
+  height:90vh;
+  border-left: 4px solid #666666;
 
 }
+
 .logo-photo{
   position: absolute;
   margin-top: 0px;
@@ -56,24 +68,15 @@ font-family: 'Times New Roman', Times, serif;
 font-size: 30px;
 color:#666666;
 }
-.right-panel{
-  position:absolute;
-  background-color: white;
-  left: 1300px;
-  width: 250px;
-  height:750px;
-  box-shadow: 0 0 10px rgba(0,0,0,0);
-  border-left: 2px solid #666666;
 
-}
 
 .center-panel{
   position:absolute;
   background-color: white;
   left: 400px;
   width: 800px;
-  height:750px;
-  box-shadow: 0 0 10px rgba(0,0,0,0);
+  height:550px;
+  box-shadow: 0 0 20px rgba(0,0,0,0);
 }
 .calendarName{
   color: #696969; 
