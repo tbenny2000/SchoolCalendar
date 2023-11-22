@@ -140,9 +140,9 @@ function MyProfile(){
     return (
       
       <div className='App'>
-         <h1>
+         <h2>
           My Profile
-        </h1>
+        </h2> 
         <div className = "image-upload-container">
           <div className='box-decoration'>
           <label htmlFor='image-upload-input' className = "image-upload-label">

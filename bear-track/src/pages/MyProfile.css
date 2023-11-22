@@ -6,19 +6,17 @@
   box-shadow: 3px 4px 4px rgba(0,0,0,0.25);
 }
 
-h1{
+h2{
   position: relative;
   left:0px;
-
+  height: 10vh;
+  
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  width:1400px;
-  height: 90vh;
-  
 }
 .image-upload-container{
-  padding: 2rem;
+  padding: 2.6rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,12 +105,12 @@ h1{
 }
 .border-divide{
   position: absolute;
-  top:40px;
+  top:5.8vh;
   left:375px;
   color:#666666;
   border:3px solid;
   box-shadow: 3px 4px 4px;
-  height: 663px;
+  height: 90vh;
 }
 
 .profile-picture-confirmer{
