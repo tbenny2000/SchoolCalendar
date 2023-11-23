@@ -100,19 +100,19 @@ color:#666666;
   cursor: pointer;
   width: 100px;
   border-radius: 15px;
-  margin-top: 20px;
+  margin-top: 2vh;
   cursor: pointer;
 }
 
 .logout-button:hover {
   background: #dd0000;
   padding: 10px;
-border: none;
-cursor: pointer;
-width: 100px;
-border-radius: 15px;
-margin-top:60vh;
-}
+  border: none;
+  cursor: pointer;
+  width: 100px;
+  border-radius: 15px;
+  }
+
 .name{
 text-align: center;
 margin-bottom: 50px;
@@ -129,11 +129,15 @@ word-wrap: "break-word";
 width:150px;
 height:35px;
 margin-left:4vh;
-margin-top:40vh;
-padding: 10px;
-border: none;
-cursor: pointer;
+margin-top:5vh;
 border-radius: 15px;
+align-items: center;
+justify-content: center;
+border: none;
+text-decoration: none;
+align-items: center;
+justify-content: center;
+text-decoration: none;
 }
 .new-calendar-button:hover{
 background-color: #4CAF50;
@@ -156,15 +160,18 @@ word-wrap: "break-word";
 width: 150px;
 height: 35px;
 padding: 10px;
-border: none;
 cursor: pointer;
 border-radius: 15px;
-margin-bottom: 8px; /* Adjust the spacing between calendar buttons */
+margin-bottom: 25px; /* For adjusting the spacing between calendar buttons */
+justify-content: center;
+border: none;
+text-decoration: none;
+align-items: center;
 }
 
 .user-calendars {
   overflow-y: scroll;
-  height: 300px;
+  height: 600px;
   margin-left:4vh;
 }
 
