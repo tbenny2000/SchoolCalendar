@@ -140,9 +140,7 @@ function MyProfile(){
     return (
       
       <div className='App'>
-         <h2>
-          My Profile
-        </h2> 
+       
         
         <div className="center-panel">
         <div className = "image-upload-container">
@@ -161,14 +159,20 @@ function MyProfile(){
         </div>
         
         <button className = "image-upload-button" onClick = {uploadImage}>Upload</button>
+
         <div className='emailStyle'>Email: {user.email}</div>
 
         <div className='profile-Update-Name'> 
         Profile Name:<input defaultValue={user.userName} type='text' onChange={handleProfileNameChange} />
+</div>       
+         <div> 
+          <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>   
+          <Link to = "/HomePage"> <button className='home-button-style'>Homepage</button>  </Link>  
+          </div>
+          
         </div>
-       
-          <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>
-        </div>
+
+
         </div>
          
       </div>
@@ -176,18 +180,8 @@ function MyProfile(){
 
 
   
-        <div className = "left-panel">  
+      <div className = "left-panel">  
       </div>
-      <div className='logo-photo'>
-            <img src = "./logo.png" alt="Grizzly Bear face"/>
-            <div className='titleStyle'>DateWise</div>
-      </div>
-      <Link to = "/HomePage">
-          <div>
-            <img alt = "User profile" src = {user.image} className='user-photo'/>
-      </div>
-          </Link>
-
         <div className='profileName' >{user.userName}</div>
         //Test
        
