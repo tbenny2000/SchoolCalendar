@@ -146,7 +146,7 @@ function MyProfile(){
         <div className = "image-upload-container">
           <div className='box-decoration'>
           <label htmlFor='image-upload-input' className = "image-upload-label">
-            {image ? image.name: "Choose an image"}
+            {image ? image.name: ""}
           </label>
           <div onClick = {handleImageClick} style = {{cursor: "pointer"}}>
           {image ? <img src = {user.image} alt = "user update" className='img-display-after'/> : <img src = {user.image} alt = "default" className='img-display-before' />}
@@ -169,7 +169,7 @@ function MyProfile(){
           <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>   
           <Link to = "/HomePage"> <button className='home-button-style'>Homepage</button>  </Link>  
           </div>
-          
+
         </div>
 
 
@@ -182,8 +182,7 @@ function MyProfile(){
   
       <div className = "left-panel">  
       </div>
-        <div className='profileName' >{user.userName}</div>
-        //Test
+     
        
         
       </div>
