@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './HomePage.css'; // Import your CSS file for styling
 import firebase from '../config/firebase'; // Import your firebase.js file
 import { Link } from 'react-router-dom';
@@ -7,10 +7,35 @@ import 'firebase/compat/firestore';
 import { useUser } from './UserContext';
 
 
-
 const HomePage = () => {
-
   const user = useUser();
+  const [userCalendars, setUserCalendars] = useState([]);
+
+  useEffect(() => {
+    const userUid = firebase.auth().currentUser.uid;
+    loadUserCalendars(userUid);
+  }, []);
+
+  const loadUserCalendars = async (userUid) => {
+    try {
+      const firestore = firebase.firestore();
+      const calendarsRef = firestore.collection('calendars');
+      const userCalendarsSnapshot = await calendarsRef
+        .where('users', 'array-contains', userUid) // Checks if the user is a participant
+        .get();
+
+      const userCalendarsData = [];
+
+      // Using this to process calendars where the user is a participant
+      userCalendarsSnapshot.forEach((doc) => {
+        userCalendarsData.push({ id: doc.id, ...doc.data() });
+      });
+
+      setUserCalendars(userCalendarsData);
+    } catch (error) {
+      console.error('Error loading user calendars:', error);
+    }
+  };
 
   if (user.imageURL == null){
     user.image = './Screenshot 2023-09-15 at 1.46 1.png';
@@ -44,15 +69,26 @@ const HomePage = () => {
           
       
         <Link to="/">
-        <button className="logout-button">Logout</button>
-
+          <button className="logout-button">Logout</button>
         </Link>
+
+      <div className="center-panel">
+      
+      </div>
+
       <div className = "right-panel">
         <div className = "calendarName">Mutual Calendar</div>
-        <div style = {{ overflowY: 'scroll', height: '150px'}}>
-        <Link to = "/ViewCalendar">
-        Team meeting
-        </Link>
+        
+        <div className="user-calendars">
+        {userCalendars.map((calendar) => (
+          <Link
+            key={calendar.id}
+            to={`/ViewCalendar/${calendar.id}/${encodeURIComponent(calendar.calendarName)}`} // Pass calendarName as well
+            className="calendar-link"
+          >
+            <button className="mutual-calendar-button">{calendar.calendarName}</button>
+          </Link>
+        ))}
         </div>
         
         <Link to = "/NewCalendar">

@@ -6,6 +6,7 @@ import firebase from '../config/firebase'; // Import your firebase.js file
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 import { useUser } from './UserContext';
+import AvailabilityForm from '../components/Calendar/AvailabilityForm';
 
 
 function MyProfile(){
@@ -13,23 +14,25 @@ function MyProfile(){
   const [image, setImage] = useState("");
   const hiddenFileInput = useRef(null);
   const[newProfileName, setNewProfileName] = useState('');
-
   const user = useUser();
-
   const firestore = firebase.firestore();
   const uuid = user.uid;
+  
 
-        if (user.imageURL == null){
-          console.log("Printing from image addition My Profile")
-          user.image = './Screenshot 2023-09-15 at 1.46 1.png';
-        } else{
-          user.image = user.imageURL;
-          console.log("Printing from successful image addition My Profile: ", user.imageURL)
+      if (user.imageURL == null){
+        console.log("Printing from image addition My Profile")
+        user.image = './Screenshot 2023-09-15 at 1.46 1.png';
+      } else{
+        user.image = user.imageURL;
+        //console.log("Printing from successful image addition My Profile: ", user.imageURL)
 
-        }
-
+      }
 
   console.log("user : ", user.uid);
+
+  
+
+  
   
 
   //It's a function to save the name information to the database
@@ -137,13 +140,13 @@ function MyProfile(){
     return (
       
       <div className='App'>
-         <h1>
-          My Profile
-        </h1>
+       
+        
+        <div className="center-panel">
         <div className = "image-upload-container">
           <div className='box-decoration'>
           <label htmlFor='image-upload-input' className = "image-upload-label">
-            {image ? image.name: "Choose an image"}
+            {image ? image.name: ""}
           </label>
           <div onClick = {handleImageClick} style = {{cursor: "pointer"}}>
           {image ? <img src = {user.image} alt = "user update" className='img-display-after'/> : <img src = {user.image} alt = "default" className='img-display-before' />}
@@ -154,28 +157,34 @@ function MyProfile(){
         onChange={handleImageChange}
         style = {{display : 'none'}}/>
         </div>
-        <button className = "image-upload-button" onClick = {uploadImage}>Upload</button>
-        <div className='emailStyle'>Email: {user.email}</div>
-        <div className='profile-Update-Name'> 
-        Profile Name:<input defaultValue={user.userName} type='text' onChange={handleProfileNameChange} style = {{border : 'none', outline : 'none', fontSize : '30px', fontWeight : '500', color : 'grey', textDecoration : 'underline', background : 'transparent'}}/>
-        </div>
-       
-          <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>
-        </div>
-        </div>
-        <Link to = '/homepage'>
-        <div className='website-logo'><img src='./BearLogo.png' alt='GGC Logo'/> 
-        <div className='titleStyle'>DateWise</div>
-        </div>
-        </Link>
-        <div>
-          <img src = {user.image} alt = "Curious" className='profile-picture-confirmer'/> : <img src = {user.image} alt = "Profile Live" className='profile-picture-confirmer'/>
-          <div  id ="profName" className='confirmed-name' onChange={handleProfileNameChange}>{user.userName}</div>
-        </div>
         
-        <div className='border-divide'></div>
-       
+        <button className = "image-upload-button" onClick = {uploadImage}>Upload</button>
 
+        <div className='emailStyle'>Email: {user.email}</div>
+
+        <div className='profile-Update-Name'> 
+        Profile Name:<input defaultValue={user.userName} type='text' onChange={handleProfileNameChange} />
+</div>       
+         <div> 
+          <button className='saveButton' type='button' onClick={handleSaveName}>Save</button>   
+          <Link to = "/HomePage"> <button className='home-button-style'>Homepage</button>  </Link>  
+          </div>
+
+        </div>
+
+
+        </div>
+         
+      </div>
+        
+
+
+  
+      <div className = "left-panel">  
+      </div>
+     
+       
+        
       </div>
     );
   

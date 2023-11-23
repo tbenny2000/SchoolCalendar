@@ -10,6 +10,7 @@ const NewCalendar = () =>{
   const [inputValue, setInputValue] = useState('');
   const [invitees, setInvitees] = useState([]);
 
+ 
   /*
   const [userName, setUserName] = useState('');
   const [email, setEmailAddress] = useState('');
@@ -39,6 +40,7 @@ const NewCalendar = () =>{
     console.log("Printing from image addition")
   } else{
     user.image = user.imageURL;
+    console.log("Amount of entered users: ", amountOfEnteredUsers);
     console.log("Printing from successful image addition: ",)
   }
 
@@ -137,17 +139,17 @@ const NewCalendar = () =>{
 
 
       //Checking if the user info has already been submitted
-      if(amountOfEnteredUsers.has(value)){
-        console.log("Amount of entered users: ", amountOfEnteredUsers);
-        setErrorMessage("You already entered this user info. Try enter someone else.");
-        setIsShaking(true);
-        setLimitMessage(true);
+      // if(amountOfEnteredUsers.has(value)){
+      //   console.log("Amount of entered users: ", amountOfEnteredUsers);
+      //   setErrorMessage("You already entered this user info. Try enter someone else.");
+      //   setIsShaking(true);
+      //   setLimitMessage(true);
 
-        setTimeout(() => {
-          setLimitMessage(false);
-        }, 5000);
-        return;
-      }
+      //   setTimeout(() => {
+      //     setLimitMessage(false);
+      //   }, 5000);
+      //   return;
+      // }
 
       //This is to check if an when the user has exceed their limit in adding people
       //It's because like array/arraylist it starts in 0 and counting so 4 but it's 5 numberically
@@ -170,18 +172,32 @@ const NewCalendar = () =>{
           // You can access the document using querySnapshot.docs[0]
 
 
-          // const userDocument = querySnapshot.docs[0].data();
+          const uid = querySnapshot.docs[0].id;
 
 
 
           //Add users to the amountOfEnteredUsers 
-          setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(value));
-          setAddMessage('Person Added!');
-          setInputValue('');
+          
+          if(amountOfEnteredUsers.has(uid)){
+            console.log("Amount of entered users: ", amountOfEnteredUsers);
+            setErrorMessage("You already entered this user info. Try enter someone else.");
+            setIsShaking(true);
+            setLimitMessage(true);
 
-          setTimeout(()=>{
-            setAddMessage('');
-          }, 5000);
+            setTimeout(() => {
+              setLimitMessage(false);
+            }, 5000);
+            return;
+          } else{
+            setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(uid));
+          setAddMessage('Person Added!');
+           setInputValue('');
+
+           setTimeout(()=>{
+             setAddMessage('');
+           }, 5000);
+          }
+
         } else {
           // No document with the specified username, now checks if email exists
           firestore.collection('users')
@@ -189,21 +205,46 @@ const NewCalendar = () =>{
           .get()
           .then((emailQuerySnapshot) => {
             if (emailQuerySnapshot.size > 0){
-              console.log("User document does not exist for email:", value);
 
+              console.log("User document exists for email:", value);
 
-              // const emailUserDocument = emailQuerySnapshot.docs[0].data();
+              const uid = emailQuerySnapshot.docs[0].id;
+              
 
 
 
               //Add the user to the amountOfEnteredUsers
-              setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(value));
-              setAddMessage('Person Added!');
-              setInputValue('');
+              // setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(value));
+              // console.log("Amount of entered users: ", amountOfEnteredUsers);
+              // setAddMessage('Person Added!');
+              // setInputValue('');
 
-              setTimeout(()=>{
-                setAddMessage('');
-              }, 5000);
+              // setTimeout(()=>{
+              //   setAddMessage('');
+              //   console.log("Amount of entered users: ", amountOfEnteredUsers);
+              // }, 5000);
+
+
+              if(amountOfEnteredUsers.has(uid)){
+                console.log("Amount of entered users: ", amountOfEnteredUsers);
+                setErrorMessage("You already entered this user info. Try enter someone else.");
+                setIsShaking(true);
+                setLimitMessage(true);
+    
+                setTimeout(() => {
+                  setLimitMessage(false);
+                }, 5000);
+                return;
+              } else{
+                setAmountOfEnteredUsers((prevSet) => new Set(prevSet).add(uid));
+                setAddMessage('Person Added!');
+                setInputValue('');
+      
+                setTimeout(()=>{
+                  setAddMessage('');
+                }, 5000);
+              }
+          
             } else{
               //If there no document with store username or email
               console.log("User document does not exist for username or email", value);
@@ -225,13 +266,58 @@ const NewCalendar = () =>{
 
     }
   };
-  const handleCreate = () =>{
-    if(inputValue){
-      //Put the input values into a arraylist to store them before sending an invite link to other users.
-      setInvitees([...invitees,inputValue]);
+
+  const handleCreate = () => {
+    if (inputValue) {
+      // Put the input values into an array to store them before sending an invite link to other users.
+      setInvitees([...invitees, inputValue]);
       setInputValue('');
     }
+  
+    const calendarTitleInput = document.getElementById('CalendarTitle');
+    const calendarTitleValue = calendarTitleInput.value;
+  
+    // Include the creator of the calendar in the list of users
+    const creatorUid = firebase.auth().currentUser.uid;
+    const updatedAmountOfEnteredUsers = new Set([...Array.from(amountOfEnteredUsers), creatorUid]);
+  
+    const calendarData = {
+      calendarName: calendarTitleValue,
+      users: Array.from(updatedAmountOfEnteredUsers),
+    };
+  
+    const docRef = firestore.collection('calendars');
+  
+    // Add a new document to Firestore
+    docRef
+      .add(calendarData)
+      .then((doc) => {
+        console.log('Document written with ID: ', doc.id);
+      
+      // After successfully adding the calendar document, create the 'availability' sub-collection
+      const availabilityRef = docRef.doc(doc.id).collection('availability');
+      
+      const creatorAvailabilityData = {
+        selectedDays: [], // Initialize with an empty array or any default values
+        times: {}, // Initialize with an empty object or any default values
+      };
+      availabilityRef
+        .doc(creatorUid) // Use the creator's UID as the document ID within the 'availability' collection
+        .set(creatorAvailabilityData)
+        .then(() => {
+          console.log('Availability sub-collection created for the creator');
+        })
+        .catch((error) => {
+          console.error('Error adding availability document for creator: ', error);
+        });
+      })
+
+      .catch((error) => {
+        console.error('Error adding document: ', error);
+      });
   };
+
+
   const displayErrorMessage = (message) =>{
     setErrorMessage(message);
     setIsShaking(true);
@@ -294,36 +380,16 @@ const NewCalendar = () =>{
   return(
 
     <div>
-      <div className='right-side-panel'>
-      </div>
-      <div className = 'calendar-list'>Mutual Calendar</div>
-      <Link to = "/NewCalendar">
-      <button className='newcalendar-btn'>New Calendar</button>
-      </Link>
+      
 
-        <Link to ='/homepage'>
-          <img 
-          src = "./BearLogo.png"
-          className='Website-Logo'
-          alt="Bear Logo"
-          />
-        </Link>
-        <div className = 'title'>Datewise</div>
-        <Link to = "/MyProfile">
-        <img
-          style={imageStyle}
-          src= {user.image}
-          alt="User"
-        />
-        </Link>
-        <div style={nameStyle}>{user.userName}</div>
         <div className='left-side-panel'> 
         
-      </div>
-        <div style={subjectStyle}> <input
+      
+        <div style={subjectStyle} > <input
         defaultValue={'Name of Calendar'}
         type = 'text'
         className='Calendar-title-input'
+        id = "CalendarTitle"
         >
         </input>
         <div className='addPeople'>
@@ -343,12 +409,14 @@ const NewCalendar = () =>{
           Create
           </button>
 
-       
+          </div>
   
     
       </div>
   );
-}
+  
+  };
+
 
 export default NewCalendar;
 

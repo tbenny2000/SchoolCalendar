@@ -1,137 +1,174 @@
 .homepage {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width:1400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width:1400px;
+  height: 90vh;
+}
 
-  }
-  
-  .left-panel{
-    position:relative;
-    height:750px;
-    margin-right: 64%;
-    background-color: white;
-    border:#666666 solid;
-    border-width: 2px;
+.left-panel{
+  position:relative;
+  height:750px;
+  margin-right: 64%;
+  background-color: white;
+  border:#666666 solid;
+  height:90vh;
+  width: 0vh;
+  border-left: 3px solid #666666;
+}
 
-  }
-  .logo-photo{
-    position: absolute;
-    margin-top: 0px;
-    left: 50px;
-    top:150px;
-    text-align: center;
-  }
-  .logo-photo img{
-    width: 180px;
-    height: 150px;
-    border-radius: 40%;
-    overflow: hidden;
-    box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
-  }
-  .titleStyle{
-    color:#0E724C;
-    font-size:50px;
-    font-family: 'Times New Roman', Times, serif;
-    word-wrap: break-word;
-    margin-top: 10px;
-    margin-left: -30px;
-  }
-  .user-photo {
-    width: 180px;
-    height: 180px;
-    background: #ccc;
-    border-radius:80%;
-    margin-top: 10px;
-    position:absolute;
-    top:380px;
-    left:55px;
-  }
-
-  .profileName{
+.right-panel{
   position:absolute;
-  top:595px;
-  left:85px;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 30px;
-  color:#666666;
-  }
-  .right-panel{
-    position:absolute;
-    background-color: white;
-    left: 1300px;
-    width: 250px;
-    height:750px;
-    box-shadow: 0 0 10px rgba(0,0,0,0);
-    border-left: 2px solid #666666;
+  background-color: white;
+  left: 1300px;
+  width: 30vh;
+  height:90vh;
+  border-left: 4px solid #666666;
+ 
 
-  }
-  .calendarName{
-    color: #696969; 
-    text-align: center;
-    font-size: 30px; 
-    font-family: 'Times New Roman', Times, serif; 
-    font-weight: 500; 
-    word-wrap: break-word;
-    margin-left: 15px;
-    margin-top:20px;
-  }
-  
-  .logout-button {
-    position:absolute;
-    top: 735px;
-    left:100px;
-    background: #ff0000;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    width: 100px;
-    border-radius: 15px;
-    margin-top: 20px;
-    cursor: pointer;
-  }
-  
-  .logout-button:hover {
-    background: #dd0000;
-    padding: 10px;
+}
+
+.logo-photo{
+  position: absolute;
+  margin-top: 0px;
+  left: 50px;
+  top:150px;
+  text-align: center;
+}
+.logo-photo img{
+  width: 180px;
+  height: 150px;
+  border-radius: 40%;
+  overflow: hidden;
+  box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
+}
+.titleStyle{
+  color:#0E724C;
+  font-size:50px;
+  font-family: 'Times New Roman', Times, serif;
+  word-wrap: break-word;
+  margin-top: 10px;
+  margin-left: -30px;
+}
+.user-photo {
+  width: 180px;
+  height: 180px;
+  background: #ccc;
+  border-radius:80%;
+  margin-top: 10px;
+  position:absolute;
+  top:380px;
+  left:55px;
+}
+
+.profileName{
+position:absolute;
+top:595px;
+left:85px;
+font-family: 'Times New Roman', Times, serif;
+font-size: 30px;
+color:#666666;
+}
+
+
+.center-panel{
+  position:absolute;
+  background-color: white;
+  left: 400px;
+  width: 800px;
+  height:550px;
+  box-shadow: 0 0 20px rgba(0,0,0,0);
+}
+.calendarName{
+  color: #696969; 
+  text-align: center;
+  font-size: 30px; 
+  font-family: 'Times New Roman', Times, serif; 
+  font-weight: 500; 
+  word-wrap: break-word;
+  margin-left: 15px;
+  margin-top:20px;
+}
+
+.logout-button {
+  position:absolute;
+  top: 735px;
+  left:100px;
+  background: #ff0000;
+  padding: 10px;
   border: none;
   cursor: pointer;
   width: 100px;
   border-radius: 15px;
   margin-top: 20px;
-  }
- .name{
-  text-align: center;
-  margin-bottom: 50px;
- }
-
- .new-calendar-button{
-  background-color: #0E724C;
-  text-align: center; 
-  color: white; 
-  font-size: 20px; 
-  font-family: 'Times New Roman', Times, serif; 
-  font-weight: 500; 
-  word-wrap: "break-word";
-  width:150px;
-  height:35px;
-  margin-top:500px;
-  margin-left:15px;
-  padding: 10px;
-  border: none;
   cursor: pointer;
-  border-radius: 15px;
-  margin-top: 642px;
-  margin-left: 70px;
- }
- .new-calendar-button:hover{
-  background-color: #4CAF50;
- }
+}
 
- .bell{
-  position: relative;
-  top:0px;
-  left:360px;
- }
-  
-  
+.logout-button:hover {
+  background: #dd0000;
+  padding: 10px;
+border: none;
+cursor: pointer;
+width: 100px;
+border-radius: 15px;
+margin-top:60vh;
+}
+.name{
+text-align: center;
+margin-bottom: 50px;
+}
+
+.new-calendar-button{
+background-color: #0E724C;
+text-align: center; 
+color: white; 
+font-size: 20px; 
+font-family: 'Times New Roman', Times, serif; 
+font-weight: 500; 
+word-wrap: "break-word";
+width:150px;
+height:35px;
+margin-left:4vh;
+margin-top:40vh;
+padding: 10px;
+border: none;
+cursor: pointer;
+border-radius: 15px;
+}
+.new-calendar-button:hover{
+background-color: #4CAF50;
+}
+
+.bell{
+position: relative;
+top:0px;
+left:360px;
+}
+
+.mutual-calendar-button {
+background-color: #0E724C;
+text-align: center;
+color: white;
+font-size: 20px;
+font-family: 'Times New Roman', Times, serif;
+font-weight: 500;
+word-wrap: "break-word";
+width: 150px;
+height: 35px;
+padding: 10px;
+border: none;
+cursor: pointer;
+border-radius: 15px;
+margin-bottom: 8px; /* Adjust the spacing between calendar buttons */
+}
+
+.user-calendars {
+  overflow-y: scroll;
+  height: 300px;
+  margin-left:4vh;
+}
+
+/* Additional styling if needed */
+.mutual-calendar-button:hover {
+background-color: #095c3e; /* Change color on hover */
+}

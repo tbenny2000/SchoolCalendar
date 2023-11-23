@@ -1,23 +1,31 @@
 /* App.css */
+
 .App {
   width: 1600px;
   justify-content: space-between;
   box-shadow: 3px 4px 4px rgba(0,0,0,0.25);
 }
-h1{
-  position: relative;
-  left:820px;
-  
+
+h2{
+  position: absolute;
+  left:0px;
+  height:0vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
+
 .image-upload-container{
-  padding: 2rem;
+  padding: 2.6rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right:20vh;
 
 }
+
 .box-decoration{
-  padding: 5px 5px;
+  padding: 5px;
   width:500px;
   margin-left: 15%;
   display: flex;
@@ -35,13 +43,19 @@ h1{
   display: none;
 }
 .image-upload-button{
-  background-color: #4CAF50;
+  background-color: #0E724C;
+  text-align: center; 
+  color: white; 
+  font-size: 20px; 
+  font-family: 'Times New Roman', Times, serif; 
+  font-weight: 500; 
+  word-wrap: "break-word";
+  width:150px;
+  height:35px;
+  margin-top: 2vh;
+  border-radius: 15px;
+  flex-direction: row;
   border: none;
-  color:white;
-  padding: 0.8rem 1.2rem;
-  margin-top: 1rem;
-  cursor: pointer;
-  border-radius: 5px;
 }
 
 .image-upload-button:hover{
@@ -60,18 +74,12 @@ h1{
   border-radius: 100%;
   border-radius: 100%;
 }
-.emailStyle{
-  position: center;
-  text-align: center;
-  font-size:35px;
-  font-weight: bold;
-  color:#7B7B7B;
-  font-weight: 500;
-}
+
 .profile-Update-Name{
   border:none;
   text-decoration: underline;
   color: gray;
+  margin-top: 4vh;
   font-weight: 500;
   font-size: 35px;
   font-family: 'Times New Roman', Times, serif;
@@ -85,9 +93,11 @@ h1{
     box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
 }
 .website-logo img{
+  width: 180px;
+  height: 150px;
   border-radius: 40%;
-  width: 200px;
-    height: 175px;
+  overflow: hidden;
+  box-shadow: 0px 0px 0px rgba(0,0,0,0.25);
 }
 .titleStyle{
   color:#0E724C;
@@ -97,15 +107,62 @@ h1{
   margin-top: 7px;
   margin-left:15px;
 }
+
 .border-divide{
   position: absolute;
-  top:40px;
+  top:5.8vh;
   left:375px;
   color:#666666;
   border:3px solid;
-  box-shadow: 3px 4px 4px;
-  height: 663px;
+  box-shadow: 0 0 10px rgba(0,0,0,0);
+  height:89.5vh;
 }
+
+.home-button-style {
+  background-color: #0E724C;
+  text-align: center; 
+  color: white; 
+  font-size: 20px; 
+  font-family: 'Times New Roman', Times, serif; 
+  font-weight: 500; 
+  word-wrap: "break-word";
+  width:150px;
+  height:35px;
+  margin-left:18vh;
+  margin-top: 5vh;
+  padding: 0px;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  flex-direction: row;
+}
+
+.home-button-style:hover{
+  background-color: #4CAF50;
+}
+
+.saveButton{
+  background-color: #0E724C;
+  text-align: center; 
+  color: white; 
+  font-size: 20px; 
+  font-family: 'Times New Roman', Times, serif; 
+  font-weight: 500; 
+  word-wrap: "break-word";
+  width:150px;
+  height:35px;
+  margin-left:18vh;
+  margin-top:10vh;
+  padding: 0px;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  flex-direction: row;
+}
+.saveButton:hover{
+  background-color: #4CAF50;
+}
+
 
 .profile-picture-confirmer{
   position:absolute;
@@ -123,21 +180,7 @@ h1{
   font-size: 30px;
   color:#666666;
 }
-.saveButton{
-  text-align: center;
-  color: white;
-  font-size: 35px;
-  font-family: 'Times New Roman', Times, serif;
-  font-weight: 500;
-  word-wrap: break-word;
-  background-color: #519B54;
-  border-radius: 20px;
-  width: 200px; height: 56px;
-  margin-top: 50px;
-}
-.saveButton:hover{
-  background-color: #4CAF50;
-}
+
 .homeButton img{
   height:100px;
   width:100px;
@@ -146,4 +189,58 @@ h1{
   left:400px;
 
 }
+
+.profile-Update-Name {
+
+  align-items: center;
+  margin-bottom: 10px;
+  font-size:30px;
+  text-decoration: none;
+}
+
+.profile-Update-Name input {
+  padding: 5px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  margin-top: 30px;
+  color:#7B7B7B;
+}
+
+.emailStyle {
+  position: center;
+  text-align: center;
+  font-size:35px;
+  color:#7B7B7B;
+  font-weight: 500;
+
+  padding: 5px;
+  font-size: 20px;
+  border-radius: 15px;
+  margin-top: 5px;
+}
+
+.footer {
+  position: flex;
+  bottom: 0;
+  width: 100%;
+  height:5vh;
+  background-color: #0E724C;
+  color: #ffffff;
+  text-align: center;
+  padding: 0px;
+}
+
+/*.profile-Update-Name
+{
+  border: none; 
+  outline: none;
+  font-Size: 30px; 
+  font-Weight:500;
+  color : grey;
+  background : transparent;
+}*/
+
+
+
 /* Additional styling for the overall layout as needed */
