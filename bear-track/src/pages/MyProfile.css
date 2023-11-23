@@ -7,14 +7,14 @@
 }
 
 h2{
-  position: relative;
+  position: absolute;
   left:0px;
-  height: 10vh;
-  
+  height:0vh;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
+
 .image-upload-container{
   padding: 2.6rem;
   display: flex;
@@ -22,6 +22,7 @@ h2{
   align-items: center;
 
 }
+
 .box-decoration{
   padding: 5px 5px;
   width:500px;
@@ -70,7 +71,6 @@ h2{
   position: center;
   text-align: center;
   font-size:35px;
-  font-weight: bold;
   color:#7B7B7B;
   font-weight: 500;
 }
@@ -154,4 +154,33 @@ h2{
   left:400px;
 
 }
+
+.profile-Update-Name {
+
+  align-items: center;
+  margin-bottom: 10px;
+  font-size:30px;
+  text-decoration: none;
+}
+
+.profile-Update-Name input {
+  padding: 5px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  margin-top: 5px;
+}
+
+/*.profile-Update-Name
+{
+  border: none; 
+  outline: none;
+  font-Size: 30px; 
+  font-Weight:500;
+  color : grey;
+  background : transparent;
+}*/
+
+
+
 /* Additional styling for the overall layout as needed */
