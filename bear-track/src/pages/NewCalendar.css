@@ -5,6 +5,7 @@
     font-weight: 500;
     font-size: 35px;
     font-family: 'Times New Roman', Times, serif;
+    margin-left: 20vh;
 }
 .Website-Logo{
     position: relative;
@@ -16,13 +17,13 @@
     box-shadow: 0 0 0 rgba(0,0,0,0.25);
 }
 .title{
-    position:relative;
-    margin-top: 15px;
-    left: 60px;
-  color:#0E724C;
-  font-size:50px;
-  font-family: 'Times New Roman', Times, serif;
-  word-wrap: break-word;
+position:relative;
+margin-top: 15px;
+left: 60px;
+color:#0E724C;
+font-size:50px;
+font-family: 'Times New Roman', Times, serif;
+word-wrap: break-word;
 }
 .Calendar-title-input{
     font-size:35px;
@@ -33,6 +34,7 @@
     word-wrap: break-word;
     border: none;
     outline:none;
+    margin-left: 20vh;
 
 }
 .calendar-list{
@@ -46,24 +48,14 @@
     word-wrap:break-word;
 }
 .left-side-panel{
-    position:relative;
+  position:relative;
   height:750px;
   margin-right: 64%;
   background-color: white;
-  border:#666666 solid;
-  height:20vh;
+  height:90vh;
   width: 0vh;
-  border-left: 3px solid #666666;
 }
-.right-side-panel{
-    position:absolute;
-    background-color: white;
-    left: 1300px;
-    width: 30vh;
-    height:20vh;
-    border-left: 4px solid #666666;
-  
-}
+
 .create-btn{
     text-align: center;
     background-color: #0E724C;
@@ -78,29 +70,11 @@
     width:200px;
     border-radius: 15px;
     position: relative;
-    top: -50px;
-    left:575px;
+    margin-top: 70vh;
+    margin-left: 83vh;
 }
-.newcalendar-btn{
-    background-color: #0E724C;
-    color: white;
-    text-align: center;
-    font-size: 25px;
-    font-weight: 500;
-    font-family: 'Times New Roman', Times, serif;
-    word-wrap: break-word;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 15px;
-    position:absolute;
-    top:625px;
-    left:1275px;
-    
-}
-.newcalendar-btn:hover{
-    background-color: #4CAF50;
-}
+
+
 .create-btn:hover{
     background-color: #4CAF50;
 }

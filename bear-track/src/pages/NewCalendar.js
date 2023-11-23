@@ -380,32 +380,11 @@ const NewCalendar = () =>{
   return(
 
     <div>
-      <div className='right-side-panel'>
-      </div>
-      <div className = 'calendar-list'>Mutual Calendar</div>
-      <Link to = "/NewCalendar">
-      <button className='newcalendar-btn'>New Calendar</button>
-      </Link>
+      
 
-        <Link to ='/homepage'>
-          <img 
-          src = "./BearLogo.png"
-          className='Website-Logo'
-          alt="Bear Logo"
-          />
-        </Link>
-        <div className = 'title'>Datewise</div>
-        <Link to = "/MyProfile">
-        <img
-          style={imageStyle}
-          src= {user.image}
-          alt="User"
-        />
-        </Link>
-        <div style={nameStyle}>{user.userName}</div>
         <div className='left-side-panel'> 
         
-      </div>
+      
         <div style={subjectStyle} > <input
         defaultValue={'Name of Calendar'}
         type = 'text'
@@ -430,7 +409,7 @@ const NewCalendar = () =>{
           Create
           </button>
 
-       
+          </div>
   
     
       </div>
