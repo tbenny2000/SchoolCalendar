@@ -1,11 +1,9 @@
 /* App.css */
 .App {
-  font-family: Arial, sans-serif;
-  background-color: #0E724C; /* Light grey background color */
-  color: #333; /* Dark grey text color */
-  min-height: 100vh; /* Full viewport height */
-  display: flex;
-  flex-direction: column;
+
+  width: 1600px;
+  justify-content: space-between;
+  box-shadow: 3px 4px 4px rgba(0,0,0,0.25);
 }
 
 /* Additional styling for the overall layout as needed */
