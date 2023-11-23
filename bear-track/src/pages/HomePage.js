@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './HomePage.css';
 import firebase from '../config/firebase';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,8 @@ import 'firebase/compat/firestore';
 import { useUser } from './UserContext';
 import NotificationPopup from '../components/NotificationPopup';
 import CustomCalendar from './CustomCalendar'; 
+import { NotificationsContext } from '../components/NotificationsContext';
+
 
 const HomePage = () => {
   const user = useUser();
@@ -19,6 +21,9 @@ const HomePage = () => {
 
   const [notifyID, setNotifyID] = useState(''); 
 
+  const [notificationCountReset, setNotificationCountReset] = useState(false);
+
+  const { notifications, handleAccept, handleDecline } = useContext(NotificationsContext);
 
 
   useEffect(() => {
@@ -167,21 +172,18 @@ const loadUserNotifications = async (userUid) => {
 };
 
 
-  const handleBellIconClick = async() =>{
-    //Setting up the notification message and the display of the pop-up section
-    try{
-      const notificationsSnapshot = await firebase
-      .firestore()
-      .collection('Notification-Data')
-      .where('receiver', '==', user.uid)
-      .get();
+const handleBellIconClick = async () => {
+  try {
+    // const notificationsSnapshot = await firebase
+    //   .firestore()
+    //   .collection('Notification-Data')
+    //   .where('receiver', '==', user.uid)
+    //   .get();
 
-      
+    setNotificationCountReset(true); // Setting the flag for notification count reset
+    setNotificationCount(0); // Resetting the notification count to zero
 
-      //After the user clicked the bell icon 
-      setNotificationCount(0);
-
-    // setNotificationMessage('You have new notifications!');
+     //setNotificationMessage('You have new notifications!');
     console.log("Bell Clicked")
     loadUserNotifications(user.uid)
 ;  
@@ -239,16 +241,21 @@ const loadUserNotifications = async (userUid) => {
 
   return (
     <div className="homepage">
-      <div className='bell'><img src = {BellIcon} onClick={handleBellIconClick}/>
-      {notificationCount > 0 && (
-        <div className='notification-count'>{notificationCount}</div>
-      )}
+      <div className='bell'><img src={BellIcon} onClick={handleBellIconClick}/>
+        {notificationCount > 0 && !notificationCountReset && (
+          <div className='notification-count'>{notificationCount}</div>
+        )}
       </div>
       {showNotification && (
-        <NotificationPopup 
-        message = {notificationMessage}
-        onClose={() => setShowNotification(false)}
-        />
+        // <NotificationPopup 
+        // message = {notificationMessage}
+        // onClose={() => setShowNotification(false)}
+        // />
+        <NotificationPopup
+        notifications={notifications}
+        handleAccept={handleAccept}
+        handleDecline={handleDecline}
+      />
       )}
       <h1>My Calendar</h1>
   

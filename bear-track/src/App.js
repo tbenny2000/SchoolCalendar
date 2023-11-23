@@ -9,11 +9,15 @@ import Homepage from './pages/HomePage';
 import MyProfile from "./pages/MyProfile";
 import NewCalendar from "./pages/NewCalendar";
 import { UserProvider } from './pages/UserContext';
+import { NotificationsProvider } from './components/NotificationsContext';
 
+const MemoizedUserProvider = React.memo(UserProvider);
+const MemoizedNotificationsProvider = React.memo(NotificationsProvider);
 
 function App() {
   return (
-    <UserProvider>
+    <MemoizedNotificationsProvider>
+      <MemoizedUserProvider>
     <Router>
       <div className="App">
         <Header />
@@ -28,7 +32,9 @@ function App() {
         <Footer />
       </div>
     </Router>
-    </UserProvider>
+    </MemoizedUserProvider>
+    </MemoizedNotificationsProvider>
+    
   );
 }
 export default App;
