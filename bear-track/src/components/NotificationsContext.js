@@ -1,26 +1,18 @@
-import React, { createContext, useState } from 'react';
-import { useUser } from '../pages/UserContext';
+import React, { createContext, useState, useEffect, useMemo } from 'react';
 import firebase from '../config/firebase'; // Import your firebase.js file
 import 'firebase/compat/firestore';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
 
 const NotificationsContext = createContext();
 
 const NotificationsProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
-  const [notificationId, setNotificationId] = useState('');
-  const [calendarId, setCalendarId] = useState('');
-  
-
-  const userUid = firebase.auth().currentUser.uid;
-
   const [userCalendars, setUserCalendars] = useState([]);
+  const [notificationId, setNotificationId] = useState('');
+  
+  const userUid = firebase.auth().currentUser.uid;
   const firestore = firebase.firestore();
 
-
-  React.useEffect(() => {
+  useEffect(() => {
     const loadNotifications = async () => {
       try {
         const notificationRef = firestore.collection('Notification-Data');
@@ -38,15 +30,17 @@ const NotificationsProvider = ({ children }) => {
       }
     };
 
-    loadNotifications();
-  }, [userUid]);
+    if (userUid) {
+      loadNotifications();
+    }
+  }, [firestore, userUid]);
 
-  
-  //const navigate = useNavigate();
   const handleAccept = async (index) => {
-    
-        try {
-          const notificationRef = firestore.collection('Notification-Data').doc(notificationId);
+    try {
+      setNotificationId(notifications.index.id)
+      console.log('NotificationID: ', notificationId)
+      console.log("Notification Index:", notifications.index.id)
+      const notificationRef = firestore.collection('Notification-Data').doc(notificationId);
           const notificationDataDoc = await notificationRef.get();
     
           if (notificationDataDoc.exists) {
@@ -77,30 +71,31 @@ const NotificationsProvider = ({ children }) => {
                 setNotifications(updatedNotifications);
                 }
             }
-        }
-    catch (error) {
-              console.error('Error handling accept: ', error);
-            }
-        //   };
+    } catch (error) {
+      console.error('Error handling accept: ', error);
+    }
   };
 
   const handleDecline = async (index) => {
-    // Implement logic to handle 'Decline' action
     try {
-            await handleNotificationInteraction(notificationId, calendarId, false, userCalendars);
-            await firestore.collection('Notification-Data').doc(notificationId).delete();
-            const updatedNotifications = [...notifications];
-            updatedNotifications.splice(index, 1);
-            setNotifications(updatedNotifications);
-            } catch (error) {
-              console.error('Error deleting notification: ', error);
-            }
-    
+      setNotificationId(notifications.index.id)
+      console.log('NotificationID: ', notificationId)
+      console.log("Notification Index:", notifications.index.id)
+      const calendarId = notifications.index.calendarId;
+      await handleNotificationInteraction(notificationId, calendarId, false, userCalendars);
+      await firestore.collection('Notification-Data').doc(notificationId).delete();
+      const updatedNotifications = [...notifications];
+      updatedNotifications.splice(index, 1);
+      setNotifications(updatedNotifications);
+      } catch (error) {
+        console.error('Error deleting notification: ', error);
+      }
+
   };
 
-  const handleNotificationInteraction = async (notificationId, calendarId, accepted, userCalendars) => {
-        try {
-          const userUid = firebase.auth().currentUser.uid;
+  const handleNotificationInteraction = async (notificationId, calendarId, accepted) => {
+    try {
+      const userUid = firebase.auth().currentUser.uid;
           await firebase.firestore().collection('Notification-Data').doc(notificationId).update({ decision: accepted });
     
           const userDoc = await firestore.collection('users').doc(userUid).get();
@@ -121,24 +116,23 @@ const NotificationsProvider = ({ children }) => {
               await firestore.collection('Notification-Data').doc(notificationId).delete();
             }
           }
-        } catch (error) {
-          console.error('Error in handling notification interaction:', error);
-        }
+    } catch (error) {
+      console.error('Error in handling notification interaction:', error);
+    }
+  };
 
-      };
+  const contextValue = useMemo(() => ({
+    notifications,
+    handleAccept,
+    handleDecline,
+  }), [notifications, handleAccept, handleDecline]);
 
-      const contextValue = React.useMemo(() => ({
-        notifications,
-        handleAccept,
-        handleDecline
-      }), [notifications, handleAccept, handleDecline]);
-    
-      return (
-        <NotificationsContext.Provider value={contextValue}>
-          {children}
-        </NotificationsContext.Provider>
-      );
-  
+  return (
+    <NotificationsContext.Provider value={contextValue}>
+      {children}
+    </NotificationsContext.Provider>
+  );
 };
 
 export { NotificationsContext, NotificationsProvider };
+
