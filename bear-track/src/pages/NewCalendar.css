@@ -46,22 +46,23 @@
     word-wrap:break-word;
 }
 .left-side-panel{
-    position: absolute;
-    left:250px;
-    top:40px;
-    border-right: #666666 solid;
-    border-width: 2px;
-    height:650px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    position:relative;
+  height:750px;
+  margin-right: 64%;
+  background-color: white;
+  border:#666666 solid;
+  height:20vh;
+  width: 0vh;
+  border-left: 3px solid #666666;
 }
 .right-side-panel{
-    position: absolute;
-    left: 250px;
-    top:40px;
-    border-left: #666666 solid;
-    border-width: 2px;
-    height:650px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    position:absolute;
+    background-color: white;
+    left: 1300px;
+    width: 30vh;
+    height:20vh;
+    border-left: 4px solid #666666;
+  
 }
 .create-btn{
     text-align: center;
