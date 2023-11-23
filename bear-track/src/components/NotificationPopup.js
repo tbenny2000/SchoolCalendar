@@ -415,11 +415,12 @@
 
 
 import React ,{ useState } from 'react';
+import './NotificationPopup.css';
 
 const NotificationPopup = ({ notifications, handleAccept, handleDecline, onClose }) => {
-  const [showNotification, setShowNotification] = useState(false);
+  // const [showNotification, setShowNotification] = useState(false);
 
-  onClose=() => setShowNotification(false)
+  // onClose=() => setShowNotification(false);
 
   return (
     <div className="notification-popup">
@@ -427,9 +428,12 @@ const NotificationPopup = ({ notifications, handleAccept, handleDecline, onClose
         <div key={index} className="notification-entry">
           <p><strong>Sender:</strong> {notification.sender}</p>
           <p><strong>Message:</strong> {notification.message}</p>
-          <button onClick={() => handleAccept(index)}>Accept</button>
-          <button onClick={() => handleDecline(index)}>Decline</button>
+          <div className = "decision-buttons">
+          <button className = 'Accept-button' onClick={() => handleAccept(index)}>Accept</button>
+          <button className = 'Decline-button'onClick={() => handleDecline(index)}>Decline</button>
 
+          </div>
+          
         </div>
 
       ))}

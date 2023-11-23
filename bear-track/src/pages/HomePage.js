@@ -255,6 +255,7 @@ const handleBellIconClick = async () => {
         notifications={notifications}
         handleAccept={handleAccept}
         handleDecline={handleDecline}
+        onClose={() => setShowNotification(false)}
       />
       )}
       <h1>My Calendar</h1>
