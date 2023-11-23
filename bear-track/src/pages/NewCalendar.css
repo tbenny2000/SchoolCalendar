@@ -56,6 +56,34 @@ word-wrap: break-word;
   width: 0vh;
 }
 
+
+
+
+    .buttons {
+        text-align: center;
+        background-color: #0E724C;
+        color: white;
+        font-weight: 500;
+        font-size: 25px;
+        font-family: 'Times New Roman', Times, serif;
+        word-wrap: break-word;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        width: 150px;
+        height: 35px;
+        border-radius: 15px;
+        position: relative;
+        margin-top: 3vh;
+        margin-left: 83vh;
+        line-height: 10px;
+         /* Remove underline */
+      }
+
+.buttons:hover{
+    background-color: #4CAF50;
+}
+
 .create-btn{
     text-align: center;
     background-color: #0E724C;
@@ -67,11 +95,15 @@ word-wrap: break-word;
     padding: 10px;
     border: none;
     cursor: pointer;
-    width:200px;
+    width:150px;
+    height:35px;
     border-radius: 15px;
     position: relative;
     margin-top: 70vh;
     margin-left: 83vh;
+    display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 

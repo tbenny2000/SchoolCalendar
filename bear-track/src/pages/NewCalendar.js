@@ -408,6 +408,7 @@ const NewCalendar = () =>{
         <button className = "create-btn" onClick={handleCreate}>
           Create
           </button>
+          <Link to = "/HomePage"> <button className='buttons'>Homepage</button>  </Link>  
 
           </div>
   
