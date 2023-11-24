@@ -135,7 +135,7 @@ const ViewCalendar = () => {
         <img src = "BearLogo.png" alt = "Logo" className="siteLogo"/>
         </Link>
         <div className="WebsiteName">DateWise</div>
-            </div>
+      </div>
 
         
             <div className="profilePicture">
