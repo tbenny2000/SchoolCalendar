@@ -23,7 +23,7 @@ function App() {
               <Route path="/sign-up" element={<Registration />} />
               <Route path="/homepage" element={<Homepage />} />
               <Route path="/MyProfile" element={<MyProfile />} />
-              <Route path="/ViewCalendar" element={<ViewCalendar />} />
+              <Route path="/ViewCalendar/:calendarId/:calendarName" element={<ViewCalendar />} />
               <Route path="/NewCalendar" element={<NewCalendar />} />
             </Routes>
           </NotificationsProvider>

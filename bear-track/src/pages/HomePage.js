@@ -19,6 +19,7 @@ const HomePage = () => {
   const [ notificationsData, setNotificationsData ] = useState([]);
 
   const [notifyID, setNotifyID] = useState(''); 
+  const[loading, setLoading] = useState(true);
 
   const [notificationCountReset, setNotificationCountReset] = useState(false);
 
@@ -138,14 +139,21 @@ const HomePage = () => {
         const userData = userDoc.data();
         const calendars = userData.calendars || []; // Assuming calendars is an array in user's document
         setUserCalendars(calendars);
+
+
       }
+      setLoading(false);
+
     } catch (error) {
       console.error('Error loading user calendars:', error);
     }
   };
 
   loadUserCalendars();
+
+
 }, []);
+
 
 
 
@@ -282,8 +290,9 @@ const handleBellIconClick = async () => {
 
       <div className = "right-panel">
         <div className = "calendarName">Mutual Calendars</div>
-        
-        <div className="user-calendars">
+        {loading ? (
+          <p>Loading Calendars... </p>
+        ) : (<div className="user-calendars">
         {userCalendars.map((calendar) => (
           <Link
             key={calendar.id}
@@ -293,6 +302,8 @@ const handleBellIconClick = async () => {
             </Link>
           ))}
         </div>
+        )}
+        
 
         <Link to="/NewCalendar">
           <button className="new-calendar-button">New Calendar</button>
