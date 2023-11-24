@@ -464,6 +464,9 @@ const NewCalendar = () =>{
 };
 
 
+  const handleInputFocus = () => {
+    setInputValue(''); // Clear the input value when focused
+  };
 
   const imageStyle = {
     width: '215px',
@@ -509,18 +512,19 @@ const NewCalendar = () =>{
       
       </div>
         <div style={subjectStyle} > <input
-        defaultValue={'Name of Calendar'}
+        placeholder='       Calendar Title'
         type = 'text'
         className='Calendar-title-input'
         id = "CalendarTitle"
         >
         </input>
         <div className='addPeople'>
-          Add to calendar:<input type='text' style={{fontSize : '35px', border : 'none', fontFamily : 'Times New Roman, Times, serif', color : 'grey', textDecoration : 'underline', background : 'transparent', outline : 'none'}}
-          placeholder='Enter email or username'
+          <input type='text' style={{fontSize : '35px', border : 'none', fontFamily : 'Times New Roman, Times, serif', color : 'grey', background : 'transparent', outline : 'none'}}
+          placeholder='   Enter email to invite'
           value = {inputValue}
           onChange={handleInputValueChange}
           onKeyDown={handleInputKeyDown}
+          onFocus={handleInputFocus}
           className = {isShaking ? 'shake' : ''}
           ></input>
           {errorMessage && <div className = "error-message">{errorMessage}</div>}
@@ -531,6 +535,7 @@ const NewCalendar = () =>{
         <button className = "create-btn" onClick={handleCreate}>
           Create
           </button>
+          <Link to = "/HomePage"> <button className='buttons'>Homepage</button>  </Link>  
 
           </div>
   

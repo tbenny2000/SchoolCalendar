@@ -280,12 +280,12 @@ const handleBellIconClick = async () => {
         <CustomCalendar />
       </div>
 
-      <div className="right-panel">
-        <div className="calendarName">Mutual Calendar</div>
-
-        <div className="user-calendars" style={{ overflowY: 'scroll', height: '150px' }}>
-          {userCalendars.map((calendar) => (
-            <Link 
+      <div className = "right-panel">
+        <div className = "calendarName">Mutual Calendars</div>
+        
+        <div className="user-calendars">
+        {userCalendars.map((calendar) => (
+          <Link
             key={calendar.id}
             to={`/ViewCalendar/${calendar.id}/${encodeURIComponent(calendar.calendarName)}`} 
             className="calendar-link">
