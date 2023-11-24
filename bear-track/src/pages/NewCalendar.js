@@ -261,7 +261,7 @@ const NewCalendar = () =>{
     }
   };
 
-  const handleCreate = () => {
+
   const navigate = useNavigate();
   
   const handleCreate = async () =>{ 
@@ -276,13 +276,53 @@ const NewCalendar = () =>{
   
     // Include the creator of the calendar in the list of users
     const creatorUid = firebase.auth().currentUser.uid;
-    const updatedAmountOfEnteredUsers = new Set([...Array.from(amountOfEnteredUsers), creatorUid]);
+    //const updatedAmountOfEnteredUsers = new Set([...Array.from(amountOfEnteredUsers), creatorUid]);
   
     const calendarData = {
       calendarName: calendarTitleValue,
-      users: Array.from(updatedAmountOfEnteredUsers),
+      users: Array.from(amountOfEnteredUsers),
+      creatorId: creatorUid
     };
-  
+    try{
+      const docRef = await firestore.collection('calendars').add(calendarData);
+      console.log('Calendar added with id: ', docRef.id);
+
+      //Add the calendar to the creator's calendars' field
+      const userDocRef = firestore.collection('users').doc(creatorUid);
+      const userDoc = await userDocRef.get();
+      if(userDoc.exists){
+        const userData = userDoc.data();
+        if(!userData.hasOwnProperty('calendars')){
+          console.log('Calendars field does not exist, creating...');
+          await userDocRef.set({ calendars: [] }, { merge: true});
+        }
+        let updatedCalendars = userData.calendars || [];
+        updatedCalendars.push({ id: docRef.id, calendarName: calendarTitleValue});
+        await userDocRef.update({ calendars: updatedCalendars});
+      }
+        //Loop through invitees, but dont add to their 'calendars field
+        for(const userId of amountOfEnteredUsers){
+          if(userId !== creatorUid){
+            const notificationData = {
+              sender: user.uid,
+              receiver: userId,
+              message: `You have been invited to join the calendar "${calendarTitleValue}".`,
+              calendarId: docRef.id,
+              decision: null,
+            };
+            try{
+              const notificationRef = await firestore.collection('Notification-Data').add(notificationData);
+              console.log('Notification added with id: ', notificationRef.id);
+            }catch(error){
+              console.error('Error adding notification: ', error);
+            }
+          }
+        }
+        navigate('/homepage');
+      
+    }catch(error){
+      console.error('Sending receiver calendar stuff unavailable ', error);
+    }
     const docRef = firestore.collection('calendars');
   
     // Add a new document to Firestore
@@ -314,7 +354,6 @@ const NewCalendar = () =>{
       });
   };
 
-};
 
 
   const displayErrorMessage = (message) =>{

@@ -8,7 +8,8 @@ const NotificationsProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const [userCalendars, setUserCalendars] = useState([]);
   const [notificationId, setNotificationId] = useState('');
-  
+  // const [calendarName, setCalendarName] = useState('');
+
   const userUid = firebase.auth().currentUser.uid;
   const firestore = firebase.firestore();
 
@@ -37,16 +38,22 @@ const NotificationsProvider = ({ children }) => {
 
   const handleAccept = async (index) => {
     try {
-      setNotificationId(notifications.index.id)
+      setNotificationId(notifications[index].id)
       console.log('NotificationID: ', notificationId)
-      console.log("Notification Index:", notifications.index.id)
+
+      
+
+      
       const notificationRef = firestore.collection('Notification-Data').doc(notificationId);
           const notificationDataDoc = await notificationRef.get();
     
           if (notificationDataDoc.exists) {
             const { calendarId } = notificationDataDoc.data();
+            console.log('calendarId:   ', calendarId);
             await notificationRef.update({ decision: true });
-    
+  
+            await notificationRef.delete();
+
             const userUid = firebase.auth().currentUser.uid;
             const userDocRef = firestore.collection('users').doc(userUid);
     
@@ -57,13 +64,31 @@ const NotificationsProvider = ({ children }) => {
               if (!userData.hasOwnProperty('calendars')) {
                 await userDocRef.set({ calendars: [] }, { merge: true });
               }
+  
+              const calendarRef = firestore.collection('calendars').doc(calendarId)
+              const calendarDataDoc = await calendarRef.get();
+              if (calendarDataDoc.exists){
+                const { calendarName } = calendarDataDoc.data();
+              
+                  // setCalendarName(cName);
+                  let updatedCalendars = userData.calendars || [];
+                  updatedCalendars.push({ id: calendarId, calendarName: calendarName });
+                  await userDocRef.update({ calendars: updatedCalendars });
+                  setUserCalendars(updatedCalendars);
+
+                  console.log('Caleeeendddaaarrrr Nammmmmmeeeee: ', calendarName)
+                  console.log('Calendar Name:', calendarName);
+                }
+                else {
+                  console.log('Calendar does not Exist');
+                }
+
+
+              
     
-              let updatedCalendars = userData.calendars || [];
-              updatedCalendars.push({ id: calendarId, calendarName: 'Loading...' });
+              
     
-              await userDocRef.update({ calendars: updatedCalendars });
-    
-              setUserCalendars(updatedCalendars);
+              
               //navigate(`/ViewCalendar/${calendarId}`);
               window.location.href = `/ViewCalendar/${calendarId}`;
                 const updatedNotifications = [...notifications];
@@ -77,13 +102,30 @@ const NotificationsProvider = ({ children }) => {
   };
 
   const handleDecline = async (index) => {
+    const userUid = firebase.auth().currentUser.uid;
+
+    console.log("Index: ", index);
+    console.log("Notif ID:   ", notifications[index].id )
     try {
-      setNotificationId(notifications.index.id)
+      setNotificationId(notifications[index].id)
       console.log('NotificationID: ', notificationId)
-      console.log("Notification Index:", notifications.index.id)
-      const calendarId = notifications.index.calendarId;
+      
+      const calendarId = notifications[index].calendarId;
       await handleNotificationInteraction(notificationId, calendarId, false, userCalendars);
       await firestore.collection('Notification-Data').doc(notificationId).delete();
+
+      await firestore.collection('calendars').doc(calendarId).update({
+        ['users']: firebase.firestore.FieldValue.arrayRemove(userUid)
+      })
+      .then(() => {
+        console.log('Value removed from array successfully.');
+      })
+      .catch((error) => {
+        console.error('Error removing value from array: ', error);
+      });
+
+
+
       const updatedNotifications = [...notifications];
       updatedNotifications.splice(index, 1);
       setNotifications(updatedNotifications);

@@ -171,7 +171,7 @@ align-items: center;
 
 .user-calendars {
   overflow-y: scroll;
-  height: 600px;
+  height: 150px;
   margin-left:4vh;
 }
  .bell{

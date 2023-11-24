@@ -285,7 +285,10 @@ const handleBellIconClick = async () => {
 
         <div className="user-calendars" style={{ overflowY: 'scroll', height: '150px' }}>
           {userCalendars.map((calendar) => (
-            <Link key={calendar.id} to={`/ViewCalendar/${calendar.id}`} className="calendar-link">
+            <Link 
+            key={calendar.id}
+            to={`/ViewCalendar/${calendar.id}/${encodeURIComponent(calendar.calendarName)}`} 
+            className="calendar-link">
               <button className="mutual-calendar-button">{calendar.calendarName}</button>
             </Link>
           ))}
