@@ -77,7 +77,7 @@ const HomePage = () => {
       </div>
 
       <div className = "right-panel">
-        <div className = "calendarName">Mutual Calendar</div>
+        <div className = "calendarName">Mutual Calendars</div>
         
         <div className="user-calendars">
         {userCalendars.map((calendar) => (
