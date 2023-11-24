@@ -126,16 +126,7 @@ const ViewCalendar = () => {
       <div className="page">
         <div className="pageTitle">{calendarName}</div>
         
-        <div className="reminder">
-            <div className="reminder-text">Reminder: <input name = "meeting time" id = "meeting-time" type = 'time'/><button className="save-btn">SAVE</button></div>
-        </div>
-        <div className = "left-side-panel"></div>
-            <div className = "Logo">
-            <Link to = "/homepage">
-        <img src = "BearLogo.png" alt = "Logo" className="siteLogo"/>
-        </Link>
-        <div className="WebsiteName">DateWise</div>
-            </div>
+     
 
         
             <div className="profilePicture">
@@ -154,6 +145,7 @@ const ViewCalendar = () => {
           <button className="saveButton" type="button" onClick={() => { updateAvailability(); findCommonAvailability(); }}>
             Save
           </button>
+          <Link to = "/HomePage"> <button className='buttons'>Homepage</button>  </Link>  
         </div>
     </div>
   );
