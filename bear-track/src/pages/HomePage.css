@@ -95,21 +95,24 @@ color:#666666;
   top: 735px;
   left:100px;
   background: #ff0000;
+  color: #ffffff;
   padding: 10px;
+  font-size: 20px; 
   border: none;
   cursor: pointer;
-  width: 100px;
+  width:150px;
+  height:35px;
   border-radius: 15px;
   margin-top: 2vh;
+  line-height: 10px;
   cursor: pointer;
 }
 
 .logout-button:hover {
   background: #dd0000;
-  padding: 10px;
+  color: #ffffff;
   border: none;
   cursor: pointer;
-  width: 100px;
   border-radius: 15px;
   }
 
@@ -137,10 +140,9 @@ border: none;
 text-decoration: none;
 align-items: center;
 justify-content: center;
-text-decoration: none;
 }
 .new-calendar-button:hover{
-background-color: #4CAF50;
+background-color:  #095c3e;
 }
 
 .bell{
@@ -167,6 +169,7 @@ justify-content: center;
 border: none;
 text-decoration: none;
 align-items: center;
+line-height: 10px;
 }
 
 .user-calendars {
