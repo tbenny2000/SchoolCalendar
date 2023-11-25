@@ -82,11 +82,11 @@ color:#666666;
 .calendarName{
   color: #696969; 
   text-align: center;
-  font-size: 30px; 
+  font-size: 25px; 
   font-family: 'Times New Roman', Times, serif; 
   font-weight: 500; 
   word-wrap: break-word;
-  margin-left: 15px;
+  margin-left: 0px;
   margin-top:20px;
 }
 
@@ -95,24 +95,27 @@ color:#666666;
   top: 735px;
   left:100px;
   background: #ff0000;
+  color: #ffffff;
   padding: 10px;
+  font-size: 20px; 
   border: none;
   cursor: pointer;
-  width: 100px;
+  width:150px;
+  height:35px;
   border-radius: 15px;
-  margin-top: 20px;
+  margin-top: 2vh;
+  line-height: 10px;
   cursor: pointer;
 }
 
 .logout-button:hover {
   background: #dd0000;
-  padding: 10px;
-border: none;
-cursor: pointer;
-width: 100px;
-border-radius: 15px;
-margin-top:60vh;
-}
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  }
+
 .name{
 text-align: center;
 margin-bottom: 50px;
@@ -129,14 +132,17 @@ word-wrap: "break-word";
 width:150px;
 height:35px;
 margin-left:4vh;
-margin-top:40vh;
-padding: 10px;
-border: none;
-cursor: pointer;
+margin-top:5vh;
 border-radius: 15px;
+align-items: center;
+justify-content: center;
+border: none;
+text-decoration: none;
+align-items: center;
+justify-content: center;
 }
 .new-calendar-button:hover{
-background-color: #4CAF50;
+background-color:  #095c3e;
 }
 
 .bell{
@@ -156,16 +162,59 @@ word-wrap: "break-word";
 width: 150px;
 height: 35px;
 padding: 10px;
-border: none;
 cursor: pointer;
 border-radius: 15px;
-margin-bottom: 8px; /* Adjust the spacing between calendar buttons */
+margin-bottom: 25px; /* For adjusting the spacing between calendar buttons */
+justify-content: center;
+border: none;
+text-decoration: none;
+align-items: center;
+line-height: 10px;
 }
 
 .user-calendars {
   overflow-y: scroll;
-  height: 300px;
+  height: 150px;
   margin-left:4vh;
+}
+ .bell{
+  position: relative;
+  top:10px;
+  left:360px;
+  cursor: pointer;
+ }
+
+ .notification-count {
+  position: absolute;
+  top: -5px;
+  left:17px;
+  background-color: #ff0000; /* Red color */
+  color: white;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+ }
+ .mutual-calendar-button {
+  background-color: #0E724C;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 500;
+  word-wrap: "break-word";
+  width: 150px;
+  height: 35px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  margin-bottom: 8px; /* Adjust the spacing between calendar buttons */
 }
 
 /* Additional styling if needed */

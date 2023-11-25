@@ -285,6 +285,7 @@ const ViewCalendar = () => {
 </Link>
 <div className='username'>{user && user.userName}</div>
 </div>
+
       
 <div className="meeting-section">
         <AvailabilityForm
@@ -315,13 +316,10 @@ const ViewCalendar = () => {
       {bestTime.start !== undefined && bestTime.end !== undefined ? '-' : ''}
       {bestTime.end !== undefined ? `${bestTime.end}:00` : ''}
     </p>
-  </div>
-)}
       </div>
-    </div>
-
-   
-      
+      )}
+      </div>
+    </div>    
   );
 };
 
