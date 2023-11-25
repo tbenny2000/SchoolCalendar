@@ -71,7 +71,7 @@ const AvailabilityForm = ({ onAvailabilityChange }) => {
 
     return (
       <div className='form'>
-        <h2>Select Your Availability</h2>
+        <h2 className='form-title'>Select Your Availability</h2>
         {['SUN', 'MON', 'TUE', 'WED', 'THU','FRI','SAT'].map((day) => (
           <div key={day} className="day-container">
             <label className='day-lab'>
