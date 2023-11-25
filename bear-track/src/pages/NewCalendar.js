@@ -5,27 +5,20 @@ import { Link } from 'react-router-dom';
 import firebase from '../config/firebase';
 import 'firebase/compat/firestore';
 import { useUser } from './UserContext';
-
+import { useNavigate } from 'react-router-dom';
 const NewCalendar = () =>{
   const [inputValue, setInputValue] = useState('');
   const [invitees, setInvitees] = useState([]);
+  
 
  
-  /*
-  const [userName, setUserName] = useState('');
-  const [email, setEmailAddress] = useState('');
-  const [image, setImage] = useState("");
 
-*/
-
- // const [calendarName, setCalendarName] = useState('');
 
   const [amountOfEnteredUsers, setAmountOfEnteredUsers] = useState(new Set());
   const [limitMessage, setLimitMessage] = useState(false);
 
 
-  // const [usernameToCheck, setUsernameToCheck] = useState('');
-  // const [emailToCheck, setEmailToCheck] = useState('');
+
   
   const [addMessage, setAddMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -110,7 +103,6 @@ const NewCalendar = () =>{
     setInputValue(value);
 
 
-    // setUsernameToCheck(value);
 
 
     //To reset error message and animation
@@ -122,9 +114,6 @@ const NewCalendar = () =>{
       const value = e.target.value;
       setInputValue(value);
 
-
-      // setUsernameToCheck(e.target.value);
-      // setEmailToCheck(e.target.value);
 
 
       //Checking that user doesn't enter their own info when creating calendar
@@ -155,6 +144,9 @@ const NewCalendar = () =>{
       //It's because like array/arraylist it starts in 0 and counting so 4 but it's 5 numberically
       if(amountOfEnteredUsers.size > 4){
         setErrorMessage("You have reached your limit in adding people please create calendar.");
+
+        
+
         setIsShaking(true);
         setLimitMessage(true);
         return;
@@ -174,6 +166,7 @@ const NewCalendar = () =>{
 
           const uid = querySnapshot.docs[0].id;
 
+          
 
 
           //Add users to the amountOfEnteredUsers 
@@ -225,6 +218,7 @@ const NewCalendar = () =>{
               // }, 5000);
 
 
+
               if(amountOfEnteredUsers.has(uid)){
                 console.log("Amount of entered users: ", amountOfEnteredUsers);
                 setErrorMessage("You already entered this user info. Try enter someone else.");
@@ -267,7 +261,10 @@ const NewCalendar = () =>{
     }
   };
 
-  const handleCreate = () => {
+
+  const navigate = useNavigate();
+  
+  const handleCreate = async () =>{ 
     if (inputValue) {
       // Put the input values into an array to store them before sending an invite link to other users.
       setInvitees([...invitees, inputValue]);
@@ -279,13 +276,53 @@ const NewCalendar = () =>{
   
     // Include the creator of the calendar in the list of users
     const creatorUid = firebase.auth().currentUser.uid;
-    const updatedAmountOfEnteredUsers = new Set([...Array.from(amountOfEnteredUsers), creatorUid]);
+    //const updatedAmountOfEnteredUsers = new Set([...Array.from(amountOfEnteredUsers), creatorUid]);
   
     const calendarData = {
       calendarName: calendarTitleValue,
-      users: Array.from(updatedAmountOfEnteredUsers),
+      users: Array.from(amountOfEnteredUsers),
+      creatorId: creatorUid
     };
-  
+    try{
+      const docRef = await firestore.collection('calendars').add(calendarData);
+      console.log('Calendar added with id: ', docRef.id);
+
+      //Add the calendar to the creator's calendars' field
+      const userDocRef = firestore.collection('users').doc(creatorUid);
+      const userDoc = await userDocRef.get();
+      if(userDoc.exists){
+        const userData = userDoc.data();
+        if(!userData.hasOwnProperty('calendars')){
+          console.log('Calendars field does not exist, creating...');
+          await userDocRef.set({ calendars: [] }, { merge: true});
+        }
+        let updatedCalendars = userData.calendars || [];
+        updatedCalendars.push({ id: docRef.id, calendarName: calendarTitleValue});
+        await userDocRef.update({ calendars: updatedCalendars});
+      }
+        //Loop through invitees, but dont add to their 'calendars field
+        for(const userId of amountOfEnteredUsers){
+          if(userId !== creatorUid){
+            const notificationData = {
+              sender: user.uid,
+              receiver: userId,
+              message: `You have been invited to join the calendar "${calendarTitleValue}".`,
+              calendarId: docRef.id,
+              decision: null,
+            };
+            try{
+              const notificationRef = await firestore.collection('Notification-Data').add(notificationData);
+              console.log('Notification added with id: ', notificationRef.id);
+            }catch(error){
+              console.error('Error adding notification: ', error);
+            }
+          }
+        }
+        navigate('/homepage');
+      
+    }catch(error){
+      console.error('Sending receiver calendar stuff unavailable ', error);
+    }
     const docRef = firestore.collection('calendars');
   
     // Add a new document to Firestore
@@ -318,29 +355,114 @@ const NewCalendar = () =>{
   };
 
 
+
   const displayErrorMessage = (message) =>{
     setErrorMessage(message);
     setIsShaking(true);
 
-    //The code to make it disappear after 5 second display
-    setTimeout(() => {
-      setErrorMessage('Please enter an actual email/username!');
-      setIsShaking(false);
-    }, 5000);
-  };
+  //     const calendarTitleValue = calendarTitleInput.value;
+  
+  // //   // Include the creator of the calendar in the list of users
+  // //   const creatorUid = firebase.auth().currentUser.uid;
+  // //   //const updatedAmountOfEnteredUsers = new Set([...Array.from(amountOfEnteredUsers), creatorUid]);
+  
+  // //   const calendarData = {
+  // //     calendarName: calendarTitleValue,
+  // //     users: Array.from(amountOfEnteredUsers),
+  // //     creatorId: creatorUid
+  // //   };
+    
+  // //   try {
+  // //     const docRef = await firestore.collection('calendars').add(calendarData);
+  // //     console.log('Calendar added with id:', docRef.id);
+    
+  // //     for (const userId of amountOfEnteredUsers) {
+  // //       const notificationData = {
+  // //         sender: user.uid,
+  // //         receiver: userId,
+  // //         message: `You have been invited to join the calendar "${calendarTitleValue}".`,
+  // //         calendarId: docRef.id,
+  // //         decision: null,
+  // //       };
+      
+  // //       try {
+  // //         const notificationRef = await firestore.collection('Notification-Data').add(notificationData);
+  // //         console.log('Notification added with id:', notificationRef.id);
+  // //       } catch (error) {
+  // //         console.error('Error adding notification:', error);
+  // //         throw error;
+  // //       }
+  // //     };
+    
+  // //   } catch (error) {
+  // //     console.error('Error adding calendar:', error);
+  // //   }
+      
+  
+  
+  
+  // //     navigate('/homepage');
+    
+  // // };
 
 
-  // console.log(firebase.auth().currentUser.uid);
-  // dataReading(uuid);
 
+  // // Include the creator of the calendar in the list of users
+  // const creatorUid = firebase.auth().currentUser.uid;
+  // const calendarData = {
+  //   calendarName: calendarTitleValue,
+  //   users: Array.from(amountOfEnteredUsers),
+  //   creatorId: creatorUid
+  // };
 
-/*
-  const calendarStyle = {
-    width: '100%',
-    height: '600px',
-    border: '1px solid #A0A0A0',
-  };
-  */
+  // try {
+  //   const docRef = await firestore.collection('calendars').add(calendarData);
+  //   console.log('Calendar added with id:', docRef.id);
+  
+  //   // Add the calendar to the creator's 'calendars' field
+  //   const userDocRef = firestore.collection('users').doc(creatorUid);
+  //   const userDoc = await userDocRef.get();
+  //   if (userDoc.exists) {
+  //     const userData = userDoc.data();
+  //     if (!userData.hasOwnProperty('calendars')) {
+  //       console.log("Calendars field does not exist, creating...");
+  //       await userDocRef.set({ calendars: [] }, { merge: true });
+  //     }
+
+  //     let updatedCalendars = userData.calendars || [];
+
+  //     updatedCalendars.push({ id: docRef.id, calendarName: calendarTitleValue });
+      
+  //     await userDocRef.update({ calendars: updatedCalendars });
+  //   }
+  
+  //   // Loop through invitees, but don't add to their 'calendars' field
+  //   for (const userId of amountOfEnteredUsers) {
+  //     if (userId !== creatorUid) {
+  //       const notificationData = {
+  //         sender: user.uid,
+  //         receiver: userId,
+  //         message: `You have been invited to join the calendar "${calendarTitleValue}".`,
+  //         calendarId: docRef.id,
+  //         decision: null,
+  //       };
+      
+  //       try {
+  //         const notificationRef = await firestore.collection('Notification-Data').add(notificationData);
+  //         console.log('Notification added with id:', notificationRef.id);
+  //       } catch (error) {
+  //         console.error('Error adding notification:', error);
+  //         throw error;
+  //       }
+  //     }
+  //   };
+  
+  //   navigate('/homepage');
+  // } catch (error) {
+  //   console.error('Error adding calendar:', error);
+  // }
+};
+
 
   const handleInputFocus = () => {
     setInputValue(''); // Clear the input value when focused
@@ -388,6 +510,7 @@ const NewCalendar = () =>{
         <div className='left-side-panel'> 
         
       
+      </div>
         <div style={subjectStyle} > <input
         placeholder='       Calendar Title'
         type = 'text'
@@ -417,7 +540,7 @@ const NewCalendar = () =>{
           </div>
   
     
-      </div>
+     
   );
   
   };
