@@ -246,7 +246,8 @@ const ViewCalendar = () => {
         ...availability,
         selectedDays: Object.keys(availability.times || {}),
       };
-  
+      console.log('availRef" ', updatedAvailability);
+      console.log(calendarId);
       await availabilityRef.update({ ...updatedAvailability });
       console.log("Adding availability for: ", user.uid);
       console.log('Availability updated successfully!');
