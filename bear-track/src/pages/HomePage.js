@@ -6,7 +6,6 @@ import BellIcon from '../components/bell-filled.svg';
 import 'firebase/compat/firestore';
 import { useUser } from './UserContext';
 import NotificationPopup from '../components/NotificationPopup';
-import CustomCalendar from './CustomCalendar'; 
 import { NotificationsContext } from '../components/NotificationsContext';
 
 const HomePage = () => {
@@ -27,107 +26,6 @@ const HomePage = () => {
 
 
   useEffect(() => {
-  //   const userUid = firebase.auth().currentUser.uid;
-  //   loadUserCalendars(userUid);
-    
-  // }, []);
-
-  // const loadUserCalendars = async (userUid) => {
-  //   try {
-  //     const firestore = firebase.firestore();
-  //     const calendarsRef = firestore.collection('calendars');
-  //     const userCalendarsSnapshot = await calendarsRef
-  //       //.where('users', 'array-contains', userUid)// Checks if the user is a participant
-  //       .where('creatorId', '==', userUid)
-  //       .get();
-
-  //       // Get the user's calendar field and print out whats there
-
-  //       // const notificationRef = firestore.collection('Notification-Data');
-  //       // const notificationSnapshot = await notificationRef
-  //       // .where("receiever", '==', userUid)
-  //       // .where('decision', '==', accepted)
-  //       // .get();
-  //       // const notificationsData = notificationSnapshot.docs.map((doc) => ({
-  //       //   id: doc.id,
-  //       //   ...doc.data(),
-  //       // }));
-  
-
-
-  //       const calendarUserSnapshot = await calendarsRef
-  //       //.where('users', 'array-contains', userUid)// Checks if the user is a participant
-  //       .where('creatorId', '==', userUid)
-  //       .get();
-
-  //       const userDocRef = firestore.collection('users').doc(userUid);
-  //       const { calendarId } = userDocRef.data().;
-
-
-  //       // Check if 'calendars' field exists in user's document
-  //       const userDoc = await userDocRef.get();
-  //       if (userDoc.exists) {
-  //         console.log("User document exists");
-  //         const userData = userDoc.data();
-
-  //         // Check if 'calendars' field is already present or not
-  //         if (!userData.hasOwnProperty('calendars')) {
-  //           console.log("Calendars field does not exist, creating...");
-  //           await userDocRef.set({ calendars: [] }, { merge: true });
-  //         }
-
-  //         let updatedCalendars = userData.calendars || [];
-
-  //         // Add the new calendar to the user's calendars
-  //         calendarUserSnapshot.forEach((doc) => {
-  //           userCalendarsData.push({ id: doc.id, ...doc.data() });
-            
-  //         });
-  //         updatedCalendars.push({ id: calendarId, calendarName: 'Loading...' });
-
-  //         // Update the 'calendars' field in the user's document
-  //         await userDocRef.update({ calendars: updatedCalendars });
-
-  //         setUserCalendars(updatedCalendars);
-  //         // navigate(`/ViewCalendar/${calendarId}`);
-  //       } else {
-  //         console.log("User document doesn't exist");
-  //       }
-
-
-
-
-
-
-  //       processNotifications(notificationsData);
-  //       console.log("NotificationData: ", notificationsData);
-  //     const userCalendarsData = [];
-
-  //     console.log("Adding where user is creator... ")
-  //     // Using this to process calendars where the user is a participant
-  //     userCalendarsSnapshot.forEach((doc) => {
-  //       userCalendarsData.push({ id: doc.id, ...doc.data() });
-        
-  //     });
-
-  //     console.log("Now adding Accepted requests...")
-
-  //     // notificationSnapshot.forEach((doc) => {
-  //     //   userCalendarsData.push({ ...doc.data().calendarId });
-  //     // });
-
-
-  //     setUserCalendars(userCalendarsData);
-  //   //processNotifications(notificationSnapshot.docs);
-  //   } catch (error) {
-  //     console.error('Error loading user calendars:', error);
-  //   }
-  // };
-
-
-
-
-
 
   const loadUserCalendars = async () => {
     try {
@@ -237,23 +135,6 @@ const handleBellIconClick = async () => {
     
   };
 
-  // const handleNotificationInteraction = async (notificationId) =>{
-  //   await firebase.firestore().collection('Notification-Data').doc(notificationId).update({
-  //     decision:accepted,
-  //   });
-  //   // const accepted = true;
-  //   if(accepted){
-  //     const notificationdataDoc = await firebase.firestore().collection('Notification-Data').doc(notificationId).get();
-  //   const calendarId = notificationdataDoc.data().calendarId;
-
-  //   // Add the calendar to the user's list of calendars
-  //   const updatedCalendars = [...userCalendars, { id: calendarId, calendarName: 'Loading...' }];
-  //   setUserCalendars(updatedCalendars);
-
-  //   // Navigate to the calendar view
-  //   // window.location.href = `/ViewCalendar/${calendarId}`;
-  //   }
-  // };
 
   
 
@@ -294,10 +175,6 @@ const handleBellIconClick = async () => {
       <Link to="/">
         <button className="logout-button">Logout</button>
       </Link>
-
-      <div className="center-panel">
-        <CustomCalendar />
-      </div>
 
       <div className = "right-panel">
         <div className = "calendarName">Mutual Calendars</div>
