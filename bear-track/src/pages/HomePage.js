@@ -151,8 +151,9 @@ const HomePage = () => {
 
   loadUserCalendars();
 
+  console.log('Notification Count after reset: ', notificationCount);
 
-}, []);
+}, [notificationCount]);
 
 
 
@@ -172,7 +173,8 @@ const loadUserNotifications = async (userUid) => {
     }));
 
     processNotifications(notificationsData);
-    console.log("notifications Data:    ", notificationsData)
+    console.log("notifications Data: ", notificationsData)
+    console.log('Notification count after loading: ', notificationCount);
   } catch (error) {
     console.error('Error loading user notifications:', error);
   }
@@ -188,13 +190,23 @@ const handleBellIconClick = async () => {
     //   .get();
 
     setNotificationCountReset(true); // Setting the flag for notification count reset
-    setNotificationCount(0); // Resetting the notification count to zero
-
+    setNotificationCount(0, () =>{
+      console.log('Notification Count after reset: ', notificationCount);
+    }); // Resetting the notification count to zero
+    console.log('Fetching notifications...');
+    await loadUserNotifications(user.uid);
      //setNotificationMessage('You have new notifications!');
+
+
     console.log("Bell Clicked")
-    loadUserNotifications(user.uid)
-;  
-    setShowNotification(true);
+    console.log('Show notification:', showNotification);
+    if (notificationCount > 0) {
+      setNotificationMessage('You have new notifications!');
+      setShowNotification(true);
+    } else {
+      setShowNotification(false);
+    }
+    //setShowNotification(true);
 
     }catch(error){
       console.error('Error loading notifications: ', error);
@@ -203,7 +215,9 @@ const handleBellIconClick = async () => {
   
 
   const processNotifications = (notificationsData) =>{
-    setNotificationCount(notificationsData.length);
+    const notificationCountTemp = notificationsData.length;
+    console.log('amount of notifications processing: ', notificationCountTemp);
+    setNotificationCount(notificationCountTemp);
     notificationsData.forEach(async (notification) => {
 
       const inviteMessage  = `${notificationsData[0].sender} has sended an invitation for you to accept this certain meeting time and join "${notificationsData[0].calendarId}".`;
@@ -220,9 +234,6 @@ const handleBellIconClick = async () => {
       setShowNotification(true);
    });
       
-
-      //const accepted = true;
-      //handleNotificationInteraction(notification.id);
     
   };
 
@@ -249,7 +260,7 @@ const handleBellIconClick = async () => {
   return (
     <div className="homepage">
       <div className='bell'><img src={BellIcon} onClick={handleBellIconClick}/>
-        {notificationCount > 0 && !notificationCountReset && (
+        {notificationCount > 0 && (
           <div className='notification-count'>{notificationCount}</div>
         )}
       </div>
