@@ -7,8 +7,15 @@ import 'firebase/compat/firestore';
 import { useUser } from './UserContext';
 import NotificationPopup from '../components/NotificationPopup';
 import { NotificationsContext } from '../components/NotificationsContext';
+import {Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import CustomEventComponent from '../components/Calendar/CustomEvent';
+
+const localizer = momentLocalizer(moment);
+
 
 const HomePage = () => {
+  const [image, setImage] = useState("");
   const user = useUser();
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
@@ -23,10 +30,27 @@ const HomePage = () => {
   const [notificationCountReset, setNotificationCountReset] = useState(false);
 
   const { notifications, handleAccept, handleDecline } = useContext(NotificationsContext);
+  
+  const [events, setEvents] = useState([]);
 
+  if (user.imageURL == null){
+    console.log("Printing from image addition My Profile")
+    user.image = './Screenshot 2023-09-15 at 1.46 1.png';
+  } else{
+    user.image = user.imageURL;
+    //console.log("Printing from successful image addition My Profile: ", user.imageURL)
 
-  useEffect(() => {
+  }
 
+  
+
+//   useEffect(() => {
+
+  
+
+// }, [notificationCount]);
+
+useEffect(() => {
   const loadUserCalendars = async () => {
     try {
       const userUid = firebase.auth().currentUser.uid;
@@ -50,10 +74,54 @@ const HomePage = () => {
   loadUserCalendars();
 
   console.log('Notification Count after reset: ', notificationCount);
+  const fetchEvents = async () => {
+    try {
+      const userUid = firebase.auth().currentUser.uid;
+      const userDocRef = firebase.firestore().collection('users').doc(userUid);
 
-}, [notificationCount]);
+      const userDoc = await userDocRef.get();
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        const calendars = userData.calendars || [];
 
+        const eventsPromises = calendars.map(async (calendar) => {
+          const eventsRef = firebase
+            .firestore()
+            .collection('calendars')
+            .doc(calendar.id)
+            .collection('events');
 
+          const eventsSnapshot = await eventsRef.get();
+          const calendarEvents = eventsSnapshot.docs.map((doc) => {
+            const data = doc.data();
+            const startDateTime = data.dateTime.toDate();
+const formattedTime = startDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const title = `${calendar.calendarName}\n${formattedTime.replace(/\s+/g, '')}`;
+
+            return {
+              ...data,
+              id: doc.id,
+              title: title,
+              start: data.dateTime.toDate(), // Convert Timestamp to Date
+              end: data.dateTime.toDate(),   // Convert Timestamp to Date
+            };
+          });
+
+          return calendarEvents;
+        });
+
+        const allEvents = await Promise.all(eventsPromises);
+        const flattenedEvents = [].concat(...allEvents);
+
+        setEvents(flattenedEvents);
+      }
+    } catch (error) {
+      console.error('Error loading user calendars:', error);
+    }
+  };
+
+  fetchEvents();
+}, [notificationCount]); 
 
 
 
@@ -176,6 +244,23 @@ const handleBellIconClick = async () => {
         <button className="logout-button">Logout</button>
       </Link>
 
+      <div className="center-panel">
+        <Calendar 
+        localizer={localizer}
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        toolbar={true}
+        onSelectEvent={event => console.log(event)}
+        onSelectSlot={slotInfo => console.log(slotInfo)}
+        timezone="America/New_York"
+        components={{
+          event: CustomEventComponent,
+        }}
+        />
+
+      </div>
+
       <div className = "right-panel">
         <div className = "calendarName">Mutual Calendars</div>
         {loading ? (
@@ -202,4 +287,3 @@ const handleBellIconClick = async () => {
 };
 
 export default HomePage;
-

@@ -10,6 +10,8 @@ import MyProfile from './pages/MyProfile';
 import NewCalendar from './pages/NewCalendar';
 import { UserProvider } from './pages/UserContext';
 import { NotificationsProvider } from './components/NotificationsContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (

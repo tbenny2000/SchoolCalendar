@@ -4,6 +4,10 @@ import 'firebase/compat/firestore';
 import { Link, useParams } from 'react-router-dom';
 import { useUser } from './UserContext';
 import AvailabilityForm from '../components/Calendar/AvailabilityForm';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './ViewCalendar.css';
+import { useNavigate } from 'react-router-dom';
 
 const ViewCalendar = () => {
   const { calendarId, calendarName } = useParams();
@@ -16,6 +20,7 @@ const ViewCalendar = () => {
   const [bestTimeToMeet, setBestTimeToMeet] = useState(null);
   const [showBestTime, setShowBestTime] = useState(false);
   const [bestTime, setBestTime] = useState(null);
+  const [selectedDateTime, setSelectedDateTime] = useState(new Date());
 
   const firestore = firebase.firestore();
 
@@ -240,12 +245,16 @@ const ViewCalendar = () => {
         .doc(calendarId)
         .collection('availability')
         .doc(user.uid);
+
   
       // Update selectedDays based on times object
       const updatedAvailability = {
         ...availability,
         selectedDays: Object.keys(availability.times || {}),
       };
+
+      await availabilityRef.set({ ...updatedAvailability }, { merge: true });
+      
       console.log('availRef" ', updatedAvailability);
       console.log(calendarId);
       await availabilityRef.update({ ...updatedAvailability });
@@ -275,29 +284,114 @@ const ViewCalendar = () => {
     }
   };
 
+
+  const createEvent = async (eventData) => {
+    try {
+      const eventsRef = firestore
+      .collection('calendars')
+      .doc(calendarId)
+      .collection('events');
+
+      await eventsRef.add(eventData);
+
+      console.log('Event created successfully!');
+    }catch (error) {
+      console.error('Error creating event:', error);
+    }
+  }
+
+  const handleCreateEvent = async () => {
+    try {
+      const eventData = {
+        name: calendarName, // Use calendarName directly
+        dateTime: selectedDateTime,
+        creator: user.uid,
+        attendees: [user.uid],
+      };
+      console.log('Event Data:', eventData);
+      await createEvent(eventData);
+    } catch (error) {
+      console.error('Error in handleCreateEvent:', error);
+    }
+  }
+
+
+
+
+
+
+
+
+  const navigate = useNavigate();
+  const handleDeleteCalendar = async (calendarID, calendarName) => {
+  
+  const confirmDeletion = window.confirm("Are you sure you want to delete?");
+  if (confirmDeletion) {
+    const userDocRef = firestore.collection('users').doc(user.uid);
+
+    // Remove the specific calendar entry from the Calendars array
+    userDocRef.update({
+      calendars: firebase.firestore.FieldValue.arrayRemove({
+        id: calendarID,
+        calendarName: calendarName,
+      })
+    })
+    .then(() => {
+      //console.log(`Calendar with ID '${calendarID}' deleted successfully.`);
+      navigate('/homepage');
+    })
+    .catch((error) => {
+      console.error('Error deleting calendar:', error);
+    });
+  } else {
+  }
+};
+
+
+
+
+
+
+
+
+
+
   return (
     <div className="page">
       <div className="pageTitle">{calendarName}</div>
-
-      
-          <div className="profilePicture">
-<Link to="/MyProfile">
-  {user && user.image && <img alt="User profile" src={user.image} className='profilePhoto'/>}
-</Link>
-<div className='username'>{user && user.userName}</div>
-</div>
-
-      
+     
 <div className="meeting-section">
-        <AvailabilityForm
+<div className="avform">
+<AvailabilityForm
           className="avform"
           availability={availability}
           onAvailabilityChange={handleAvailabilityChange}
         />
+        </div>
+
+<div className="datepicker">
+<DatePicker
+classname="datepicker"
+selected={selectedDateTime}
+onChange={(date) => setSelectedDateTime(date)}
+inline
+showTimeSelect
+dateFormat="Pp"
+ />
+</div>
+<div className="SubmitEvent">
+<button type="button" onClick={handleCreateEvent}>
+  Submit Event
+</button>
+</div>
         <button className="saveButton" type="button" onClick={() => updateAvailability()}>
           Save
         </button>
-        <Link to = "/HomePage"> <button className='buttons'>Homepage</button>  </Link>
+
+        <button className="deleteButton" type="button" onClick={() => handleDeleteCalendar(calendarId, calendarName)}>Delete</button>
+
+
+        <Link to = "/HomePage"> <button className='homepagebtn'>Homepage</button>  </Link>
 
         <button
           className="showBestTimeButton"

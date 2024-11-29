@@ -327,13 +327,9 @@ const NewCalendar = () =>{
   
   return(
 
-    <div>
-      
+      <div className='all-side-panel'> 
 
-        <div className='left-side-panel'> 
-        
-      
-      </div>
+<div className='textinput'> 
         <div style={subjectStyle} > <input
         placeholder='       Calendar Title'
         type = 'text'
@@ -355,19 +351,20 @@ const NewCalendar = () =>{
           {addMessage && <div className = "add-message">{addMessage}</div>}
         </div>
         </div>
+        </div>
+        <div className='allbuttons'>
         <button className = "create-btn" onClick={handleCreate}>
           Create
           </button>
           <Link to = "/HomePage"> <button className='buttons'>Homepage</button>  </Link>  
 
-          </div>
+          </div></div>
   
     
-     
+          
   );
   
   };
 
 
 export default NewCalendar;
-
